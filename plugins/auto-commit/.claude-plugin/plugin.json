@@ -1,0 +1,13 @@
+{
+  "name": "auto-commit",
+  "version": "1.0.0",
+  "description": "Analyze changes and auto-commit with intelligent message generation",
+  "author": {
+    "name": "wigtn",
+    "url": "https://github.com/wigtn"
+  },
+  "repository": "https://github.com/wigtn/wigtn-plugins-with-claude-code",
+  "license": "MIT",
+  "keywords": ["claude-code", "plugin", "git", "commit", "automation", "version-control"],
+  "skills": "./skills/auto-commit"
+}
