@@ -12,7 +12,7 @@ description: Analyze changes and auto-commit with intelligent message generation
 ```bash
 /auto-commit                      # 자동 메시지 생성 + 푸시
 /auto-commit --no-push            # 커밋만, 푸시 안함
-/auto-commit --message "메시지"   # 수동 메시지 지정
+/auto-commit --message "메시지"     # 수동 메시지 지정
 ```
 
 ## Parameters
