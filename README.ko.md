@@ -9,6 +9,7 @@ Claude Code를 위한 개발 워크플로우 플러그인 모음입니다.
 | **auto-commit** | 변경사항 분석 후 자동 커밋 메시지 생성 |
 | **prd** | 모호한 기능 요청을 구조화된 PRD 문서로 변환 |
 | **implement** | PRD 기반 기능 즉시 구현 |
+| **agent-orchestration** | 변경 책임 기반 멀티 에이전트 오케스트레이션 시스템 |
 
 ## 설치 방법
 
@@ -71,6 +72,16 @@ git -C ~/.claude-plugins/wigtn pull
 ```bash
 /implement 사용자-인증             # 기능명으로 구현
 /implement FR-006                  # 요구사항 ID로 구현
+```
+
+### agent-orchestration
+
+```bash
+/orchestrate 사용자-인증           # 멀티 에이전트 기능 구현
+/orchestrate --plan 상품-목록      # 실행 계획만 확인
+/agent webapp                      # WebApp Agent 역할 전환
+/agent api                         # API Agent 역할 전환
+/agent datamodel                   # DataModel Agent 역할 전환
 ```
 
 ## 설치 스코프
