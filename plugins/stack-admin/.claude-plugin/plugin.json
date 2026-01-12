@@ -1,0 +1,48 @@
+{
+  "name": "stack-admin",
+  "version": "1.0.0",
+  "description": "Admin dashboard application plugin. Provides admin-agent for data tables, charts, and admin-specific features.",
+  "author": {
+    "name": "wigtn",
+    "url": "https://github.com/wigtn"
+  },
+  "repository": "https://github.com/wigtn/wigtn-plugins-with-claude-code",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "admin",
+    "dashboard",
+    "data-tables",
+    "charts"
+  ],
+  "agents": "./agents",
+  "skills": [
+    "./skills/data-tables",
+    "./skills/charts",
+    "./skills/admin-layouts"
+  ],
+  "orchestration": {
+    "tier": 2,
+    "ownership": [
+      "/apps/admin/**"
+    ],
+    "capabilities": [
+      "dashboard-components",
+      "data-tables",
+      "charts",
+      "admin-layouts"
+    ],
+    "dependencies": [
+      "stack-prisma"
+    ],
+    "parallelWith": [
+      "stack-nestjs",
+      "stack-nextjs"
+    ],
+    "produces": [
+      "admin-pages",
+      "data-tables",
+      "charts"
+    ]
+  }
+}

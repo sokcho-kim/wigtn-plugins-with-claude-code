@@ -1,0 +1,55 @@
+{
+  "name": "stack-nestjs",
+  "version": "1.0.0",
+  "description": "NestJS backend API plugin. Provides api-agent for modules, controllers, services, guards, and business logic implementation.",
+  "author": {
+    "name": "wigtn",
+    "url": "https://github.com/wigtn"
+  },
+  "repository": "https://github.com/wigtn/wigtn-plugins-with-claude-code",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "nestjs",
+    "backend",
+    "api",
+    "rest",
+    "modules"
+  ],
+  "agents": "./agents",
+  "skills": [
+    "./skills/nestjs-modules",
+    "./skills/nestjs-guards",
+    "./skills/nestjs-services",
+    "./skills/prisma-queries"
+  ],
+  "orchestration": {
+    "tier": 2,
+    "ownership": [
+      "/apps/api/**"
+    ],
+    "excludes": [
+      "/apps/api/src/modules/ai/**"
+    ],
+    "capabilities": [
+      "module-architecture",
+      "controller-implementation",
+      "service-layer",
+      "guard-patterns",
+      "business-logic"
+    ],
+    "dependencies": [
+      "stack-prisma"
+    ],
+    "parallelWith": [
+      "stack-nextjs",
+      "stack-admin"
+    ],
+    "produces": [
+      "api-endpoints",
+      "controllers",
+      "services",
+      "guards"
+    ]
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "name": "stack-ai",
+  "version": "1.0.0",
+  "description": "AI backend integration plugin. Provides ai-agent for LLM integrations, vector databases, embeddings, RAG patterns, and AI service connections.",
+  "author": {
+    "name": "wigtn",
+    "url": "https://github.com/wigtn"
+  },
+  "repository": "https://github.com/wigtn/wigtn-plugins-with-claude-code",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "ai",
+    "llm",
+    "openai",
+    "anthropic",
+    "rag",
+    "vector-db"
+  ],
+  "agents": "./agents",
+  "skills": [
+    "./skills/llm-integration",
+    "./skills/vector-db",
+    "./skills/ai-patterns",
+    "./skills/streaming-responses"
+  ],
+  "orchestration": {
+    "tier": 2,
+    "ownership": [
+      "/apps/api/src/modules/ai/**",
+      "/apps/api/src/ai/**",
+      "/packages/ai/**"
+    ],
+    "capabilities": [
+      "llm-integration",
+      "embedding-generation",
+      "vector-search",
+      "rag-pipeline",
+      "streaming-responses"
+    ],
+    "dependencies": [
+      "stack-prisma"
+    ],
+    "parallelWith": [
+      "stack-nextjs",
+      "stack-admin"
+    ],
+    "conflicts_with": [
+      "stack-nestjs"
+    ],
+    "produces": [
+      "ai-services",
+      "llm-providers",
+      "rag-pipelines"
+    ]
+  }
+}
