@@ -34,6 +34,10 @@ allowed-tools: ["Read", "Edit", "Write", "Grep", "Glob"]
 ### Step 1: 기존 설정 검토
 
 ```
+Task(subagent_type="Explore", prompt="프로젝트의 ESLint, Prettier, husky, commitlint, PR 템플릿, .editorconfig 설정 현황 파악", thoroughness="quick")
+```
+
+```
 현재 프로젝트 설정:
 • ESLint: ✅ 있음 (next/core-web-vitals)
 • Prettier: ❌ 없음

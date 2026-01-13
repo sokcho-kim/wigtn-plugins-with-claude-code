@@ -26,10 +26,14 @@ allowed-tools: ["Read", "Edit", "Write", "Grep", "Glob"]
 
 ### Step 1: 프로젝트 상태 파악
 
-다음 파일/폴더 존재 여부를 확인합니다:
+```
+Task(subagent_type="Explore", prompt="프로젝트 타입, 프레임워크, 코드 구조 파악", thoroughness="quick")
+```
 
-**프로젝트 타입**: `package.json`, `tsconfig.json`, `next.config.*`, `nest-cli.json`
-**코드 구조**: `src/` 디렉토리 구조
+**탐색 대상:**
+
+- **프로젝트 타입**: `package.json`, `tsconfig.json`, `next.config.*`, `nest-cli.json`
+- **코드 구조**: `src/` 디렉토리 구조
 
 **상태 리포트:**
 
@@ -110,6 +114,10 @@ allowed-tools: ["Read", "Edit", "Write", "Grep", "Glob"]
 ```
 
 ### Step 6: 구현 계획 및 실행
+
+```
+Task(subagent_type="Plan", prompt="확정된 스펙 기반으로 단계별 구현 계획 수립")
+```
 
 ```
 ┌─────────────────────────────────────────────────────┐
