@@ -9,7 +9,6 @@
   "repository": "https://github.com/wigtn/wigtn-plugins-with-claude-code",
   "license": "MIT",
   "keywords": ["claude-code", "nestjs", "backend", "api", "rest"],
-  "agents": "./agents",
   "skills": [
     "./skills/nestjs-modules",
     "./skills/nestjs-guards",

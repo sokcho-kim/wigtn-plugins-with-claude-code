@@ -9,7 +9,6 @@
   "repository": "https://github.com/wigtn/wigtn-plugins-with-claude-code",
   "license": "MIT",
   "keywords": ["claude-code", "prisma", "database", "orm", "schema"],
-  "agents": "./agents",
   "skills": [
     "./skills/prisma-schema-design",
     "./skills/prisma-migrations",

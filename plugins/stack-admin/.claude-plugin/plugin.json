@@ -9,7 +9,6 @@
   "repository": "https://github.com/wigtn/wigtn-plugins-with-claude-code",
   "license": "MIT",
   "keywords": ["claude-code", "admin", "dashboard", "data-tables", "charts"],
-  "agents": "./agents",
   "skills": [
     "./skills/data-tables",
     "./skills/charts",
