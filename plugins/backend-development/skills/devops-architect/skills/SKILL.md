@@ -1,6 +1,6 @@
 ---
 name: devops-architect
-description: DevOps 초보자를 위한 인프라 설계 및 구축 도우미. CI/CD, 컨테이너, 클라우드, 모니터링을 단계별로 안내합니다. Trigger on "/devops", "인프라 설계", "CI/CD 만들어줘", "배포 설정해줘", "도커 설정해줘", or when user needs DevOps guidance.
+description: DevOps 초보자를 위한 인프라 설계 및 구축 도우미. CI/CD, 컨테이너, 클라우드, 모니터링을 단계별로 안내합니다. Trigger on "인프라 전체 설계해줘", "DevOps 아키텍처 도와줘", "처음부터 배포 환경 구축해줘", or when user needs full DevOps architecture guidance from scratch.
 model: opus
 allowed-tools: ["Read", "Edit", "Write", "Bash", "Grep", "Glob"]
 ---

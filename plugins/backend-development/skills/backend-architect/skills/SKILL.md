@@ -1,6 +1,6 @@
 ---
 name: backend-architect
-description: 백엔드 초보자를 위한 아키텍처 설계 및 구현 도우미. PRD 기반으로 스택 선정, 데이터 모델링, API 설계, 구현까지 안내합니다. Trigger on "/backend", "백엔드 설계", "백엔드 만들어줘", "API 만들어줘", "아키텍처 도와줘", or when user needs backend guidance.
+description: 백엔드 초보자를 위한 아키텍처 설계 및 구현 도우미. PRD 기반으로 스택 선정, 데이터 모델링, API 설계, 구현까지 안내합니다. Trigger on "백엔드 전체 설계해줘", "백엔드 아키텍처 도와줘", "처음부터 백엔드 만들어줘", or when user needs full backend architecture guidance from scratch.
 model: opus
 allowed-tools: ["Read", "Edit", "Write", "Bash", "Grep", "Glob"]
 ---
