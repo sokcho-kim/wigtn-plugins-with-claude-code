@@ -1,0 +1,23 @@
+{
+  "name": "spec-sync",
+  "version": "1.0.0",
+  "description": "모노레포/멀티레포 환경에서 프론트엔드, 백엔드, AI 등 여러 프로젝트 간 API 스펙, 데이터 구조, 타입 불일치를 감지하고 자동 동기화합니다.",
+  "author": {
+    "name": "wigtn",
+    "url": "https://github.com/wigtn"
+  },
+  "repository": "https://github.com/wigtn/wigtn-plugins-with-claude-code",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "plugin",
+    "monorepo",
+    "spec-sync",
+    "api-sync",
+    "type-sync",
+    "frontend-backend",
+    "schema",
+    "contract"
+  ],
+  "skills": "./skills"
+}
