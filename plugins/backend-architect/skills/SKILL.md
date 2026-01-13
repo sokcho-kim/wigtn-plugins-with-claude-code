@@ -85,12 +85,16 @@ IF app.module.ts에 이미 import됨
 
 모든 작업 전 현재 상태를 파악합니다:
 
-다음 파일/폴더 존재 여부를 확인합니다:
+```
+Task(subagent_type="Explore", prompt="프로젝트 구조, 기존 모듈, DB 설정, PRD 문서 파악", thoroughness="quick")
+```
 
-**프로젝트 타입**: `package.json`, `nest-cli.json`
-**기존 모듈**: `src/` 디렉토리 구조
-**DB 설정**: `prisma/schema.prisma`, `src/**/*.entity.ts`
-**PRD 문서**: `**/prd*`, `**/*PRD*`
+**탐색 대상:**
+
+- **프로젝트 타입**: `package.json`, `nest-cli.json`
+- **기존 모듈**: `src/` 디렉토리 구조
+- **DB 설정**: `prisma/schema.prisma`, `src/**/*.entity.ts`
+- **PRD 문서**: `**/prd*`, `**/*PRD*`
 
 **상태 리포트 출력:**
 
@@ -113,6 +117,10 @@ IF app.module.ts에 이미 import됨
 ### Phase 1: PRD 분석
 
 PRD 문서를 찾아서 핵심을 추출합니다.
+
+```
+Task(subagent_type="Explore", prompt="PRD 문서에서 도메인, 기능 요구사항, 기술 제약 추출", thoroughness="medium")
+```
 
 **PRD 발견 시:**
 
@@ -285,6 +293,10 @@ options:
 ---
 
 ### Phase 5: 구현 계획
+
+```
+Task(subagent_type="Plan", prompt="선택한 스택과 데이터 모델 기반으로 단계별 구현 계획 수립")
+```
 
 ```
 ┌─────────────────────────────────────────────────────────────┐

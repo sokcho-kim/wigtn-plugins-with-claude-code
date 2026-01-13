@@ -72,13 +72,17 @@ IF 이미 컨테이너 설정 존재
 
 모든 작업 전 현재 상태를 파악합니다:
 
-다음 파일/폴더 존재 여부를 확인합니다:
+```
+Task(subagent_type="Explore", prompt="프로젝트 타입, 컨테이너 설정, CI/CD, 클라우드 설정, 모니터링 현황 파악", thoroughness="quick")
+```
 
-**프로젝트 타입**: `package.json`, `requirements.txt`, `Cargo.toml`, `go.mod`
-**컨테이너**: `Dockerfile`, `docker-compose.yml`
-**CI/CD**: `.github/workflows/`, `.gitlab-ci.yml`, `.circleci/`
-**클라우드**: `terraform/`, `pulumi.yaml`, `serverless.yml`
-**모니터링**: `prometheus.yml`, `grafana/`
+**탐색 대상:**
+
+- **프로젝트 타입**: `package.json`, `requirements.txt`, `Cargo.toml`, `go.mod`
+- **컨테이너**: `Dockerfile`, `docker-compose.yml`
+- **CI/CD**: `.github/workflows/`, `.gitlab-ci.yml`, `.circleci/`
+- **클라우드**: `terraform/`, `pulumi.yaml`, `serverless.yml`
+- **모니터링**: `prometheus.yml`, `grafana/`
 
 **상태 리포트 출력:**
 
@@ -361,6 +365,10 @@ options:
 ---
 
 ### Phase 6: 구현 계획
+
+```
+Task(subagent_type="Plan", prompt="선택한 인프라 스택 기반으로 컨테이너화, CI/CD, 클라우드, 모니터링 구현 계획 수립")
+```
 
 ```
 ┌─────────────────────────────────────────────────────────────┐

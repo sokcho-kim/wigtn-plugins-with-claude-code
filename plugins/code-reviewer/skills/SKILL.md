@@ -40,9 +40,17 @@ allowed-tools: ["Read", "Edit", "Grep", "Glob"]
 
 사용자가 지정한 파일 또는 최근 수정된 파일을 확인합니다.
 
+```
+Task(subagent_type="Explore", prompt="리뷰 대상 파일과 관련 의존성, 호출 관계 파악", thoroughness="medium")
+```
+
 ### Step 2: 관점별 분석
 
-다음 관점에서 코드를 분석합니다:
+다음 관점에서 **심층 분석**합니다:
+
+```
+Task(subagent_type="Explore", prompt="보안 취약점, 성능 이슈, 엣지케이스, 비즈니스 로직 문제점 분석", thoroughness="very thorough")
+```
 
 **🔒 보안 (SECURITY)**
 
