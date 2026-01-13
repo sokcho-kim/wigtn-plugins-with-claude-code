@@ -1,0 +1,15 @@
+{
+  "name": "skill-zod",
+  "version": "1.0.0",
+  "description": "Zod validation plugin with schema patterns for type-safe validation.",
+  "author": {
+    "name": "wigtn",
+    "url": "https://github.com/wigtn"
+  },
+  "repository": "https://github.com/wigtn/wigtn-plugins-with-claude-code",
+  "license": "MIT",
+  "keywords": ["claude-code", "zod", "validation", "schema", "typescript"],
+  "skills": [
+    "./skills/zod-schemas"
+  ]
+}

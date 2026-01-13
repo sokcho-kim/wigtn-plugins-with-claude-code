@@ -55,6 +55,21 @@
       "name": "stack-infra",
       "description": "인프라/DevOps (Docker, CI/CD)",
       "source": "./plugins/stack-infra"
+    },
+    {
+      "name": "frontend-development",
+      "description": "프론트엔드 개발 (Next.js, React, Tailwind)",
+      "source": "./plugins/frontend-development"
+    },
+    {
+      "name": "skill-typescript",
+      "description": "TypeScript 패턴 (유틸리티 타입, DTO, API 응답)",
+      "source": "./plugins/skill-typescript"
+    },
+    {
+      "name": "skill-zod",
+      "description": "Zod 스키마 검증 패턴",
+      "source": "./plugins/skill-zod"
     }
   ]
 }
