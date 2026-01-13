@@ -1,5 +1,4 @@
 ---
-name: implement
 description: Implement features based on PRD specifications immediately. Trigger on "/implement", "구현해줘", "만들어줘", "바로 구현", or when user wants to implement a feature from PRD without planning confirmation.
 ---
 

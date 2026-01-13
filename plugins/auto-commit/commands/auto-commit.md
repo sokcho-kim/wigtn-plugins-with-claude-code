@@ -1,5 +1,4 @@
 ---
-name: auto-commit
 description: Analyze changes and auto-commit with intelligent message generation. Trigger on "/auto-commit", "git 푸시", "git push", "자동 커밋", "커밋해줘", "변경사항 커밋", or when user asks to commit their work after completing a task.
 ---
 

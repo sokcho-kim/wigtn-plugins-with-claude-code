@@ -1,5 +1,4 @@
 ---
-name: prd
 description: Generate structured PRD documents from vague feature requests. Trigger on "/prd", "PRD 작성해줘", "기능 정의서", "요구사항 문서", "만들어줘", "구현해줘", or when user requests feature specification.
 ---
 
