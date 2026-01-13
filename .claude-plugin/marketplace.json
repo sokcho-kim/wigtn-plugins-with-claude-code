@@ -1,34 +1,27 @@
 {
-  "name": "wigtn-plugins",
+  "name": "wigtn-crew-plugins",
   "owner": {
-    "name": "wigtn",
+    "name": "WIGTN Crew",
+    "email": "rukais2294@gmail.com",
     "url": "https://github.com/wigtn"
   },
-  "description": "Claude Code plugins for development workflow with AI Coding Assistant by wigtn ",
+
+  "description": "AI-native development — From idea to Deploy, Zero friction.",
+
   "plugins": [
     {
-      "name": "auto-commit",
-      "description": "변경사항 분석 후 자동 커밋",
-      "source": "./plugins/auto-commit"
-    },
-    {
-      "name": "prd",
-      "description": "PRD 문서 자동 생성",
-      "source": "./plugins/prd"
-    },
-    {
-      "name": "implement",
-      "description": "PRD 기반 즉시 구현",
-      "source": "./plugins/implement"
+      "name": "public-commands",
+      "description": "Core development workflow plugin: PRD generation, plan analysis, implementation, and quality-gated auto-commit.",
+      "source": "./plugins/public-commands"
     },
     {
       "name": "frontend-development",
-      "description": "프론트엔드 개발 - 12가지 디자인 스타일 (Editorial, Brutalist, Glassmorphism 등), Next.js, React, 인증, 폼, API, 상태관리, 테스트, SEO, Tailwind. 한 문장으로 독특하고 완성도 높은 앱 제작",
+      "description": "Complete frontend development solution with 12+ design styles, Next.js App Router, React 19, and Tailwind CSS.",
       "source": "./plugins/frontend-development"
     },
     {
       "name": "fullstack-nextjs",
-      "description": "Next.js 풀스택 모듈/기능",
+      "description": "Full-stack Next.js development modules and patterns for building complete web applications.",
       "source": "./plugins/fullstack-nextjs"
     }
   ]
