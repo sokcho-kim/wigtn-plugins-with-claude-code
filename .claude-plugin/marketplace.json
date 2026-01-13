@@ -58,8 +58,13 @@
     },
     {
       "name": "team-convention",
-      "description": "팀 컨벤션 가이드. ESLint, Prettier, 커밋 규칙, 브랜치 전략, PR 템플릿 등 한 번에 설정",
+      "description": "팀 컨벤션 검토 및 보완. 기존 설정 유지하고 husky, commitlint, PR 템플릿 등 누락된 부분만 추가",
       "source": "./plugins/team-convention"
+    },
+    {
+      "name": "git-guide",
+      "description": "Git 워크플로우 가이드. Git Flow, GitHub Flow, Trunk Based 중 선택 후 해당 스타일에 맞는 상황별 안내",
+      "source": "./plugins/git-guide"
     }
   ]
 }

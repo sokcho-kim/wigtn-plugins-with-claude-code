@@ -1,95 +1,53 @@
-# Team Convention
+# Team Convention Plugin
 
-팀 컨벤션(코드 스타일, Git 규칙, PR 템플릿 등)을 가이드하고 자동 설정합니다.
+기존 프로젝트 설정을 검토하고, 누락된 컨벤션만 보완합니다.
+
+## 🎯 역할
+
+프레임워크(Next.js, NestJS 등)로 생성한 프로젝트는 이미 ESLint가 있습니다.
+이 플러그인은 **기존 설정을 유지**하고 **누락된 부분만 추가**합니다.
+
+## 프레임워크별 기본 포함 여부
+
+| 설정       | CRA | Next.js | NestJS | Vite |
+| ---------- | --- | ------- | ------ | ---- |
+| ESLint     | ✅  | ✅      | ✅     | ✅   |
+| Prettier   | ❌  | ❌      | ✅     | ❌   |
+| husky      | ❌  | ❌      | ❌     | ❌   |
+| commitlint | ❌  | ❌      | ❌     | ❌   |
+| PR 템플릿  | ❌  | ❌      | ❌     | ❌   |
+
+**→ 대부분 husky, commitlint, PR 템플릿은 직접 추가해야 함**
 
 ## 사용법
 
-```bash
-/convention                    # 전체 설정 가이드
-/convention 코드 스타일         # ESLint + Prettier만
-/convention Git 규칙           # 커밋 + 브랜치 + PR
-커밋 규칙 만들어줘              # 자연어로 요청
+```
+/convention
+"컨벤션 검토해줘", "husky 설정해줘", "PR 템플릿 만들어줘"
 ```
 
-## 설정 항목
-
-| 카테고리        | 파일                           | 내용                   |
-| --------------- | ------------------------------ | ---------------------- |
-| **코드 스타일** | `.eslintrc`, `.prettierrc`     | 린트, 포맷팅           |
-| **에디터**      | `.editorconfig`, `.vscode/`    | 들여쓰기, 저장 시 포맷 |
-| **Git**         | `.gitattributes`, `.gitignore` | LF 강제, 무시 패턴     |
-| **커밋**        | `commitlint`, `.husky/`        | 커밋 메시지 규칙       |
-| **브랜치**      | `CONTRIBUTING.md`              | 브랜치 전략, PR 가이드 |
-| **템플릿**      | `.github/`                     | PR, Issue 양식         |
-
-## 옵션
-
-### ESLint 프리셋
-
-- Airbnb (엄격)
-- Standard (중간)
-- Next.js 기본
-- 커스텀
-
-### 커밋 컨벤션
-
-- Conventional Commits (`feat:`, `fix:`, ...)
-- Gitmoji (🎨, 🐛, ✨, ...)
-- Angular Style
-- 커스텀
-
-### 브랜치 전략
-
-- Git Flow (`feature/`, `release/`, `hotfix/`)
-- GitHub Flow (`main` + `feature`)
-- Trunk Based (`main` only)
-
-## 생성 파일 예시
+## 사용 예시
 
 ```
-프로젝트/
-├── .eslintrc.json
-├── .prettierrc
-├── .prettierignore
-├── .editorconfig
-├── .gitattributes
-├── .gitignore
-├── commitlint.config.js
-├── lint-staged.config.js
-├── CONTRIBUTING.md
-├── .vscode/
-│   ├── settings.json
-│   └── extensions.json
-├── .husky/
-│   ├── pre-commit
-│   └── commit-msg
-└── .github/
-    ├── pull_request_template.md
-    └── ISSUE_TEMPLATE/
-        ├── bug_report.md
-        └── feature_request.md
+User: /convention
+
+Claude:
+1. "현재 설정:
+   • ESLint: ✅ 있음 (next/core-web-vitals)
+   • husky: ❌ 없음
+   💡 추천: husky, commitlint 추가"
+
+2. "[1] 추천 전체 / [2] Git 규칙만 / ..."
+
+User: 1
+
+Claude:
+3. 파일 생성 (기존 ESLint 유지)
+4. npm install 명령어 안내
 ```
 
-## 출력 예시
+## 주요 특징
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│ ✅ Team Convention Setup Complete                           │
-├─────────────────────────────────────────────────────────────┤
-│ 📝 코드 스타일: .eslintrc, .prettierrc ✅                   │
-│ 🔧 에디터: .editorconfig, .vscode/ ✅                       │
-│ 🔀 Git: .gitattributes, .gitignore ✅                       │
-│ 📋 커밋: commitlint, husky ✅                               │
-│ 📄 문서: CONTRIBUTING.md, PR/Issue 템플릿 ✅                │
-├─────────────────────────────────────────────────────────────┤
-│ 💡 다음: npm install → npx husky install                    │
-└─────────────────────────────────────────────────────────────┘
-```
-
-## 특징
-
-- 🎯 **프레임워크 감지** - Next.js, NestJS 등에 맞는 설정 자동 선택
-- 📦 **한 번에 설정** - 모든 컨벤션 일괄 생성
-- 🔧 **선택적 적용** - 필요한 부분만 개별 설정
-- 📖 **문서화 포함** - CONTRIBUTING.md로 팀원 온보딩
-- 🔒 **Git Hooks** - pre-commit, commit-msg 자동 검사
+- **기존 설정 유지**: 프레임워크가 만든 ESLint 등은 수정하지 않음
+- **누락된 부분만 추가**: husky, commitlint, PR 템플릿 등
+- **선택적 추가**: 필요한 것만 골라서 추가 가능
