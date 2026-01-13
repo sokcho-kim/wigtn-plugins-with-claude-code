@@ -1,6 +1,6 @@
 ---
 name: frontend-developer
-description: Build complete frontend applications from scratch. Masters React 19, Next.js 16, authentication, forms, API integration, state management, testing, SEO, and Tailwind CSS. Handles everything from project setup to production deployment. Use PROACTIVELY when creating applications, UI components, or fixing frontend issues.
+description: Build complete, uniquely-designed frontend applications from scratch. Masters 12+ design styles (Editorial, Brutalist, Glassmorphism, etc.), React 19, Next.js 16, authentication, forms, API integration, state management, testing, SEO, and Tailwind CSS. Creates production-ready apps with distinctive designs that avoid generic AI aesthetics. Use PROACTIVELY when creating applications, UI components, or fixing frontend issues.
 model: inherit
 ---
 

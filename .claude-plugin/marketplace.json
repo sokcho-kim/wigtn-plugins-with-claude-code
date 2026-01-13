@@ -58,7 +58,7 @@
     },
     {
       "name": "frontend-development",
-      "description": "프론트엔드 개발 (Next.js, React, Tailwind)",
+      "description": "프론트엔드 개발 - 12가지 디자인 스타일 (Editorial, Brutalist, Glassmorphism 등), Next.js, React, 인증, 폼, API, 상태관리, 테스트, SEO, Tailwind. 한 문장으로 독특하고 완성도 높은 앱 제작",
       "source": "./plugins/frontend-development"
     },
     {

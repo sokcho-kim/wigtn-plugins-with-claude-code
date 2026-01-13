@@ -1,15 +1,16 @@
 {
   "name": "frontend-development",
   "version": "1.0.0",
-  "description": "Comprehensive frontend development plugin with Next.js App Router, React state management, Tailwind design system, forms & validation, API integration, authentication, testing, and SEO.",
+  "description": "Complete frontend development solution with 12+ design styles (Editorial, Brutalist, Glassmorphism, etc.), Next.js App Router, React state management, authentication, forms, API integration, testing, SEO, and Tailwind. Build unique, production-ready applications from a single prompt.",
   "author": {
     "name": "wigtn",
     "url": "https://github.com/wigtn"
   },
   "repository": "https://github.com/wigtn/wigtn-plugins-with-claude-code",
   "license": "MIT",
-  "keywords": ["claude-code", "frontend", "nextjs", "react", "tailwind", "authentication", "forms", "api", "testing", "seo"],
+  "keywords": ["claude-code", "frontend", "design", "nextjs", "react", "tailwind", "authentication", "forms", "api", "testing", "seo"],
   "skills": [
+    "./skills/design-skill",
     "./skills/nextjs-app-router-patterns",
     "./skills/react-state-management",
     "./skills/tailwind-design-system",
