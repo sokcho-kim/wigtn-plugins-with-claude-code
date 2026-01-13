@@ -1,0 +1,26 @@
+{
+  "name": "team-convention",
+  "version": "1.0.0",
+  "description": "팀 컨벤션(코드 스타일, Git, PR 템플릿 등) 설정을 가이드하고 자동 생성합니다. ESLint, Prettier, 커밋 규칙, 브랜치 전략까지 한 번에.",
+  "author": {
+    "name": "wigtn",
+    "url": "https://github.com/wigtn"
+  },
+  "repository": "https://github.com/wigtn/wigtn-plugins-with-claude-code",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "plugin",
+    "convention",
+    "eslint",
+    "prettier",
+    "git",
+    "commit",
+    "branch",
+    "pr-template",
+    "editorconfig",
+    "husky",
+    "lint-staged"
+  ],
+  "skills": "./skills"
+}
