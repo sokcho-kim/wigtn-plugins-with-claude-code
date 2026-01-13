@@ -4,148 +4,72 @@
     "name": "wigtn",
     "url": "https://github.com/wigtn"
   },
-  "metadata": {
-    "description": "Claude Code development workflow plugins",
-    "version": "1.0.0"
-  },
+  "description": "Claude Code plugins for development workflow with AI Coding Assistant by wigtn ",
   "plugins": [
     {
       "name": "auto-commit",
       "description": "변경사항 분석 후 자동 커밋",
-      "source": "./plugins/auto-commit",
-      "strict": false,
-      "skills": [
-        "./skills/auto-commit"
-      ]
+      "source": "./plugins/auto-commit"
     },
     {
       "name": "prd",
       "description": "PRD 문서 자동 생성",
-      "source": "./plugins/prd",
-      "strict": false,
-      "skills": [
-        "./skills/prd"
-      ]
+      "source": "./plugins/prd"
     },
     {
       "name": "implement",
       "description": "PRD 기반 즉시 구현",
-      "source": "./plugins/implement",
-      "strict": false,
-      "skills": [
-        "./skills/implement"
-      ]
+      "source": "./plugins/implement"
     },
     {
       "name": "orchestrator-core",
       "description": "멀티 플러그인 오케스트레이션 코디네이터",
-      "source": "./plugins/orchestrator-core",
-      "strict": false,
-      "skills": [
-        "./skills/orchestration-protocol"
-      ]
+      "source": "./plugins/orchestrator-core"
     },
     {
       "name": "stack-prisma",
       "description": "Prisma 스키마 설계 및 마이그레이션",
-      "source": "./plugins/stack-prisma",
-      "strict": false,
-      "skills": [
-        "./skills/prisma-schema-design",
-        "./skills/prisma-relations",
-        "./skills/prisma-migrations",
-        "./skills/prisma-indexes"
-      ]
+      "source": "./plugins/stack-prisma"
     },
     {
       "name": "stack-nestjs",
       "description": "NestJS 백엔드 API 모듈/컨트롤러/서비스",
-      "source": "./plugins/stack-nestjs",
-      "strict": false,
-      "skills": [
-        "./skills/nestjs-modules",
-        "./skills/nestjs-services",
-        "./skills/nestjs-guards",
-        "./skills/prisma-queries"
-      ]
+      "source": "./plugins/stack-nestjs"
     },
     {
       "name": "stack-nextjs",
       "description": "Next.js App Router, 컴포넌트, 훅",
-      "source": "./plugins/stack-nextjs",
-      "strict": false,
-      "skills": [
-        "./skills/nextjs-routing",
-        "./skills/react-components",
-        "./skills/react-hooks",
-        "./skills/server-actions",
-        "./skills/tailwind-ui"
-      ]
+      "source": "./plugins/stack-nextjs"
     },
     {
       "name": "stack-ai",
       "description": "AI 백엔드 통합 (LLM, Vector DB, RAG)",
-      "source": "./plugins/stack-ai",
-      "strict": false,
-      "skills": [
-        "./skills/llm-integration",
-        "./skills/vector-db",
-        "./skills/streaming-responses",
-        "./skills/ai-patterns"
-      ]
+      "source": "./plugins/stack-ai"
     },
     {
       "name": "stack-admin",
       "description": "어드민 대시보드 (데이터 테이블, 차트)",
-      "source": "./plugins/stack-admin",
-      "strict": false,
-      "skills": [
-        "./skills/admin-layouts",
-        "./skills/data-tables",
-        "./skills/charts"
-      ]
+      "source": "./plugins/stack-admin"
     },
     {
       "name": "stack-infra",
       "description": "인프라/DevOps (Docker, CI/CD)",
-      "source": "./plugins/stack-infra",
-      "strict": false,
-      "skills": [
-        "./skills/docker-configs",
-        "./skills/github-actions",
-        "./skills/env-management"
-      ]
+      "source": "./plugins/stack-infra"
     },
     {
       "name": "frontend-development",
       "description": "프론트엔드 개발 (Next.js, React, Tailwind)",
-      "source": "./plugins/frontend-development",
-      "strict": false,
-      "skills": [
-        "./skills/nextjs-app-router-patterns",
-        "./skills/react-state-management",
-        "./skills/tailwind-design-system"
-      ]
+      "source": "./plugins/frontend-development"
     },
     {
       "name": "skill-typescript",
       "description": "TypeScript 패턴 (유틸리티 타입, DTO, API 응답)",
-      "source": "./plugins/skill-typescript",
-      "strict": false,
-      "skills": [
-        "./skills/utility-types",
-        "./skills/dto-patterns",
-        "./skills/api-response-types"
-      ]
+      "source": "./plugins/skill-typescript"
     },
     {
       "name": "skill-zod",
       "description": "Zod 스키마 검증 패턴",
-      "source": "./plugins/skill-zod",
-      "strict": false,
-      "skills": [
-        "./skills/zod-schemas"
-      ]
+      "source": "./plugins/skill-zod"
     }
   ]
 }
