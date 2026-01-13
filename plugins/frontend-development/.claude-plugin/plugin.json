@@ -9,6 +9,10 @@
   "repository": "https://github.com/wigtn/wigtn-plugins-with-claude-code",
   "license": "MIT",
   "keywords": ["claude-code", "frontend", "design", "nextjs", "react", "tailwind", "authentication", "forms", "api", "testing", "seo"],
+  "agents": "./agents/frontend-developer.md",
+  "commands": [
+    "./commands/component-scaffold.md"
+  ],
   "skills": [
     "./skills/design-skill",
     "./skills/nextjs-app-router-patterns",
