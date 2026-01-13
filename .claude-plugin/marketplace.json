@@ -22,54 +22,9 @@
       "source": "./plugins/implement"
     },
     {
-      "name": "orchestrator-core",
-      "description": "멀티 플러그인 오케스트레이션 코디네이터",
-      "source": "./plugins/orchestrator-core"
-    },
-    {
-      "name": "stack-prisma",
-      "description": "Prisma 스키마 설계 및 마이그레이션",
-      "source": "./plugins/stack-prisma"
-    },
-    {
-      "name": "stack-nestjs",
-      "description": "NestJS 백엔드 API 모듈/컨트롤러/서비스",
-      "source": "./plugins/stack-nestjs"
-    },
-    {
-      "name": "stack-nextjs",
-      "description": "Next.js App Router, 컴포넌트, 훅",
-      "source": "./plugins/stack-nextjs"
-    },
-    {
-      "name": "stack-ai",
-      "description": "AI 백엔드 통합 (LLM, Vector DB, RAG)",
-      "source": "./plugins/stack-ai"
-    },
-    {
-      "name": "stack-admin",
-      "description": "어드민 대시보드 (데이터 테이블, 차트)",
-      "source": "./plugins/stack-admin"
-    },
-    {
-      "name": "stack-infra",
-      "description": "인프라/DevOps (Docker, CI/CD)",
-      "source": "./plugins/stack-infra"
-    },
-    {
       "name": "frontend-development",
       "description": "프론트엔드 개발 - 12가지 디자인 스타일 (Editorial, Brutalist, Glassmorphism 등), Next.js, React, 인증, 폼, API, 상태관리, 테스트, SEO, Tailwind. 한 문장으로 독특하고 완성도 높은 앱 제작",
       "source": "./plugins/frontend-development"
-    },
-    {
-      "name": "skill-typescript",
-      "description": "TypeScript 패턴 (유틸리티 타입, DTO, API 응답)",
-      "source": "./plugins/skill-typescript"
-    },
-    {
-      "name": "skill-zod",
-      "description": "Zod 스키마 검증 패턴",
-      "source": "./plugins/skill-zod"
     },
     {
       "name": "fullstack-nextjs",
