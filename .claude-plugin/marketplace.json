@@ -70,6 +70,11 @@
       "name": "skill-zod",
       "description": "Zod 스키마 검증 패턴",
       "source": "./plugins/skill-zod"
+    },
+    {
+      "name": "fullstack-nextjs",
+      "description": "Next.js 풀스택 모듈/기능",
+      "source": "./plugins/fullstack-nextjs"
     }
   ]
 }
