@@ -14,5 +14,6 @@ Thumbs.db
 # Temporary
 tmp/
 temp/
+tmpclaude-*
 
 .claude
