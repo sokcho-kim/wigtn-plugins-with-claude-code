@@ -1,42 +1,13 @@
 {
   "name": "orchestrator-core",
   "version": "1.0.0",
-  "description": "Central coordinator for multi-plugin orchestration. Dynamically discovers installed plugins, manages parallel execution, enforces ownership, prevents conflicts and duplicates.",
+  "description": "Central coordinator for multi-plugin orchestration. Manages parallel execution, ownership enforcement, and conflict prevention.",
   "author": {
     "name": "wigtn",
     "url": "https://github.com/wigtn"
   },
   "repository": "https://github.com/wigtn/wigtn-plugins-with-claude-code",
   "license": "MIT",
-  "keywords": [
-    "claude-code",
-    "orchestrator",
-    "coordinator",
-    "multi-agent",
-    "parallel-execution",
-    "conflict-prevention"
-  ],
-  "agents": "./agents",
-  "commands": "./commands",
-  "skills": [
-    "./skills/orchestration-protocol"
-  ],
-  "orchestrator": {
-    "isCoordinator": true,
-    "capabilities": {
-      "pluginDiscovery": true,
-      "parallelExecution": true,
-      "ownershipEnforcement": true,
-      "conflictPrevention": true,
-      "duplicatePrevention": true,
-      "lockManagement": true
-    },
-    "protocol": {
-      "version": "1.0",
-      "agentInterface": {
-        "requiredFields": ["name", "tier", "ownership", "capabilities"],
-        "optionalFields": ["dependencies", "conflicts", "parallelWith"]
-      }
-    }
-  }
+  "keywords": ["claude-code", "orchestrator", "coordinator", "multi-agent"],
+  "agents": "./agents"
 }

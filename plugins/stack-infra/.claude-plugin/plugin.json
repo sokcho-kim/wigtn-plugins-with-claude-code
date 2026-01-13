@@ -1,52 +1,18 @@
 {
   "name": "stack-infra",
   "version": "1.0.0",
-  "description": "Infrastructure and DevOps plugin. Provides infra-agent for Docker, CI/CD, deployment configs, and infrastructure templates.",
+  "description": "Infrastructure and DevOps plugin with infra-agent for Docker and CI/CD.",
   "author": {
     "name": "wigtn",
     "url": "https://github.com/wigtn"
   },
   "repository": "https://github.com/wigtn/wigtn-plugins-with-claude-code",
   "license": "MIT",
-  "keywords": [
-    "claude-code",
-    "infra",
-    "devops",
-    "docker",
-    "ci-cd",
-    "github-actions"
-  ],
+  "keywords": ["claude-code", "infra", "devops", "docker", "ci-cd"],
   "agents": "./agents",
   "skills": [
     "./skills/docker-configs",
     "./skills/github-actions",
     "./skills/env-management"
-  ],
-  "orchestration": {
-    "tier": 3,
-    "ownership": [
-      "/infra/**",
-      "/.github/workflows/**",
-      "/docker-compose*.yml",
-      "/Dockerfile*",
-      "/.env.example"
-    ],
-    "capabilities": [
-      "containerization",
-      "ci-cd-pipelines",
-      "env-management",
-      "deployment-configs"
-    ],
-    "dependencies": [
-      "stack-prisma",
-      "stack-nestjs",
-      "stack-nextjs"
-    ],
-    "parallelWith": [],
-    "produces": [
-      "docker-configs",
-      "ci-cd-workflows",
-      "env-templates"
-    ]
-  }
+  ]
 }

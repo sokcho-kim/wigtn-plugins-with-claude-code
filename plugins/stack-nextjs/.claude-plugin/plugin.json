@@ -1,21 +1,14 @@
 {
   "name": "stack-nextjs",
   "version": "1.0.0",
-  "description": "Next.js frontend web application plugin. Provides webapp-agent for App Router pages, Server/Client Components, hooks, and UI.",
+  "description": "Next.js frontend plugin with webapp-agent for App Router, components, and hooks.",
   "author": {
     "name": "wigtn",
     "url": "https://github.com/wigtn"
   },
   "repository": "https://github.com/wigtn/wigtn-plugins-with-claude-code",
   "license": "MIT",
-  "keywords": [
-    "claude-code",
-    "nextjs",
-    "react",
-    "frontend",
-    "app-router",
-    "server-components"
-  ],
+  "keywords": ["claude-code", "nextjs", "react", "frontend", "app-router"],
   "agents": "./agents",
   "skills": [
     "./skills/nextjs-routing",
@@ -23,30 +16,5 @@
     "./skills/react-hooks",
     "./skills/server-actions",
     "./skills/tailwind-ui"
-  ],
-  "orchestration": {
-    "tier": 2,
-    "ownership": [
-      "/apps/web/**"
-    ],
-    "capabilities": [
-      "app-router",
-      "server-components",
-      "client-components",
-      "data-fetching",
-      "ui-components"
-    ],
-    "dependencies": [
-      "stack-prisma"
-    ],
-    "parallelWith": [
-      "stack-nestjs",
-      "stack-admin"
-    ],
-    "produces": [
-      "pages",
-      "components",
-      "hooks"
-    ]
-  }
+  ]
 }

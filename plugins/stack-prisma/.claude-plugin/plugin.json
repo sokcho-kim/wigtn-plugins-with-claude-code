@@ -1,46 +1,19 @@
 {
   "name": "stack-prisma",
   "version": "1.0.0",
-  "description": "Prisma database layer plugin. Provides datamodel-agent for schema design, migrations, and database optimization.",
+  "description": "Prisma database layer plugin with datamodel-agent for schema design and migrations.",
   "author": {
     "name": "wigtn",
     "url": "https://github.com/wigtn"
   },
   "repository": "https://github.com/wigtn/wigtn-plugins-with-claude-code",
   "license": "MIT",
-  "keywords": [
-    "claude-code",
-    "prisma",
-    "database",
-    "orm",
-    "schema",
-    "migrations"
-  ],
+  "keywords": ["claude-code", "prisma", "database", "orm", "schema"],
   "agents": "./agents",
   "skills": [
     "./skills/prisma-schema-design",
     "./skills/prisma-migrations",
     "./skills/prisma-relations",
     "./skills/prisma-indexes"
-  ],
-  "orchestration": {
-    "tier": 1,
-    "ownership": [
-      "**/schema.prisma",
-      "**/migrations/**",
-      "/packages/db/**"
-    ],
-    "capabilities": [
-      "schema-design",
-      "migration-management",
-      "index-optimization",
-      "relation-modeling"
-    ],
-    "dependencies": [],
-    "produces": [
-      "prisma-schema",
-      "migrations",
-      "db-types"
-    ]
-  }
+  ]
 }
