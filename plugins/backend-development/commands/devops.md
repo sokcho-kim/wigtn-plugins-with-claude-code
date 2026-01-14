@@ -27,21 +27,22 @@ DevOps 및 배포 설정 헬퍼. 개발 사이클 완료 후 프로덕션 배포
 
 **개발 사이클 완료 후 사용:**
 
-| 상황 | 예시 |
-|------|------|
-| 배포 준비 | "개발 완료, 이제 배포하려면?" |
-| 컨테이너화 설정 | "Dockerfile 만들어줘" |
-| CI/CD 파이프라인 | "GitHub Actions 설정해줘" |
-| 클라우드 배포 | "AWS에 배포하려면?" |
-| Kubernetes 설정 | "K8s 배포 구성해줘" |
-| 모니터링 설정 | "Prometheus + Grafana 설정" |
-| 프로덕션 보안 | "프로덕션 보안 설정" |
+| 상황             | 예시                          |
+| ---------------- | ----------------------------- |
+| 배포 준비        | "개발 완료, 이제 배포하려면?" |
+| 컨테이너화 설정  | "Dockerfile 만들어줘"         |
+| CI/CD 파이프라인 | "GitHub Actions 설정해줘"     |
+| 클라우드 배포    | "AWS에 배포하려면?"           |
+| Kubernetes 설정  | "K8s 배포 구성해줘"           |
+| 모니터링 설정    | "Prometheus + Grafana 설정"   |
+| 프로덕션 보안    | "프로덕션 보안 설정"          |
 
 ## Protocol
 
 ### Phase 1: 요청 파악
 
 사용자의 요청을 파악합니다:
+
 - 어떤 인프라 설정이 필요한가?
 - 현재 프로젝트 스택은?
 - 배포 환경은? (로컬/스테이징/프로덕션)
@@ -50,6 +51,7 @@ DevOps 및 배포 설정 헬퍼. 개발 사이클 완료 후 프로덕션 배포
 ### Phase 2: 컨텍스트 수집
 
 필요한 정보를 수집합니다:
+
 - 현재 프로젝트 구조
 - 사용 중인 스택 (언어, 프레임워크)
 - 기존 배포 설정 여부
@@ -59,14 +61,14 @@ DevOps 및 배포 설정 헬퍼. 개발 사이클 완료 후 프로덕션 배포
 
 스킬 레퍼런스를 참조하여 결정:
 
-| 레퍼런스 | 참조 시점 |
-|----------|----------|
-| `devops-patterns/references/dockerfiles.md` | Docker 설정 시 |
-| `devops-patterns/references/ci-cd.md` | CI/CD 파이프라인 설정 시 |
-| `devops-patterns/references/kubernetes.md` | K8s 배포 시 |
-| `devops-patterns/references/cloud-guides.md` | 클라우드 배포 시 |
-| `devops-patterns/references/security-patterns.md` | 보안 설정 시 |
-| `devops-patterns/references/monitoring-setup.md` | 모니터링 설정 시 |
+| 레퍼런스                                                 | 참조 시점                |
+| -------------------------------------------------------- | ------------------------ |
+| `skills/devops-patterns/references/dockerfiles.md`       | Docker 설정 시           |
+| `skills/devops-patterns/references/ci-cd.md`             | CI/CD 파이프라인 설정 시 |
+| `skills/devops-patterns/references/kubernetes.md`        | K8s 배포 시              |
+| `skills/devops-patterns/references/cloud-guides.md`      | 클라우드 배포 시         |
+| `skills/devops-patterns/references/security-patterns.md` | 보안 설정 시             |
+| `skills/devops-patterns/references/monitoring-setup.md`  | 모니터링 설정 시         |
 
 ### Phase 4: 설정 제공
 
@@ -99,6 +101,7 @@ DevOps 및 배포 설정 헬퍼. 개발 사이클 완료 후 프로덕션 배포
 **User:** `/devops Docker 설정`
 
 **Response:**
+
 ```
 Docker 설정을 도와드리겠습니다.
 
@@ -112,6 +115,7 @@ Docker 설정을 도와드리겠습니다.
 **User:** "NestJS, PostgreSQL, 개발+프로덕션"
 
 **Response:**
+
 ```
 ## 배포 전략
 - Multi-stage 빌드 (빌드/실행 분리)
@@ -137,6 +141,7 @@ Docker 설정을 도와드리겠습니다.
 **User:** `/devops GitHub Actions CI/CD`
 
 **Response:**
+
 ```
 GitHub Actions CI/CD 파이프라인을 설정하겠습니다.
 
@@ -174,6 +179,7 @@ GitHub Actions CI/CD 파이프라인을 설정하겠습니다.
 ```
 
 **사용 시점:**
+
 - `/auto-commit` 완료 후
 - 프로덕션 배포가 필요할 때
 - CI/CD 파이프라인 설정이 필요할 때
@@ -183,7 +189,7 @@ GitHub Actions CI/CD 파이프라인을 설정하겠습니다.
 
 > 이 커맨드는 `backend-architect` 에이전트를 호출합니다.
 > 📚 상세 프로토콜: [agents/backend-architect.md](../agents/backend-architect.md)
-> 
+>
 > DevOps 관련 레퍼런스:
 > 📚 [skills/devops-patterns/SKILL.md](../skills/devops-patterns/SKILL.md)
 
