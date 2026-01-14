@@ -4,7 +4,7 @@
 
 # WIGTN Claude Code Plugin Tools
 
-**아이디어에서 배포까지, 마찰 없이**
+**상상부터 구현까지 막힘 없이 한번에!**
 
 ![Ship Fast](https://img.shields.io/badge/🚀_Ship-Fast-FF6B6B?style=for-the-badge)
 ![One Command](https://img.shields.io/badge/One_Command-Full_Feature-5A67D8?style=for-the-badge)
