@@ -11,8 +11,8 @@ AI integration plugin for Claude Code.
 
 ## Skills
 
-- `stt`: WhisperX STT API 연동 패턴
-- `llm`: OpenAI/Anthropic LLM API 연동 패턴
+- `stt`: WhisperX STT API integration patterns
+- `llm`: OpenAI/Anthropic LLM API integration patterns
 
 ## STT Server
 

@@ -6,5 +6,6 @@
     "name": "wigtn"
   },
   "skills": ["stt", "llm"],
+  "commands": ["stt", "llm"],
   "agents": ["ai-agent"]
 }
