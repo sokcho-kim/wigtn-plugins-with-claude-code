@@ -1,233 +1,190 @@
 ---
-description: CI/CD, 컨테이너화, 배포 설정을 단계별로 안내합니다. Trigger on "/devops", "CI/CD 만들어줘", "도커 설정해줘", "배포 설정해줘", or when user needs DevOps configuration.
+description: DevOps and deployment setup helper. Trigger on "/devops", "배포 설정", "인프라 설정", "CI/CD 설정", "Docker 설정", or when user needs deployment infrastructure configuration.
 ---
 
-# DevOps
+# /devops
 
-CI/CD, 컨테이너화, 배포 설정을 단계별로 안내합니다.
+DevOps 및 배포 설정 헬퍼. 개발 사이클 완료 후 프로덕션 배포를 위한 인프라 설정을 지원합니다.
+
+## Purpose
+
+- **배포 준비** - 개발 완료된 애플리케이션의 배포 인프라 구성
+- **CI/CD 파이프라인** - GitHub Actions, GitLab CI 워크플로우 설정
+- **프로덕션 인프라** - Docker, Kubernetes, 클라우드 배포 설정
+- **운영 환경 구성** - 모니터링, 로깅, 보안 설정
 
 ## Usage
 
 ```bash
-/devops [options]
+/devops Docker 설정              # Dockerfile + docker-compose
+/devops CI/CD 파이프라인         # GitHub Actions 워크플로우
+/devops Kubernetes 배포          # K8s 매니페스트 생성
+/devops AWS 배포                 # AWS 인프라 설정
+/devops                          # 대화형 모드
 ```
 
-## Parameters
+## When to Use
 
-- `--docker`: Docker 설정만
-- `--ci`: CI/CD 파이프라인만
-- `--k8s`: Kubernetes 매니페스트만
-- `--monitoring`: 모니터링 설정만
-- `--quick`: 빠른 시작 (Docker + GitHub Actions)
+**개발 사이클 완료 후 사용:**
+
+| 상황 | 예시 |
+|------|------|
+| 배포 준비 | "개발 완료, 이제 배포하려면?" |
+| 컨테이너화 설정 | "Dockerfile 만들어줘" |
+| CI/CD 파이프라인 | "GitHub Actions 설정해줘" |
+| 클라우드 배포 | "AWS에 배포하려면?" |
+| Kubernetes 설정 | "K8s 배포 구성해줘" |
+| 모니터링 설정 | "Prometheus + Grafana 설정" |
+| 프로덕션 보안 | "프로덕션 보안 설정" |
 
 ## Protocol
 
-### Phase 0: 상태 확인 (필수)
+### Phase 1: 요청 파악
+
+사용자의 요청을 파악합니다:
+- 어떤 인프라 설정이 필요한가?
+- 현재 프로젝트 스택은?
+- 배포 환경은? (로컬/스테이징/프로덕션)
+- 클라우드 플랫폼 선호도는?
+
+### Phase 2: 컨텍스트 수집
+
+필요한 정보를 수집합니다:
+- 현재 프로젝트 구조
+- 사용 중인 스택 (언어, 프레임워크)
+- 기존 배포 설정 여부
+- 프로젝트 규모 및 요구사항
+
+### Phase 3: 배포 전략 결정
+
+스킬 레퍼런스를 참조하여 결정:
+
+| 레퍼런스 | 참조 시점 |
+|----------|----------|
+| `devops-patterns/references/dockerfiles.md` | Docker 설정 시 |
+| `devops-patterns/references/ci-cd.md` | CI/CD 파이프라인 설정 시 |
+| `devops-patterns/references/kubernetes.md` | K8s 배포 시 |
+| `devops-patterns/references/cloud-guides.md` | 클라우드 배포 시 |
+| `devops-patterns/references/security-patterns.md` | 보안 설정 시 |
+| `devops-patterns/references/monitoring-setup.md` | 모니터링 설정 시 |
+
+### Phase 4: 설정 제공
+
+구체적인 배포 설정을 제공:
 
 ```
-┌─────────────────────────────────────────────┐
-│ 📊 Project Status                           │
-├─────────────────────────────────────────────┤
-│ Type        : [Node.js / Python / Go / ...] │
-│ Container   : [없음 / Dockerfile 있음]       │
-│ CI/CD       : [없음 / GitHub Actions / ...]   │
-│ Cloud       : [없음 / AWS / GCP / Azure]     │
-│ Monitoring  : [없음 / Prometheus / ...]      │
-├─────────────────────────────────────────────┤
-│ 💡 Recommendation: [다음 단계 제안]          │
-└─────────────────────────────────────────────┘
+## 배포 전략
+- [배포 방식 선택과 이유]
+- [환경 구성]
+
+## 생성 파일
+1. [파일 1 및 용도]
+2. [파일 2 및 용도]
+...
+
+## 주요 설정
+- [설정 1]
+- [설정 2]
+- [보안 고려사항]
 ```
 
-### Phase 1: 요구사항 분석
+### Phase 5: 후속 지원
 
-프로젝트 타입, 배포 규모, 기술 요구사항 파악
+- 추가 질문에 답변
+- 필요 시 더 상세한 설명 제공
+- 실제 설정 파일 생성 지원
 
-### Phase 2: 인프라 스택 선정
+## Example Interaction
 
+**User:** `/devops Docker 설정`
+
+**Response:**
 ```
-선택해주세요:
-1. 추천 스택 ⭐ → Docker + Kubernetes + GitHub Actions
-2. 간단하게 시작 → Docker Compose (로컬/단일 서버)
-3. 서버리스 → Vercel / Railway / Render
-4. 클라우드 네이티브 → AWS ECS / GCP Cloud Run
-5. 직접 선택
-```
+Docker 설정을 도와드리겠습니다.
 
-### Phase 3: 컨테이너화 (--docker)
-
-Dockerfile, .dockerignore, docker-compose.yml 생성
-
-### Phase 4: CI/CD (--ci)
-
-GitHub Actions 워크플로우 생성
-
-### Phase 5: Kubernetes (--k8s)
-
-Deployment, Service, Ingress 매니페스트 생성
-
-### Phase 6: 모니터링 (--monitoring)
-
-Prometheus, Grafana 설정 생성
-
-## Output Files
-
-### Docker (--docker)
-
-```
-Dockerfile
-.dockerignore
-docker-compose.yml
-docker-compose.prod.yml
+먼저 몇 가지 확인이 필요합니다:
+1. 사용 중인 스택은? (예: NestJS, Express, Python FastAPI)
+2. 데이터베이스는? (PostgreSQL, MySQL 등)
+3. 개발 환경만? 프로덕션도?
+4. 멀티 스테이지 빌드 필요한가요?
 ```
 
-### CI/CD (--ci)
+**User:** "NestJS, PostgreSQL, 개발+프로덕션"
 
+**Response:**
 ```
-.github/
-└── workflows/
-    ├── ci.yml          # 테스트, 린트
-    ├── deploy.yml      # 배포
-    └── release.yml     # 릴리즈 (선택)
-```
+## 배포 전략
+- Multi-stage 빌드 (빌드/실행 분리)
+- Development: Hot reload 지원
+- Production: 최적화된 이미지
 
-### Kubernetes (--k8s)
+## 생성 파일
+1. Dockerfile (Multi-stage)
+2. docker-compose.yml (Development)
+3. docker-compose.prod.yml (Production)
+4. .dockerignore
 
-```
-k8s/
-├── deployment.yaml
-├── service.yaml
-├── ingress.yaml
-├── configmap.yaml
-└── secrets.yaml
-```
+## 주요 설정
+- Node.js 20 LTS 베이스 이미지
+- Non-root 사용자 실행
+- Health check 설정
+- 환경변수 분리
+- PostgreSQL 서비스 포함 (Development)
 
-### Monitoring (--monitoring)
-
-```
-monitoring/
-├── prometheus.yml
-├── grafana/
-│   └── dashboards/
-│       └── app.json
-└── alertmanager.yml
+바로 파일을 생성할까요?
 ```
 
-## Templates
+**User:** `/devops GitHub Actions CI/CD`
 
-### Dockerfile (NestJS)
+**Response:**
+```
+GitHub Actions CI/CD 파이프라인을 설정하겠습니다.
 
-```dockerfile
-FROM node:20-alpine AS builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci
-COPY . .
-RUN npm run build
+## 파이프라인 구성
+- 테스트 실행 (모든 PR)
+- 빌드 검증 (모든 PR)
+- Docker 이미지 빌드 (main 브랜치)
+- 배포 (main 브랜치, 선택적)
 
-FROM node:20-alpine AS runner
-WORKDIR /app
-ENV NODE_ENV=production
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules ./node_modules
-EXPOSE 3000
-CMD ["node", "dist/main.js"]
+## 생성 파일
+1. .github/workflows/ci.yml
+2. .github/workflows/cd.yml (선택)
+
+## 주요 기능
+- 자동 테스트 실행
+- 코드 품질 검사 (ESLint, Prettier)
+- Docker 이미지 빌드 및 푸시
+- 배포 자동화 (선택)
+
+바로 파일을 생성할까요?
 ```
 
-### GitHub Actions CI
+## Integration
 
-```yaml
-name: CI
-
-on:
-  push:
-    branches: [main, develop]
-  pull_request:
-    branches: [main]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "npm"
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run test
-      - run: npm run build
-```
-
-## Examples
-
-### 빠른 시작
+이 커맨드는 **개발 사이클 완료 후** 사용합니다.
 
 ```
-입력: /devops --quick
+개발 사이클:
+/prd → digging → /implement → /auto-commit
+                              ^^^^^^^^^^^^
+                              개발 사이클 완료
 
-결과:
-- Dockerfile (멀티스테이지 빌드)
-- .dockerignore
-- docker-compose.yml (로컬 개발용)
-- .github/workflows/ci.yml
+사이클 완료 후:
+/devops [배포 설정] → 인프라 구성 → 배포 준비
 ```
 
-### Docker만
+**사용 시점:**
+- `/auto-commit` 완료 후
+- 프로덕션 배포가 필요할 때
+- CI/CD 파이프라인 설정이 필요할 때
+- 인프라 구성이 필요할 때
 
-```
-입력: /devops --docker
+## Agent Reference
 
-결과:
-- Dockerfile
-- .dockerignore
-- docker-compose.yml
-- docker-compose.prod.yml
-```
-
-### 전체 설정
-
-```
-입력: /devops
-
-Phase 0: 상태 확인
-Phase 1-2: 요구사항 분석, 스택 선정
-Phase 3-6: 선택한 항목 순차 생성
-```
-
-## Skill Reference
-
-> 📚 이 Command는 `devops-architect` 스킬의 전체 플로우(Phase 0-7)를 실행합니다.
-> 상세 프로토콜: [skills/devops-architect/skills/SKILL.md](../skills/devops-architect/skills/SKILL.md)
-
-## Integration Points
-
-| 연결 대상               | 역할                         |
-| ----------------------- | ---------------------------- |
-| `devops-architect` 스킬 | Phase 0-7 전체 플로우 실행   |
-| `/backend` 명령어       | 백엔드가 없는 경우 먼저 실행 |
-| `/auto-commit` 명령어   | 설정 완료 후 커밋            |
-
-## Next Step
-
-DevOps 설정 완료 후:
-
-```
-💡 인프라 설정이 완료되었습니다!
-
-다음 단계:
-  1. docker build -t myapp .
-  2. docker-compose up -d
-  3. git push origin main (CI/CD 트리거)
-  4. `/auto-commit`으로 커밋
-```
-
-## Rules
-
-1. **상태 확인 필수**: 모든 작업 전 Phase 0 실행
-2. **중복 방지**: 기존 설정 존재 시 확인
-3. **보안 우선**: 민감한 정보는 secrets로 분리
-4. **멀티스테이지 빌드**: Docker 이미지 크기 최적화
-5. **선택권 제공**: 강요하지 말고 옵션 제시
+> 이 커맨드는 `backend-architect` 에이전트를 호출합니다.
+> 📚 상세 프로토콜: [agents/backend-architect.md](../agents/backend-architect.md)
+> 
+> DevOps 관련 레퍼런스:
+> 📚 [skills/devops-patterns/SKILL.md](../skills/devops-patterns/SKILL.md)
 
 ## $ARGUMENTS
