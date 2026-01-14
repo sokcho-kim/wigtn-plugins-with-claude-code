@@ -1,0 +1,27 @@
+{
+  "name": "backend-development",
+  "version": "1.0.0",
+  "description": "Backend development plugin with architecture design, NestJS + Prisma + PostgreSQL stack, API/Model/Auth generation, and DevOps (Docker, CI/CD, cloud deployment) guidance.",
+  "author": {
+    "name": "wigtn",
+    "url": "https://github.com/wigtn"
+  },
+  "repository": "https://github.com/wigtn/wigtn-plugins-with-claude-code",
+  "license": "MIT",
+  "keywords": ["claude-code", "backend", "nestjs", "prisma", "postgresql", "api", "auth", "devops", "docker", "kubernetes", "ci-cd"],
+  "agents": [
+    "./agents/orchestrator.md"
+  ],
+  "commands": [
+    "./commands/backend.md",
+    "./commands/api.md",
+    "./commands/model.md",
+    "./commands/auth.md",
+    "./commands/module.md",
+    "./commands/devops.md"
+  ],
+  "skills": [
+    "./skills/backend-architect",
+    "./skills/devops-architect"
+  ]
+}

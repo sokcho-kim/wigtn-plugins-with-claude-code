@@ -11,53 +11,23 @@
   "plugins": [
     {
       "name": "public-commands",
-      "description": "Core development workflow plugin: PRD generation, plan analysis, implementation, and quality-gated auto-commit.",
+      "description": "Core development workflow plugin: PRD generation, plan analysis (digging), implementation, and quality-gated auto-commit with code-review and code-formatter.",
       "source": "./plugins/public-commands"
     },
     {
+      "name": "ai-development",
+      "description": "AI integration plugin for STT (Speech-to-Text) and LLM features.",
+      "source": "./plugins/ai-development"
+    },
+    {
       "name": "frontend-development",
-      "description": "Complete frontend development solution with 12+ design styles, Next.js App Router, React 19, and Tailwind CSS.",
+      "description": "Complete frontend development solution with 12+ design styles (Editorial, Brutalist, Glassmorphism, etc.), Next.js App Router, React state management, authentication, forms, API integration, testing, SEO, and Tailwind CSS.",
       "source": "./plugins/frontend-development"
     },
     {
-      "name": "fullstack-nextjs",
-      "description": "Full-stack Next.js development modules and patterns for building complete web applications.",
-      "source": "./plugins/fullstack-nextjs"
-    },
-    {
-      "name": "backend-architect",
-      "description": "백엔드 초보자를 위한 아키텍처 설계 도우미. PRD 기반 스택 선정, 데이터 모델링, API 설계, 구현까지 단계별 안내",
-      "source": "./plugins/backend-architect"
-    },
-    {
-      "name": "devops-architect",
-      "description": "DevOps 초보자를 위한 인프라 설계 도우미. CI/CD, 컨테이너, 클라우드, 모니터링을 단계별 안내",
-      "source": "./plugins/devops-architect"
-    },
-    {
-      "name": "feature-builder",
-      "description": "모호한 기능 요청을 명확한 스펙으로 변환. 체계적 질문으로 요구사항 분석 및 구현 계획 수립",
-      "source": "./plugins/feature-builder"
-    },
-    {
-      "name": "code-reviewer",
-      "description": "코드 리뷰어. 엣지케이스, 보안, 성능 이슈 등 우려사항을 TODO/FIXME/NOTE 주석으로 표시",
-      "source": "./plugins/code-reviewer"
-    },
-    {
-      "name": "spec-sync",
-      "description": "모노레포 스펙 동기화. 프론트/백엔드/AI 간 API, 타입, 스키마 불일치 감지 및 자동 동기화",
-      "source": "./plugins/spec-sync"
-    },
-    {
-      "name": "team-convention",
-      "description": "팀 컨벤션 검토 및 보완. 기존 설정 유지하고 husky, commitlint, PR 템플릿 등 누락된 부분만 추가",
-      "source": "./plugins/team-convention"
-    },
-    {
-      "name": "git-guide",
-      "description": "Git 워크플로우 가이드. Git Flow, GitHub Flow, Trunk Based 중 선택 후 해당 스타일에 맞는 상황별 안내",
-      "source": "./plugins/git-guide"
+      "name": "backend-development",
+      "description": "Backend development plugin with architecture design, NestJS + Prisma + PostgreSQL stack, API/Model/Auth generation, and DevOps (Docker, CI/CD, cloud deployment) guidance.",
+      "source": "./plugins/backend-development"
     }
   ]
 }
