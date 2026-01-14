@@ -63,6 +63,7 @@ The essential plugin that powers your entire development lifecycle with intellig
 |------|------|-------------|
 | Skill | `code-review` | Code quality scoring (0-100) with detailed feedback |
 | Skill | `digging` | PRD vulnerability analysis and risk identification |
+| Agent | `architecture-decision` | MSA vs Monolithic architecture decision based on PRD analysis |
 | Agent | `code-formatter` | Multi-language formatting and linting automation |
 
 #### Quality Gate System

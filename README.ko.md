@@ -63,6 +63,7 @@
 |------|------|------|
 | Skill | `code-review` | 코드 품질 점수(0-100) 및 상세 피드백 제공 |
 | Skill | `digging` | PRD 취약점 분석 및 리스크 식별 |
+| Agent | `architecture-decision` | PRD 분석 기반 MSA vs 모놀리식 아키텍처 결정 |
 | Agent | `code-formatter` | 다중 언어 포맷팅 및 린팅 자동화 |
 
 #### 품질 게이트 시스템
