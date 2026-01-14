@@ -1,7 +1,10 @@
 {
   "name": "public-commands",
   "description": "Core development workflow plugin: PRD generation, plan analysis (digging), implementation, and quality-gated auto-commit with code-review and code-formatter.",
-  "agents": "./agents/code-formatter.md",
+  "agents": [
+    "./agents/architecture-decision.md",
+    "./agents/code-formatter.md"
+  ],
   "commands": [
     "./commands/prd.md",
     "./commands/implement.md",
