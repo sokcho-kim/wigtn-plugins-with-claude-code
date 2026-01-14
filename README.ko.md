@@ -4,9 +4,11 @@
 
 # WIGTN Claude Code Plugin Tools
 
-**Claude Code로 AI 기반 개발 역량을 극대화하세요**
+**아이디어에서 배포까지, 마찰 없이**
 
-*바이브 코딩으로 빠른 프로젝트 생성*
+![Ship Fast](https://img.shields.io/badge/🚀_Ship-Fast-FF6B6B?style=for-the-badge)
+![One Command](https://img.shields.io/badge/One_Command-Full_Feature-5A67D8?style=for-the-badge)
+![No Boilerplate](https://img.shields.io/badge/No-Boilerplate-00D4AA?style=for-the-badge)
 
 [![GitHub Stars](https://img.shields.io/github/stars/wigtn/wigtn-plugins-with-claude-code?style=flat-square)](https://github.com/wigtn/wigtn-plugins-with-claude-code/stargazers)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
