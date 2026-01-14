@@ -27,7 +27,8 @@
 
 - **End-to-End 워크플로우**: PRD 생성부터 구현, 자동 커밋까지 전체 흐름 지원
 - **디자인 우선 접근**: 12개 이상의 전문 디자인 스타일로 독창적인 UI/UX 구현
-- **풀스택 대응**: 데이터베이스, 인증, API를 포함한 완전한 Next.js 솔루션
+- **백엔드 & DevOps**: CI/CD 파이프라인을 포함한 완전한 백엔드 아키텍처
+- **AI 통합**: 지능형 애플리케이션을 위한 STT 및 LLM 기능
 - **품질 보증**: 내장된 코드 리뷰 및 자동 포맷팅 기능
 
 ---
@@ -121,58 +122,77 @@
 
 ---
 
-### 3. fullstack-nextjs
+### 3. backend-development
 
-> **완전한 풀스택 Next.js 솔루션** `v1.1.0`
+> **백엔드 아키텍처 & DevOps 솔루션** `v2.0.0`
 
-프로덕션 레디 풀스택 애플리케이션 구축에 필요한 모든 것을 제공합니다.
+초보자 친화적인 아키텍처 가이드와 DevOps 자동화를 제공하는 완전한 백엔드 개발 도구입니다.
 
-#### 기술 스택
+#### 하이라이트
 
-- **Next.js 15+** App Router 포함
-- **React 19** Server Components 지원
-- **Prisma ORM** 데이터베이스 관리
-- **NextAuth** 인증
-- **TypeScript** 타입 안정성
-- **Tailwind CSS** 스타일링
-- **Vitest & Playwright** 테스팅
+- **초보자 친화적**: 명확한 설명과 함께 단계별 가이드 제공
+- **풀 스택**: NestJS, Prisma, PostgreSQL, JWT
+- **DevOps 지원**: Docker, Kubernetes, CI/CD 파이프라인
+- **안전한 설계**: 자동 감지로 덮어쓰기 방지
 
 #### 명령어
 
 | 명령어 | 설명 | 예시 |
 |--------|------|------|
-| `/component` | React 컴포넌트 생성 | `/component LoginForm --form` |
-| `/page` | Next.js 페이지 생성 | `/page products/[id] --dynamic` |
-| `/api` | API 라우트 생성 | `/api posts --crud` |
-| `/model` | Prisma 모델 정의 | `/model Post --fields "title:String"` |
-| `/action` | Server Actions 생성 | `/action createUser` |
-| `/hook` | 커스텀 훅 생성 | `/hook useAuth` |
-| `/feature` | 전체 기능 스캐폴딩 | `/feature blog --crud` |
-| `/test` | 테스트 파일 생성 | `/test LoginForm` |
+| `/backend` | 전체 백엔드 아키텍처 가이드 | `/backend --quick` |
+| `/api` | RESTful API 엔드포인트 생성 | `/api products --crud` |
+| `/model` | Prisma 데이터 모델 정의 | `/model User --fields "email:String"` |
+| `/auth` | JWT 인증 시스템 | `/auth --refresh --roles` |
+| `/module` | NestJS 모듈 생성 | `/module payments --crud` |
+| `/devops` | CI/CD 및 배포 설정 | `/devops --docker --ci` |
+
+#### 기술 스택
+
+| 카테고리 | 옵션 |
+|----------|------|
+| 프레임워크 | NestJS, Express, Fastify, FastAPI |
+| 데이터베이스 | PostgreSQL, MySQL, MongoDB, SQLite |
+| ORM | Prisma, TypeORM, Drizzle |
+| DevOps | Docker, Kubernetes, GitHub Actions |
 
 <details>
-<summary><strong>12개 스킬 전체 보기</strong></summary>
+<summary><strong>스킬 전체 보기</strong></summary>
 
 | 카테고리 | 스킬 |
 |----------|------|
-| Frontend | `react-patterns`, `nextjs-app-router`, `tailwind`, `frontend-design` |
-| Backend | `api-routes`, `server-actions`, `database-prisma`, `auth-patterns`, `error-handling` |
-| Shared | `typescript`, `testing`, `form-validation` |
+| 아키텍처 | `backend-architect` |
+| DevOps | `devops-architect` |
 
 </details>
 
 ---
 
-## Coming Soon
+### 4. ai-development
 
-2개의 플러그인이 현재 개발 중입니다:
+> **STT 및 LLM을 위한 AI 통합** `v1.0.0`
 
-| 플러그인 | 상태 | 설명 |
-|----------|------|------|
-| 🔜 TBD | 개발 중 | 곧 공개 예정 |
-| 🔜 TBD | 기획 중 | 곧 공개 예정 |
+Speech-to-Text 및 대규모 언어 모델 기능을 프로젝트에 원활하게 통합합니다.
 
-*업데이트를 기대해 주세요!*
+#### 기능
+
+- **STT (Speech-to-Text)**: 다국어 지원의 WhisperX 기반 음성 인식
+- **LLM 통합**: OpenAI (GPT) 및 Anthropic (Claude) 지원
+- **스트리밍**: 실시간 스트리밍 응답
+- **JSON 모드**: 구조화된 JSON 출력 생성
+
+#### 스킬
+
+| 스킬 | 설명 |
+|------|------|
+| `stt` | 타임스탬프 및 언어 감지를 포함한 오디오 변환 |
+| `llm` | 텍스트 생성, 요약 및 구조화된 응답 |
+
+#### 지원 프로바이더
+
+| 프로바이더 | 모델 |
+|------------|------|
+| OpenAI | GPT-4, GPT-4o-mini |
+| Anthropic | Claude Sonnet |
 
 ---
 
@@ -187,7 +207,8 @@
 # 플러그인 설치
 /plugin install public-commands
 /plugin install frontend-development
-/plugin install fullstack-nextjs
+/plugin install backend-development
+/plugin install ai-development
 ```
 
 ### 방법 2: CLI 설치
@@ -196,7 +217,7 @@
 # 스코프 지정 설치
 claude plugin install public-commands@wigtn-plugins --scope user      # 글로벌 (기본값)
 claude plugin install frontend-development@wigtn-plugins --scope project   # 팀과 공유
-claude plugin install fullstack-nextjs@wigtn-plugins --scope local     # 로컬 전용
+claude plugin install backend-development@wigtn-plugins --scope local     # 로컬 전용
 ```
 
 ### 방법 3: 수동 설치 (심볼릭 링크)
@@ -209,7 +230,8 @@ git clone https://github.com/wigtn/wigtn-plugins-with-claude-code.git ~/.claude-
 mkdir -p ~/.claude/plugins
 ln -s ~/.claude-plugins/wigtn/plugins/public-commands ~/.claude/plugins/
 ln -s ~/.claude-plugins/wigtn/plugins/frontend-development ~/.claude/plugins/
-ln -s ~/.claude-plugins/wigtn/plugins/fullstack-nextjs ~/.claude/plugins/
+ln -s ~/.claude-plugins/wigtn/plugins/backend-development ~/.claude/plugins/
+ln -s ~/.claude-plugins/wigtn/plugins/ai-development ~/.claude/plugins/
 
 # 업데이트
 git -C ~/.claude-plugins/wigtn pull
@@ -253,18 +275,20 @@ git -C ~/.claude-plugins/wigtn pull
 /component-scaffold ContactForm --style=glassmorphism
 ```
 
-### 풀스택 개발
+### 백엔드 개발
 
 ```bash
-# 완전한 CRUD 기능 생성
-/feature blog --crud --auth
+# 추천 스택으로 빠른 시작
+/backend --quick
 
-# 생성 결과:
-# - Prisma 모델
-# - API 라우트
-# - Server actions
-# - 페이지 & 컴포넌트
-# - 타입 & 훅
+# CRUD API 생성
+/api products --crud --auth
+
+# 인증 추가
+/auth --refresh --roles
+
+# CI/CD 설정
+/devops --docker --ci
 ```
 
 ---
@@ -277,25 +301,20 @@ wigtn-plugins-with-claude-code/
 │   └── plugin.json              # 마켓플레이스 메타데이터
 ├── plugins/
 │   ├── public-commands/
-│   │   ├── .claude-plugin/
-│   │   │   └── plugin.json
 │   │   ├── agents/
-│   │   │   └── code-formatter.md
-│   │   ├── commands/
-│   │   │   ├── prd.md
-│   │   │   ├── implement.md
-│   │   │   └── auto-commit.md
-│   │   └── skills/
-│   │       ├── code-review/
-│   │       └── digging/
+│   │   ├── commands/            # 3개 명령어
+│   │   └── skills/              # 2개 스킬
 │   ├── frontend-development/
 │   │   ├── agents/
 │   │   ├── commands/
 │   │   └── skills/              # 13개 스킬
-│   └── fullstack-nextjs/
+│   ├── backend-development/
+│   │   ├── agents/
+│   │   ├── commands/            # 6개 명령어
+│   │   └── skills/              # 2개 스킬
+│   └── ai-development/
 │       ├── agents/
-│       ├── commands/            # 8개 명령어
-│       └── skills/              # 12개 스킬
+│       └── skills/              # 2개 스킬
 ├── README.md
 ├── README.ko.md
 └── LICENSE

@@ -27,7 +27,8 @@
 
 - **End-to-End Workflow**: From PRD generation to implementation and auto-commit
 - **Design-First Approach**: 12+ professional design styles for unique UI/UX
-- **Full-Stack Ready**: Complete Next.js solutions with database, auth, and API
+- **Backend & DevOps**: Complete backend architecture with CI/CD pipelines
+- **AI Integration**: STT and LLM capabilities for intelligent applications
 - **Quality Assurance**: Built-in code review and automatic formatting
 
 ---
@@ -121,58 +122,77 @@ Complete frontend development toolkit with 12+ design styles to create unique, n
 
 ---
 
-### 3. fullstack-nextjs
+### 3. backend-development
 
-> **Complete Full-Stack Next.js Solution** `v1.1.0`
+> **Backend Architecture & DevOps Solution** `v2.0.0`
 
-Everything you need for building production-ready full-stack applications.
+Complete backend development toolkit with beginner-friendly architecture guides and DevOps automation.
 
-#### Tech Stack
+#### Highlights
 
-- **Next.js 15+** with App Router
-- **React 19** with Server Components
-- **Prisma ORM** for database management
-- **NextAuth** for authentication
-- **TypeScript** for type safety
-- **Tailwind CSS** for styling
-- **Vitest & Playwright** for testing
+- **Beginner Friendly**: Step-by-step guides with clear explanations
+- **Full Stack**: NestJS, Prisma, PostgreSQL, JWT
+- **DevOps Ready**: Docker, Kubernetes, CI/CD pipelines
+- **Safe by Design**: Auto-detection prevents overwrites
 
 #### Commands
 
 | Command | Description | Example |
 |---------|-------------|---------|
-| `/component` | Create React components | `/component LoginForm --form` |
-| `/page` | Generate Next.js pages | `/page products/[id] --dynamic` |
-| `/api` | Create API routes | `/api posts --crud` |
-| `/model` | Define Prisma models | `/model Post --fields "title:String"` |
-| `/action` | Create Server Actions | `/action createUser` |
-| `/hook` | Generate custom hooks | `/hook useAuth` |
-| `/feature` | Full feature scaffolding | `/feature blog --crud` |
-| `/test` | Generate test files | `/test LoginForm` |
+| `/backend` | Full backend architecture guide | `/backend --quick` |
+| `/api` | Create RESTful API endpoints | `/api products --crud` |
+| `/model` | Define Prisma data models | `/model User --fields "email:String"` |
+| `/auth` | JWT authentication system | `/auth --refresh --roles` |
+| `/module` | Generate NestJS modules | `/module payments --crud` |
+| `/devops` | CI/CD and deployment setup | `/devops --docker --ci` |
+
+#### Tech Stack
+
+| Category | Options |
+|----------|---------|
+| Framework | NestJS, Express, Fastify, FastAPI |
+| Database | PostgreSQL, MySQL, MongoDB, SQLite |
+| ORM | Prisma, TypeORM, Drizzle |
+| DevOps | Docker, Kubernetes, GitHub Actions |
 
 <details>
-<summary><strong>View all 12 skills</strong></summary>
+<summary><strong>View all skills</strong></summary>
 
 | Category | Skills |
 |----------|--------|
-| Frontend | `react-patterns`, `nextjs-app-router`, `tailwind`, `frontend-design` |
-| Backend | `api-routes`, `server-actions`, `database-prisma`, `auth-patterns`, `error-handling` |
-| Shared | `typescript`, `testing`, `form-validation` |
+| Architecture | `backend-architect` |
+| DevOps | `devops-architect` |
 
 </details>
 
 ---
 
-## Coming Soon
+### 4. ai-development
 
-Two additional plugins are currently in development:
+> **AI Integration for STT and LLM** `v1.0.0`
 
-| Plugin | Status | Description |
-|--------|--------|-------------|
-| 🔜 TBD | In Development | Coming soon |
-| 🔜 TBD | Planning | Coming soon |
+Seamlessly integrate Speech-to-Text and Large Language Model capabilities into your projects.
 
-*Stay tuned for updates!*
+#### Features
+
+- **STT (Speech-to-Text)**: WhisperX-powered transcription with multi-language support
+- **LLM Integration**: OpenAI (GPT) and Anthropic (Claude) support
+- **Streaming**: Real-time streaming responses
+- **JSON Mode**: Structured JSON output generation
+
+#### Skills
+
+| Skill | Description |
+|-------|-------------|
+| `stt` | Audio transcription with timestamps and language detection |
+| `llm` | Text generation, summarization, and structured responses |
+
+#### Supported Providers
+
+| Provider | Models |
+|----------|--------|
+| OpenAI | GPT-4, GPT-4o-mini |
+| Anthropic | Claude Sonnet |
 
 ---
 
@@ -187,7 +207,8 @@ Two additional plugins are currently in development:
 # Install plugins
 /plugin install public-commands
 /plugin install frontend-development
-/plugin install fullstack-nextjs
+/plugin install backend-development
+/plugin install ai-development
 ```
 
 ### Option 2: CLI Installation
@@ -196,7 +217,7 @@ Two additional plugins are currently in development:
 # Install with scope
 claude plugin install public-commands@wigtn-plugins --scope user      # Global (default)
 claude plugin install frontend-development@wigtn-plugins --scope project   # Team shared
-claude plugin install fullstack-nextjs@wigtn-plugins --scope local     # Local only
+claude plugin install backend-development@wigtn-plugins --scope local     # Local only
 ```
 
 ### Option 3: Manual Installation (Symlink)
@@ -209,7 +230,8 @@ git clone https://github.com/wigtn/wigtn-plugins-with-claude-code.git ~/.claude-
 mkdir -p ~/.claude/plugins
 ln -s ~/.claude-plugins/wigtn/plugins/public-commands ~/.claude/plugins/
 ln -s ~/.claude-plugins/wigtn/plugins/frontend-development ~/.claude/plugins/
-ln -s ~/.claude-plugins/wigtn/plugins/fullstack-nextjs ~/.claude/plugins/
+ln -s ~/.claude-plugins/wigtn/plugins/backend-development ~/.claude/plugins/
+ln -s ~/.claude-plugins/wigtn/plugins/ai-development ~/.claude/plugins/
 
 # Update plugins
 git -C ~/.claude-plugins/wigtn pull
@@ -253,18 +275,20 @@ git -C ~/.claude-plugins/wigtn pull
 /component-scaffold ContactForm --style=glassmorphism
 ```
 
-### Full-Stack Development
+### Backend Development
 
 ```bash
-# Create complete CRUD feature
-/feature blog --crud --auth
+# Quick start with recommended stack
+/backend --quick
 
-# This generates:
-# - Prisma model
-# - API routes
-# - Server actions
-# - Pages & components
-# - Types & hooks
+# Create CRUD API
+/api products --crud --auth
+
+# Add authentication
+/auth --refresh --roles
+
+# Setup CI/CD
+/devops --docker --ci
 ```
 
 ---
@@ -277,25 +301,20 @@ wigtn-plugins-with-claude-code/
 │   └── plugin.json              # Marketplace metadata
 ├── plugins/
 │   ├── public-commands/
-│   │   ├── .claude-plugin/
-│   │   │   └── plugin.json
 │   │   ├── agents/
-│   │   │   └── code-formatter.md
-│   │   ├── commands/
-│   │   │   ├── prd.md
-│   │   │   ├── implement.md
-│   │   │   └── auto-commit.md
-│   │   └── skills/
-│   │       ├── code-review/
-│   │       └── digging/
+│   │   ├── commands/            # 3 commands
+│   │   └── skills/              # 2 skills
 │   ├── frontend-development/
 │   │   ├── agents/
 │   │   ├── commands/
 │   │   └── skills/              # 13 skills
-│   └── fullstack-nextjs/
+│   ├── backend-development/
+│   │   ├── agents/
+│   │   ├── commands/            # 6 commands
+│   │   └── skills/              # 2 skills
+│   └── ai-development/
 │       ├── agents/
-│       ├── commands/            # 8 commands
-│       └── skills/              # 12 skills
+│       └── skills/              # 2 skills
 ├── README.md
 ├── README.ko.md
 └── LICENSE
