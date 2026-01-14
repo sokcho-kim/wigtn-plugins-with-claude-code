@@ -48,9 +48,10 @@ PRD에 정의된 기능을 구현합니다.
 │  └─────────────┘                  └─────────────┘           │
 │                                                             │
 │  • PRD 분석          사용자 승인    • 코드 작성             │
-│  • 구현 계획         필요!         • 파일 생성             │
-│  • 파일 구조                       • 테스트 실행           │
-│  • API 설계                        • 빌드 검증             │
+│  • 아키텍처 결정     필요!         • 파일 생성             │
+│    (subagent)                     • 테스트 실행           │
+│  • 구현 계획                       • 빌드 검증             │
+│  • 파일 구조                                               │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -101,7 +102,62 @@ specs/
 3. PRD 없이 바로 구현 (권장하지 않음)
 ```
 
-### Step 2: 프로젝트 상태 분석
+### Step 2: 아키텍처 결정 (Subagent)
+
+PRD 분석을 바탕으로 최적의 아키텍처를 결정합니다.
+
+**`architecture-decision` agent 호출:**
+
+```yaml
+Input:
+  prd_path: "docs/prd/user-authentication.md"
+  project_path: "./"
+  existing_stack: ["typescript", "prisma"]
+
+Output:
+  architecture:
+    type: "modular-monolith"  # monolithic | modular-monolith | msa
+    confidence: 85
+  recommendations:
+    tech_stack: ["NestJS", "Prisma", "PostgreSQL"]
+    folder_structure: "src/modules/..."
+    key_patterns: ["Repository pattern", "Event-driven"]
+  warnings: ["향후 MSA 전환 고려"]
+```
+
+**아키텍처 결정 기준:**
+
+| 평가 항목 | 모놀리식 | 모듈러 모놀리식 | MSA |
+|----------|---------|---------------|-----|
+| 도메인 수 | 1-2개 | 3-4개 | 5개+ |
+| 팀 규모 | 1-3명 | 3-10명 | 10명+ |
+| 프로젝트 단계 | MVP | 성장기 | 엔터프라이즈 |
+| 독립 배포 필요 | X | △ | O |
+
+**결정 결과 표시:**
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  🏗️ 아키텍처 결정                                           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  추천 아키텍처: Modular Monolith (신뢰도: 85%)              │
+│                                                             │
+│  📊 분석 결과:                                              │
+│  • 식별된 도메인: 인증, 사용자, 상품, 주문 (4개)            │
+│  • 도메인 복잡도: Medium                                    │
+│  • 확장성 요구: Medium                                      │
+│                                                             │
+│  📁 추천 구조:                                              │
+│  src/modules/{auth,users,products,orders}/                  │
+│                                                             │
+│  ⚠️ 주의사항:                                               │
+│  • 4개 도메인으로 향후 MSA 전환 고려                        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Step 3: 프로젝트 상태 분석
 
 **프로젝트 구조 자동 탐지:**
 
@@ -118,7 +174,7 @@ specs/
 - 관련 파일 위치
 - 사용 중인 패턴/컨벤션
 
-### Step 3: Gap Analysis
+### Step 4: Gap Analysis
 
 | Status | Description | Action |
 |--------|-------------|--------|
@@ -126,7 +182,7 @@ specs/
 | ⚠️ Partial | 부분 구현 | 남은 부분만 구현 |
 | ❌ Not done | 미구현 | 전체 구현 |
 
-### Step 4: 구현 계획 수립
+### Step 5: 구현 계획 수립
 
 PRD와 프로젝트 분석을 바탕으로 구현 계획을 수립합니다:
 
@@ -155,7 +211,7 @@ PRD와 프로젝트 분석을 바탕으로 구현 계획을 수립합니다:
 4. 테스트 작성
 ```
 
-### Step 5: 사용자 확인 (CHECKPOINT)
+### Step 6: 사용자 확인 (CHECKPOINT)
 
 **설계 완료 후 반드시 사용자 확인을 받습니다:**
 
@@ -182,8 +238,9 @@ PRD와 프로젝트 분석을 바탕으로 구현 계획을 수립합니다:
 │                                                             │
 │  이 계획대로 구현을 진행할까요?                              │
 │                                                             │
-│  → "진행" / "네" / "ㅇㅇ" : 구현 시작                        │
-│  → "수정해줘" : 계획 수정                                   │
+│  → "진행" : 바로 구현 시작                                  │
+│  → "상세 검토" : digging으로 파일별 분석 후 진행            │
+│  → "수정 필요" : 계획 수정                                  │
 │  → "취소" : 구현 취소                                       │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
@@ -193,13 +250,73 @@ PRD와 프로젝트 분석을 바탕으로 구현 계획을 수립합니다:
 ```yaml
 question: "이 계획대로 구현을 진행할까요?"
 options:
-  - label: "진행"
-    description: "계획대로 구현 시작"
+  - label: "진행 (Recommended)"
+    description: "바로 구현 시작"
+  - label: "상세 검토"
+    description: "digging 스킬로 파일별 상세 분석 후 진행"
   - label: "수정 필요"
     description: "계획 수정 후 재확인"
   - label: "취소"
     description: "구현 취소"
 ```
+
+### "상세 검토" 선택 시 (Optional Deep Dive)
+
+사용자가 "상세 검토"를 선택하면 `digging` 스킬을 호출하여 파일별 상세 분석을 진행합니다:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  🔍 상세 검토 진행 중...                                     │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [1/5] src/api/auth/login.ts                                │
+│  ├── 예상 구현: POST /api/auth/login                        │
+│  ├── 의존성: AuthService, JWT                               │
+│  └── ⚠️ 질문: Rate limiting 필요 여부?                      │
+│                                                             │
+│  [2/5] src/api/auth/register.ts                             │
+│  ├── 예상 구현: POST /api/auth/register                     │
+│  ├── 의존성: AuthService, Email validation                  │
+│  └── ⚠️ 질문: 이메일 인증 프로세스 포함?                    │
+│                                                             │
+│  [3/5] src/services/AuthService.ts                          │
+│  ├── 예상 구현: 인증 로직, 토큰 관리                         │
+│  └── ✅ 이슈 없음                                           │
+│                                                             │
+│  ...                                                        │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**digging 스킬 호출:**
+```yaml
+input:
+  context: "implementation_review"
+  files:
+    - path: "src/api/auth/login.ts"
+      purpose: "로그인 API"
+      type: "Backend"
+    - path: "src/api/auth/register.ts"
+      purpose: "회원가입 API"
+      type: "Backend"
+  prd_path: "docs/prd/user-authentication.md"
+
+output:
+  - file: "src/api/auth/login.ts"
+    questions:
+      - "Rate limiting 적용 필요?"
+      - "로그인 실패 횟수 제한?"
+    risks: []
+  - file: "src/api/auth/register.ts"
+    questions:
+      - "이메일 인증 필수?"
+    risks:
+      - "이메일 중복 체크 로직 필요"
+```
+
+**상세 검토 완료 후:**
+- 식별된 질문에 대한 답변 수집
+- 답변 기반으로 구현 계획 보완
+- 다시 사용자 확인 → BUILD Phase 진행
 
 ---
 
