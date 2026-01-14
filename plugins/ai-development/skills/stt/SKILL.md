@@ -5,14 +5,14 @@ description: Speech-to-Text integration patterns using WhisperX API. Use when im
 
 # STT (Speech-to-Text) Integration
 
-WhisperX STT API 연동 패턴입니다.
+WhisperX STT API integration patterns.
 
 ## When to Use This Skill
 
-- 음성 파일을 텍스트로 변환
-- 다국어 음성 자동 감지
-- 타임스탬프 포함 세그먼트 추출
-- 영상/오디오 자막 생성
+- Convert audio files to text
+- Multi-language auto detection
+- Extract segments with timestamps
+- Generate subtitles for video/audio
 
 ## STT Server
 
@@ -32,21 +32,21 @@ Content-Type: multipart/form-data
 
 | Field | Type | Description |
 |-------|------|-------------|
-| audio | binary | 오디오 파일 (webm, mp3, wav) |
-| language | string | `"auto"` (자동 감지) 또는 `"ko"`, `"en"` |
+| audio | binary | Audio file (webm, mp3, wav) |
+| language | string | `"auto"` (auto detect) or `"ko"`, `"en"` |
 
 ### Response
 
 ```json
 {
-  "text": "전체 텍스트",
+  "text": "Full transcribed text",
   "language": "ko",
   "language_probability": 0.95,
   "segments": [
     {
       "start": 0.0,
       "end": 5.2,
-      "text": "세그먼트 텍스트"
+      "text": "Segment text"
     }
   ]
 }
@@ -160,14 +160,14 @@ YT_DLP_PATH=/path/to/yt-dlp
 
 ```yaml
 performance:
-  - 오디오 포맷: webm 권장
-  - 타임아웃: 5분 이상 설정
+  - Audio format: webm recommended
+  - Timeout: set 5+ minutes
 
 error_handling:
-  - API 실패 시 graceful fallback
-  - 임시 파일 항상 정리
+  - Graceful fallback on API failure
+  - Always cleanup temp files
 
 language:
-  - 기본값 "auto"
-  - 신뢰도 50% 미만 시 경고 표시
+  - Default "auto"
+  - Show warning if confidence < 50%
 ```

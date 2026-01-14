@@ -5,15 +5,15 @@ description: LLM API integration patterns for OpenAI and Anthropic. Use when imp
 
 # LLM Integration
 
-OpenAI, Anthropic LLM API 연동 패턴입니다.
+OpenAI and Anthropic LLM API integration patterns.
 
 ## When to Use This Skill
 
-- 텍스트 생성/분석
-- 챗봇 구현
-- 콘텐츠 요약
-- 키워드 추출
-- JSON 구조화 응답
+- Text generation/analysis
+- Chatbot implementation
+- Content summarization
+- Keyword extraction
+- JSON structured responses
 
 ## Provider Setup
 
@@ -117,7 +117,7 @@ export async function chatJSON<T>(
   const response = await openai.chat.completions.create({
     model: "gpt-4o-mini",
     messages: [
-      { role: "system", content: systemPrompt + "\n\nJSON만 반환하세요." },
+      { role: "system", content: systemPrompt + "\n\nReturn JSON only." },
       { role: "user", content: userMessage },
     ],
     temperature: 0.7,
@@ -138,8 +138,8 @@ interface AnalysisResult {
 }
 
 const result = await chatJSON<AnalysisResult>(
-  "텍스트를 분석하여 summary, keywords, score를 JSON으로 반환하세요.",
-  "분석할 텍스트..."
+  "Analyze the text and return summary, keywords, score as JSON.",
+  "Text to analyze..."
 );
 ```
 
@@ -220,17 +220,17 @@ export class PromptTemplate {
 
 export const PROMPTS = {
   SUMMARIZE: new PromptTemplate(`
-다음 텍스트를 {{sentences}}문장으로 요약하세요.
+Summarize the following text in {{sentences}} sentences.
 
-텍스트:
+Text:
 {{text}}
 `),
 
   EXTRACT_KEYWORDS: new PromptTemplate(`
-다음 텍스트에서 핵심 키워드 {{count}}개를 추출하세요.
-JSON 배열로 반환: ["키워드1", "키워드2", ...]
+Extract {{count}} key keywords from the following text.
+Return as JSON array: ["keyword1", "keyword2", ...]
 
-텍스트:
+Text:
 {{text}}
 `),
 };
@@ -238,7 +238,7 @@ JSON 배열로 반환: ["키워드1", "키워드2", ...]
 // Usage
 const prompt = PROMPTS.SUMMARIZE.format({
   sentences: "3",
-  text: "요약할 텍스트...",
+  text: "Text to summarize...",
 });
 ```
 
@@ -289,23 +289,23 @@ ANTHROPIC_API_KEY=sk-ant-...
 
 ```yaml
 prompt_engineering:
-  - 명확한 지시사항 작성
-  - 출력 형식 명시 (JSON, markdown 등)
-  - 예시 포함 (few-shot)
-  - 한국어 응답 필요시 명시
+  - Write clear instructions
+  - Specify output format (JSON, markdown, etc.)
+  - Include examples (few-shot)
+  - Explicitly request language if needed
 
 performance:
-  - 적절한 model 선택 (gpt-4o-mini vs gpt-4o)
-  - temperature 용도에 맞게 조정
-  - max_tokens 필요한 만큼만
+  - Choose appropriate model (gpt-4o-mini vs gpt-4o)
+  - Adjust temperature for use case
+  - Set max_tokens only as needed
 
 error_handling:
-  - Rate limit 대응 (retry with backoff)
-  - API 키 환경변수 관리
-  - 응답 파싱 실패 대비
+  - Handle rate limits (retry with backoff)
+  - Manage API keys via env variables
+  - Prepare for response parsing failures
 
 security:
-  - API 키 클라이언트 노출 금지
-  - 사용자 입력 검증
-  - 비용 모니터링
+  - Never expose API keys to client
+  - Validate user input
+  - Monitor costs
 ```
