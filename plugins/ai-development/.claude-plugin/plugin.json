@@ -1,0 +1,10 @@
+{
+  "name": "ai-development",
+  "version": "1.0.0",
+  "description": "AI integration plugin for STT and LLM features",
+  "author": {
+    "name": "wigtn"
+  },
+  "skills": ["stt", "llm"],
+  "agents": ["ai-agent"]
+}
