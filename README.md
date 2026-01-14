@@ -140,12 +140,8 @@ Complete backend development toolkit with beginner-friendly architecture guides 
 
 | Command | Description | Example |
 |---------|-------------|---------|
-| `/backend` | Full backend architecture guide | `/backend --quick` |
-| `/api` | Create RESTful API endpoints | `/api products --crud` |
-| `/model` | Define Prisma data models | `/model User --fields "email:String"` |
-| `/auth` | JWT authentication system | `/auth --refresh --roles` |
-| `/module` | Generate NestJS modules | `/module payments --crud` |
-| `/devops` | CI/CD and deployment setup | `/devops --docker --ci` |
+| `/backend` | Backend enhancement and architecture improvement | `/backend Improve real-time chat performance` |
+| `/devops` | CI/CD and deployment infrastructure setup | `/devops Docker + CI/CD` |
 
 #### Tech Stack
 
@@ -161,8 +157,9 @@ Complete backend development toolkit with beginner-friendly architecture guides 
 
 | Category | Skills |
 |----------|--------|
-| Architecture | `backend-architect` |
-| DevOps | `devops-architect` |
+| Backend Patterns | `backend-patterns` - Architecture patterns, common patterns, AI service patterns, frontend interactions, stack selection |
+| DevOps Patterns | `devops-patterns` - CI/CD, cloud guides, Docker, Kubernetes, monitoring, security |
+| DevOps Setup | `devops-setup` - Docker setup guides |
 
 </details>
 
@@ -279,17 +276,11 @@ git -C ~/.claude-plugins/wigtn pull
 ### Backend Development
 
 ```bash
-# Quick start with recommended stack
-/backend --quick
+# Backend enhancement and architecture improvement
+/backend 실시간 채팅 성능 개선
 
-# Create CRUD API
-/api products --crud --auth
-
-# Add authentication
-/auth --refresh --roles
-
-# Setup CI/CD
-/devops --docker --ci
+# Setup CI/CD and deployment
+/devops Docker + CI/CD
 ```
 
 ---
@@ -311,8 +302,8 @@ wigtn-plugins-with-claude-code/
 │   │   └── skills/              # 13 skills
 │   ├── backend-development/
 │   │   ├── agents/
-│   │   ├── commands/            # 6 commands
-│   │   └── skills/              # 2 skills
+│   │   ├── commands/            # 2 commands
+│   │   └── skills/              # 3 skills
 │   └── ai-development/
 │       ├── agents/
 │       └── skills/              # 2 skills
