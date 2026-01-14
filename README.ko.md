@@ -140,12 +140,8 @@
 
 | 명령어 | 설명 | 예시 |
 |--------|------|------|
-| `/backend` | 전체 백엔드 아키텍처 가이드 | `/backend --quick` |
-| `/api` | RESTful API 엔드포인트 생성 | `/api products --crud` |
-| `/model` | Prisma 데이터 모델 정의 | `/model User --fields "email:String"` |
-| `/auth` | JWT 인증 시스템 | `/auth --refresh --roles` |
-| `/module` | NestJS 모듈 생성 | `/module payments --crud` |
-| `/devops` | CI/CD 및 배포 설정 | `/devops --docker --ci` |
+| `/backend` | 백엔드 기능 고도화 및 아키텍처 개선 | `/backend 실시간 채팅 성능 개선` |
+| `/devops` | CI/CD 및 배포 인프라 설정 | `/devops Docker + CI/CD` |
 
 #### 기술 스택
 
@@ -161,8 +157,9 @@
 
 | 카테고리 | 스킬 |
 |----------|------|
-| 아키텍처 | `backend-architect` |
-| DevOps | `devops-architect` |
+| Backend Patterns | `backend-patterns` - 아키텍처 패턴, 공통 패턴, AI 서비스 패턴, 프론트엔드 상호작용, 스택 선택 |
+| DevOps Patterns | `devops-patterns` - CI/CD, 클라우드 가이드, Docker, Kubernetes, 모니터링, 보안 |
+| DevOps Setup | `devops-setup` - Docker 설정 가이드 |
 
 </details>
 
@@ -279,17 +276,11 @@ git -C ~/.claude-plugins/wigtn pull
 ### 백엔드 개발
 
 ```bash
-# 추천 스택으로 빠른 시작
-/backend --quick
+# 백엔드 기능 고도화 및 아키텍처 개선
+/backend 실시간 채팅 성능 개선
 
-# CRUD API 생성
-/api products --crud --auth
-
-# 인증 추가
-/auth --refresh --roles
-
-# CI/CD 설정
-/devops --docker --ci
+# CI/CD 및 배포 설정
+/devops Docker + CI/CD
 ```
 
 ---
@@ -311,8 +302,8 @@ wigtn-plugins-with-claude-code/
 │   │   └── skills/              # 13개 스킬
 │   ├── backend-development/
 │   │   ├── agents/
-│   │   ├── commands/            # 6개 명령어
-│   │   └── skills/              # 2개 스킬
+│   │   ├── commands/            # 2개 명령어
+│   │   └── skills/              # 3개 스킬
 │   └── ai-development/
 │       ├── agents/
 │       └── skills/              # 2개 스킬
