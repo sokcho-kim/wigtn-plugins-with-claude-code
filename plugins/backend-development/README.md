@@ -1,55 +1,60 @@
 # Backend Development Plugin
 
-백엔드 개발 경험이 없어도 올바른 아키텍처를 설계하고 구현할 수 있도록 도와주는 플러그인입니다.
+개발 사이클 완료 후 백엔드 기능 고도화 및 배포 준비를 지원하는 플러그인입니다.
 
 ## Features
 
-- **백엔드 아키텍처 설계**: PRD 분석, 스택 선정, 데이터 모델링, API 설계
-- **DevOps 가이드**: CI/CD, 컨테이너화, 클라우드 배포, 모니터링
-- **초보자 친화적**: 전문 용어 쉽게 설명, 단계별 가이드
+- **백엔드 기능 고도화**: 개발 완료된 기능의 성능, 확장성, 안정성 개선
+- **배포 인프라 구성**: CI/CD, 컨테이너화, 클라우드 배포, 모니터링
+- **프로덕션 레벨 가이드**: 베스트 프랙티스 및 고급 패턴 적용
+
+## Workflow Position
+
+```
+개발 사이클 (public-commands):
+/prd → digging → /implement → /auto-commit
+                              ^^^^^^^^^^^^
+                              개발 사이클 완료
+
+사이클 완료 후 (backend-development):
+/backend [기능 고도화]  →  /devops [배포 설정]
+```
 
 ## Commands
 
-| 명령어            | 설명                                 |
-| ----------------- | ------------------------------------ |
-| `/backend`        | 백엔드 설계부터 구현까지 전체 가이드 |
-| `/api <resource>` | NestJS API 엔드포인트 생성           |
-| `/model <Model>`  | Prisma 데이터 모델 생성              |
-| `/auth`           | JWT 인증 모듈 생성                   |
-| `/module <name>`  | NestJS 모듈 생성                     |
-| `/devops`         | CI/CD, Docker, 배포 설정 가이드      |
+| 명령어            | 설명                                    | 사용 시점              |
+| ----------------- | --------------------------------------- | ---------------------- |
+| `/backend`        | 백엔드 기능 고도화 및 아키텍처 개선     | 개발 사이클 완료 후    |
+| `/devops`         | 배포 인프라 설정 (CI/CD, Docker, K8s)   | 배포 준비 시           |
+| `/api <resource>` | NestJS API 엔드포인트 생성              | (참고용)               |
+| `/model <Model>`  | Prisma 데이터 모델 생성                 | (참고용)               |
+| `/auth`           | JWT 인증 모듈 생성                      | (참고용)               |
+| `/module <name>`  | NestJS 모듈 생성                        | (참고용)               |
 
-## Quick Start
+## Usage
 
-### 새 프로젝트 시작
-
-```
-/backend
-```
-
-또는 자연어로:
+### 개발 사이클 완료 후
 
 ```
-"쇼핑몰 백엔드 만들어줘"
-"API 설계해줘"
-"인증 기능 추가해줘"
+1. 기능 고도화:
+   /backend [기능명]              # 예: /backend 실시간 채팅 성능 개선
+   
+2. 배포 준비:
+   /devops [배포 설정]            # 예: /devops Docker 설정
 ```
 
-### 빠른 시작 (추천 스택)
+### 예시 시나리오
 
 ```
-/backend --quick
-```
+# 시나리오 1: 기능 고도화
+/prd → digging → /implement → /auto-commit
+                              (개발 사이클 완료)
+/backend API 성능 최적화        # 캐싱 전략, DB 쿼리 최적화
 
-→ NestJS + Prisma + PostgreSQL + JWT로 바로 시작
-
-### 특정 기능만
-
-```
-/api products --crud              # Product API 생성
-/model Order --with-crud          # Order 모델 + CRUD
-/auth --refresh --roles           # 인증 + 역할 관리
-/devops --docker --ci             # Docker + CI/CD
+# 시나리오 2: 배포 준비
+/prd → digging → /implement → /auto-commit
+                              (개발 사이클 완료)
+/devops Docker + CI/CD          # Dockerfile, GitHub Actions 설정
 ```
 
 ## Structure

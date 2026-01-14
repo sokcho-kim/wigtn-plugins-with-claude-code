@@ -1,172 +1,152 @@
 ---
-description: 백엔드 아키텍처 설계부터 구현까지 단계별로 안내합니다. Trigger on "/backend", "백엔드 만들어줘", "백엔드 설계해줘", "API 서버 만들어줘", or when user needs backend architecture guidance.
+description: Backend enhancement helper. Trigger on "/backend", "백엔드 설계", "아키텍처 설계", "스택 추천", or when user needs technical planning for complex backend features.
 ---
 
-# Backend
+# /backend
 
-PRD 문서를 분석하고, 단계별로 백엔드를 설계합니다.
+백엔드 기능 고도화 헬퍼. 개발 사이클 완료 후 기존 기능을 개선하거나 프로덕션 레벨로 고도화할 때 사용합니다.
 
-## Pipeline Position
+## Purpose
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│  [PRD 작성] → [/backend] → [/api] → [/devops]              │
-│               ^^^^^^^^^^                                    │
-│               현재 단계                                      │
-└─────────────────────────────────────────────────────────────┘
-```
+- **기능 고도화** - 개발 완료된 기능의 성능, 확장성, 안정성 개선
+- **아키텍처 개선** - 프로덕션 레벨 패턴 적용, 최적화 전략 수립
+- **고급 패턴 조언** - 복잡한 기능 구현을 위한 고급 패턴 및 베스트 프랙티스
 
 ## Usage
 
 ```bash
-/backend                       # 대화형 가이드 시작
-/backend --quick               # 추천 스택으로 바로 진행
-/backend --prd docs/prd.md     # PRD 문서 경로 지정
-/backend --stack recommended   # 스택 프리셋 선택
+/backend 실시간 채팅           # 특정 기능 고도화 계획
+/backend 결제 시스템 연동       # 통합 설계
+/backend                      # 대화형 모드
 ```
 
-## Parameters
+## When to Use
 
-- `--quick`: 빠른 시작 (추천 스택: NestJS + Prisma + PostgreSQL + JWT)
-- `--prd <path>`: PRD 문서 경로 지정
-- `--stack <preset>`: 스택 프리셋 (recommended, quick, serverless, baas)
+**개발 사이클 완료 후 사용:**
 
-## Stack Presets
-
-| 프리셋        | 구성                                    |
-| ------------- | --------------------------------------- |
-| `recommended` | NestJS + Prisma + PostgreSQL + JWT      |
-| `quick`       | NestJS + Prisma + SQLite (DB 설치 없이) |
-| `serverless`  | Hono + Drizzle + Neon                   |
-| `baas`        | Supabase (올인원)                       |
+| 상황 | 예시 |
+|------|------|
+| 기능 고도화 필요 | "실시간 채팅 기능 성능 개선" |
+| 프로덕션 레벨 개선 | "API 응답 속도 최적화" |
+| 확장성 고려 | "트래픽 증가 대비 아키텍처 개선" |
+| 고급 패턴 적용 | "캐싱 전략 개선" |
+| 통합 최적화 | "결제 시스템 연동 최적화" |
 
 ## Protocol
 
-### Phase 0: 상태 확인 (필수)
+### Phase 1: 요청 파악
 
-모든 작업 전 현재 상태를 파악합니다:
+사용자의 요청을 파악합니다:
+- 어떤 기능/문제인가?
+- 현재 프로젝트 상태는?
+- 제약 조건은?
 
-```
-┌─────────────────────────────────────────────┐
-│ 📊 Project Status                           │
-├─────────────────────────────────────────────┤
-│ Type     : [New / Existing NestJS]          │
-│ Modules  : [없음 / users, products, ...]    │
-│ Database : [없음 / Prisma / TypeORM]        │
-│ Auth     : [없음 / JWT 설정됨]              │
-│ PRD      : [발견됨: prd/main.md / 없음]     │
-├─────────────────────────────────────────────┤
-│ 💡 Recommendation: [다음 단계 제안]          │
-└─────────────────────────────────────────────┘
-```
+### Phase 2: 컨텍스트 수집
 
-### Phase 1: PRD 분석
+필요한 정보를 수집합니다:
+- 기존 코드베이스 구조
+- 사용 중인 스택
+- 관련 파일/모듈
 
-PRD 문서에서 도메인, 기능 요구사항, 기술 제약 추출
+### Phase 3: 기술 결정
 
-### Phase 2: 스택 선정
+스킬 레퍼런스를 참조하여 결정:
 
-사용자에게 스택 선택지 제공 또는 자동 선택
+| 레퍼런스 | 참조 시점 |
+|----------|----------|
+| `backend-patterns/references/stack-selection.md` | 스택 선정 시 |
+| `backend-patterns/references/architecture-patterns.md` | 아키텍처 결정 시 |
+| `backend-patterns/references/frontend-interactions.md` | 프론트 연동 시 |
+| `backend-patterns/references/common-patterns.md` | 공통 기능 구현 시 |
+| `backend-patterns/references/ai-service-patterns.md` | AI 기능 구현 시 |
+| `devops-patterns/references/*` | 인프라 설정 시 |
 
-### Phase 3: 데이터 모델링
+### Phase 4: 계획 제공
 
-ERD 및 엔티티 설계
-
-### Phase 4: API 설계
-
-RESTful 엔드포인트 정의
-
-### Phase 5: 구현 계획
-
-단계별 구현 체크리스트 제시
-
-### Phase 6: 구현 실행
-
-사용자 확인 후 실제 코드 생성
-
-## Output
-
-각 단계에서 명확한 상태 리포트와 선택지를 제공합니다.
+구체적인 구현 계획을 제공:
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ ✅ Implementation Complete                                  │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ Created:                                                    │
-│   • src/auth/auth.module.ts                                 │
-│   • src/auth/auth.controller.ts                             │
-│   • src/auth/auth.service.ts                                │
-│                                                             │
-│ Next Steps:                                                 │
-│   1. npx prisma migrate dev --name init                     │
-│   2. npm run start:dev                                      │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
+## 기술 결정
+- [스택/패턴 선택과 이유]
+
+## 구현 순서
+1. [단계 1]
+2. [단계 2]
+...
+
+## 주요 고려사항
+- [고려사항 1]
+- [고려사항 2]
 ```
 
-## Skill Reference
+### Phase 5: 후속 지원
 
-> 📚 이 Command는 `backend-architect` 스킬의 전체 플로우(Phase 0-6)를 실행합니다.
-> 상세 프로토콜: [skills/backend-architect/skills/SKILL.md](../skills/backend-architect/skills/SKILL.md)
+- 추가 질문에 답변
+- 필요 시 더 상세한 설명 제공
+- 개선 작업 시작 시 `/implement`로 안내
 
-## Integration Points
+## Example Interaction
 
-| 연결 대상                | 역할                                         |
-| ------------------------ | -------------------------------------------- |
-| `backend-architect` 스킬 | Phase 0-6 전체 플로우 실행                   |
-| `/api` 명령어            | Phase 4 (API 설계) 후 개별 API 생성 시       |
-| `/model` 명령어          | Phase 3 (데이터 모델링) 후 개별 모델 추가 시 |
-| `/auth` 명령어           | 인증 모듈 추가 시                            |
-| `/devops` 명령어         | 백엔드 완료 후 배포 설정 시                  |
+**User:** `/backend 실시간 채팅`
 
-## Next Step
-
-백엔드 구현 완료 후:
-
+**Response:**
 ```
-💡 백엔드 기본 구조가 완성되었습니다!
+실시간 채팅 기능 설계를 도와드리겠습니다.
 
-다음 단계:
-  → `/api <resource> --crud`로 추가 API 생성
-  → `/auth`로 인증 추가
-  → `/auto-commit`으로 커밋
-
-배포 준비가 되면:
-  → `/devops`로 배포 환경 설정 (선택 사항)
+먼저 몇 가지 확인이 필요합니다:
+1. 예상 동시 접속자 수는?
+2. 1:1 채팅만? 그룹 채팅도?
+3. 메시지 히스토리 저장 필요?
+4. 현재 사용 중인 스택은?
 ```
 
-## Rules
+**User:** "100명, 1:1+그룹, 히스토리 필요, NestJS"
 
-1. **상태 확인 필수**: 모든 작업 전 Phase 0 실행
-2. **중복 방지**: 기존 모듈 절대 덮어쓰지 않음
-3. **선택권 제공**: 강요하지 말고 옵션 제시
-4. **이유 설명**: 왜 이걸 추천하는지 설명
-5. **점진적 진행**: 한 번에 다 하지 말고 단계별로
-6. **초보자 언어**: 전문 용어는 쉽게 풀어서
+**Response:**
+```
+## 기술 결정
+- Real-time: Socket.io (NestJS 공식 지원)
+- Message Store: PostgreSQL + Redis (캐싱)
+- Scaling: Redis Adapter (다중 인스턴스 대비)
 
-## Examples
+## 구현 순서
+1. ChatMessage 엔티티 & 스키마 설계
+2. WebSocket Gateway 설정 (Socket.io)
+3. 채팅방 관리 서비스
+4. 메시지 송수신 핸들러
+5. 메시지 히스토리 API
+6. Redis 캐싱 레이어 (선택)
 
-### 새 프로젝트 시작
+## 주요 고려사항
+- 그룹 채팅: Room 기반 브로드캐스트
+- 히스토리: Cursor-based pagination
+- 인증: JWT 토큰 검증 (handshake 시점)
+
+바로 구현을 시작할까요?
+```
+
+## Integration
+
+이 커맨드는 **개발 사이클 완료 후** 사용합니다.
 
 ```
-입력: /backend
+개발 사이클:
+/prd → digging → /implement → /auto-commit
+                              ^^^^^^^^^^^^
+                              개발 사이클 완료
 
-Phase 0: 프로젝트 상태 확인 → 새 프로젝트
-Phase 1: PRD 문서 검색 → 없음
-Phase 1: 서비스 타입 질문 → 쇼핑몰
-Phase 2: 스택 선택 → 추천 스택
-Phase 3-6: 순차 진행
+사이클 완료 후:
+/backend [기능 고도화] → 개선 계획 → 구현
 ```
 
-### 빠른 시작
+**사용 시점:**
+- `/auto-commit` 완료 후
+- 기존 기능의 성능/확장성/안정성 개선이 필요할 때
+- 프로덕션 레벨로 고도화가 필요할 때
 
-```
-입력: /backend --quick
+## Agent Reference
 
-Phase 0: 상태 확인
-→ NestJS + Prisma + SQLite로 즉시 프로젝트 생성
-→ 기본 구조 세팅 완료
-```
+> 이 커맨드는 `backend-architect` 에이전트를 호출합니다.
+> 📚 상세 프로토콜: [agents/backend-architect.md](../agents/backend-architect.md)
 
 ## $ARGUMENTS
