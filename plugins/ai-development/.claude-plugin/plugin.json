@@ -3,9 +3,30 @@
   "version": "1.0.0",
   "description": "AI integration plugin for STT and LLM features",
   "author": {
-    "name": "wigtn"
+    "name": "wigtn",
+    "url": "https://github.com/wigtn"
   },
-  "skills": ["stt", "llm"],
-  "commands": ["stt", "llm"],
-  "agents": ["ai-agent"]
+  "repository": "https://github.com/wigtn/wigtn-plugins-with-claude-code",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "ai",
+    "stt",
+    "llm",
+    "openai",
+    "anthropic",
+    "whisperx",
+    "speech-to-text"
+  ],
+  "skills": [
+    "./skills/stt",
+    "./skills/llm"
+  ],
+  "commands": [
+    "./commands/stt.md",
+    "./commands/llm.md"
+  ],
+  "agents": [
+    "./agents/ai-agent.md"
+  ]
 }
