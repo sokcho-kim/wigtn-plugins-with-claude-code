@@ -37,7 +37,7 @@ description: Analyze changes, run quality gate, and auto-commit with intelligent
 
 ## Protocol
 
-### Step 1: 변경사항 수집
+### Step 1: 변경사항 및 Remote 수집
 
 ```bash
 # 상태 확인
@@ -48,7 +48,14 @@ git diff --stat
 
 # 스테이징 안된 파일 포함
 git diff --stat HEAD
+
+# Remote 목록 확인
+git remote -v
 ```
+
+**Remote 확인:**
+- 연결된 remote가 여러 개인 경우 나중에 push 전 사용자 확인 필요
+- remote 이름과 URL을 기록해둠
 
 ### Step 2: 품질 검사 (Quality Gate)
 
@@ -168,10 +175,54 @@ Quality Score: 82/100
 Co-Authored-By: Claude <noreply@anthropic.com>
 EOF
 )"
+```
 
-# 푸시 (--no-push 없을 때)
+### Step 6.5: Remote 선택 (Multiple Remote인 경우)
+
+> **조건**: `--no-push` 옵션이 없고, remote가 2개 이상일 때만 실행
+
+**Remote가 1개인 경우:**
+```bash
+# 바로 푸시
 git push
 ```
+
+**Remote가 2개 이상인 경우:**
+
+1. 사용자에게 확인 요청:
+
+```markdown
+📡 여러 개의 remote가 감지되었습니다:
+
+| Remote | URL |
+|--------|-----|
+| origin | https://github.com/user/repo.git |
+| upstream | https://github.com/original/repo.git |
+| backup | https://github.com/backup/repo.git |
+
+어떤 remote에 push하시겠습니까?
+- **모든 remote에 push** (origin, upstream, backup 전체)
+- **origin만** (기본)
+- **특정 remote 선택** (쉼표로 구분: origin, backup)
+- **push 안함** (커밋만 유지)
+```
+
+2. 사용자 선택에 따라 실행:
+
+```bash
+# 모든 remote에 push
+git push origin && git push upstream && git push backup
+
+# 특정 remote만
+git push origin
+
+# 여러 remote 선택
+git push origin && git push backup
+```
+
+**자동 선택 규칙 (사용자가 응답하지 않을 경우):**
+- tracking branch가 설정된 remote 우선 (`git rev-parse --abbrev-ref @{upstream}`)
+- tracking이 없으면 `origin` 기본 사용
 
 ### Step 7: 결과 출력
 
@@ -200,6 +251,7 @@ git push
 ```
                     ┌─────────────────┐
                     │  변경사항 수집   │
+                    │  + Remote 확인  │
                     └────────┬────────┘
                              │
                              ▼
@@ -232,8 +284,27 @@ git push
              ▼    ▼                 ▼      ▼
         ┌─────────────┐       ┌─────────────┐
         │   COMMIT    │       │    STOP     │
-        │   & PUSH    │       │  수동 수정   │
-        └─────────────┘       └─────────────┘
+        └──────┬──────┘       │  수동 수정   │
+               │              └─────────────┘
+               ▼
+        ┌─────────────┐
+        │ Remote 개수 │
+        │    확인     │
+        └──────┬──────┘
+               │
+        ┌──────┴──────┐
+        │             │
+        ▼             ▼
+   ┌─────────┐   ┌─────────────┐
+   │ 1개     │   │ 2개 이상    │
+   │         │   │ 사용자 확인  │
+   └────┬────┘   └──────┬──────┘
+        │               │
+        ▼               ▼
+   ┌─────────┐   ┌─────────────┐
+   │  PUSH   │   │ 선택된 곳에  │
+   │         │   │    PUSH     │
+   └─────────┘   └─────────────┘
 ```
 
 ## Integration Points
@@ -330,6 +401,10 @@ git push
 3. **충돌 감지**: 푸시 실패 시 pull --rebase 제안
 4. **빈 커밋 방지**: 변경사항 없으면 커밋하지 않음
 5. **품질 우선**: 기본적으로 품질 검사 수행 (긴급 시 --no-review)
+6. **Multiple Remote 처리**:
+   - remote가 2개 이상이면 push 전 사용자에게 반드시 확인
+   - 사용자가 명시적으로 선택할 때까지 자동으로 모든 remote에 push하지 않음
+   - tracking branch가 설정된 remote를 기본값으로 제안
 
 ## Skip Quality Gate
 
