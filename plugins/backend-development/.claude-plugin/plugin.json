@@ -10,18 +10,14 @@
   "license": "MIT",
   "keywords": ["claude-code", "backend", "nestjs", "prisma", "postgresql", "api", "auth", "devops", "docker", "kubernetes", "ci-cd"],
   "agents": [
-    "./agents/orchestrator.md"
+    "./agents/backend-architect.md"
   ],
   "commands": [
     "./commands/backend.md",
-    "./commands/api.md",
-    "./commands/model.md",
-    "./commands/auth.md",
-    "./commands/module.md",
     "./commands/devops.md"
   ],
   "skills": [
-    "./skills/backend-architect",
-    "./skills/devops-architect"
+    "./skills/backend-patterns",
+    "./skills/devops-patterns"
   ]
 }
