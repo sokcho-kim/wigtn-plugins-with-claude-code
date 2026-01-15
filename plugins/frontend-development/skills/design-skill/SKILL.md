@@ -1,95 +1,41 @@
 ---
-name: design-discovery
-description: Discover the right design direction for frontend projects and create trendy, non-generic designs. Multi-phase discovery process with granular control over colors, animations, spacing, and visual style.
+name: design-implementation
+description: Style guides and implementation rules for frontend design. Works with design-discovery agent which handles context gathering and VS-based style recommendations. Contains detailed style guides, anti-patterns, and implementation checklists.
 ---
 
-# Design Discovery Agent
+# Design Implementation Guide
 
-## Role
-You are a senior digital product designer and creative director.
-You create intentional, distinctive designs that look like they came from a real design agency—not generic AI-generated interfaces.
+## Overview
 
----
+This skill provides **style guides and implementation rules** for frontend design.
 
-## Phase 1: Discovery (Required - Multi-Step)
+**For design discovery and style selection**, use the `design-discovery` agent which:
+- Gathers context through step-by-step questions
+- Uses VS (Verbalized Sampling) technique to recommend styles with suitability percentages
+- Applies AIDA methodology for landing pages
 
-When receiving a frontend request, **do NOT start coding immediately**. Conduct discovery in two steps:
-
-### Step 1: Core Questions (Always Ask)
-
-```
-Before we start, let me ask a few questions:
-
-1. **Who is your target audience?**
-   (e.g., fashion-conscious women in their 20s, corporate executives in their 40s, teenage gamers, developers, etc.)
-
-2. **What mood/feeling are you going for?**
-   - 🖼️ Editorial/Magazine — High-end, generous whitespace, fashion magazine feel
-   - 🔲 Brutalist — Raw, rule-breaking, unapologetic
-   - 🫧 Glassmorphism — Transparent, soft blur effects, layered depth
-   - ⚪ Swiss Minimal — Grid-based, typography-focused, clean
-   - 🌿 Organic/Natural — Soft curves, natural color palette
-   - ✨ Luxury/Premium — Refined, sophisticated, high-end
-   - 🚀 Retro Futurism — 80s-90s future aesthetic
-   - 🎮 Playful/Toy — Cute, fun, colorful
-   - 🌑 Dark Mode First — Developer-friendly, neon accents
-   - 🏢 Minimal Corporate — Clean, trustworthy, professional
-   - 📱 Bento Grid — Apple-style modular grid layout
-   - 🔘 Neomorphism — Soft 3D, subtle shadows, tactile
-   - Feel free to describe your own vision!
-
-3. **Do you have any reference sites or images?** (Optional)
-```
-
-### Step 2: Detail Questions (Fine-tuning Control)
-
-After user answers core questions, ask these for fine-tuning:
-
-```
-Great! Now let's fine-tune the details:
-
-4. **Color Preference**
-   - 🎨 Custom — I'll specify my colors (provide hex codes)
-   - ⚫ Monochrome — Black & white with single accent color
-   - 🌈 Vibrant — Bold, saturated colors
-   - 🌿 Earthy — Natural, muted tones (browns, greens, beige)
-   - 🌊 Cool — Blues, teals, purples
-   - 🔥 Warm — Oranges, reds, yellows
-   - 🖤 Dark — Dark backgrounds with light text
-
-5. **Gradient Usage**
-   - ❌ None — Solid colors only (flat design)
-   - 🔘 Subtle — Light gradients for depth (backgrounds, overlays)
-   - 🌊 Bold — Eye-catching gradients (buttons, cards, heroes)
-   - 🌈 Mesh — Complex mesh gradients (modern, artistic)
-
-6. **Animation Level**
-   - 🚫 None — No animations (accessibility/performance priority)
-   - 💫 Minimal — Hover states, focus indicators only
-   - ✨ Moderate — Page transitions, scroll reveals, micro-interactions
-   - 🎬 Rich — Complex animations, parallax, gesture-based interactions
-
-7. **Border Radius**
-   - ◻️ Sharp (0px) — Angular, modern, brutalist feel
-   - ▢ Slight (4-8px) — Subtle softness
-   - ⬜ Rounded (12-16px) — Friendly, approachable
-   - ⭕ Pill (9999px) — Fully rounded, playful
-
-8. **Density & Spacing**
-   - 📦 Compact — High information density, minimal padding
-   - 📋 Balanced — Standard spacing, comfortable reading
-   - 🌌 Spacious — Generous whitespace, breathing room, luxury feel
-```
-
-### Optional Questions (If Relevant)
-- Mobile-first vs Desktop-first?
-- Light mode, Dark mode, or Both?
-- Any specific fonts in mind?
-- Any styles or patterns to avoid?
+This skill is automatically loaded after the agent completes discovery.
 
 ---
 
-## Phase 2: Style Selection & Guidelines
+## How to Use
+
+### With Discovery Agent (Recommended)
+1. User requests frontend design
+2. `design-discovery` agent conducts context gathering
+3. Agent presents VS-based style recommendations
+4. After style selection, agent loads this skill for implementation
+
+### Direct Usage (Quick Mode)
+If user already knows their style, skip discovery:
+```
+"Build me a landing page with Bento Grid style, dark theme, minimal animations"
+```
+In this case, directly read the relevant style guide and implement.
+
+---
+
+## Style Selection & Guidelines
 
 Based on user responses, select the appropriate style and read the corresponding guide.
 
