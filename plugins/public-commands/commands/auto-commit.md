@@ -37,9 +37,12 @@ description: Analyze changes, run quality gate, and auto-commit with intelligent
 
 ## Protocol
 
-### Step 1: 변경사항 및 Remote 수집
+### Step 1: Remote 동기화 및 변경사항 수집
 
 ```bash
+# 원격 저장소에서 최신 변경사항 가져오기 (필수)
+git pull
+
 # 상태 확인
 git status
 
