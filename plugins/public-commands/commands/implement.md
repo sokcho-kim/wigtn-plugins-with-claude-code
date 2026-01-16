@@ -48,13 +48,57 @@ PRD에 정의된 기능을 구현합니다.
 │  └─────────────┘                  └─────────────┘           │
 │                                                             │
 │  • PRD 분석          사용자 승인    • 코드 작성             │
-│  • 아키텍처 결정     필요!         • 파일 생성             │
-│    (subagent)                     • 테스트 실행           │
-│  • 구현 계획                       • 빌드 검증             │
+│  • Task Plan 로드    필요!         • Phase별 실행          │
+│  • 아키텍처 결정                   • TodoWrite 연동        │
+│    (subagent)                     • 테스트/빌드 검증       │
+│  • 구현 계획                       • PLAN 파일 업데이트    │
 │  • 파일 구조                                               │
+│                                                             │
+│  ⚡ 1-Click Complete:                                       │
+│  • auto_commit: true → 자동 /auto-commit 트리거           │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
+
+## Task Plan Integration
+
+### Task Plan 파일 검색
+
+`/prd` 명령으로 생성된 Task Plan 파일을 자동으로 검색합니다:
+
+**검색 경로:**
+```
+docs/todo_plan/PLAN_{feature-name}.md
+docs/todo_plan/PLAN_*.md
+```
+
+**Task Plan 발견 시:**
+```
+┌─────────────────────────────────────────────────────────────┐
+│  📋 Task Plan 발견                                           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  파일: docs/todo_plan/PLAN_user-authentication.md           │
+│  상태: pending                                              │
+│                                                             │
+│  📊 Execution Config:                                       │
+│  • auto_commit: true                                        │
+│  • quality_gate: true                                       │
+│                                                             │
+│  📁 Phases (4개):                                           │
+│  • Phase 1: 환경 설정 (3 tasks)                             │
+│  • Phase 2: 핵심 기능 구현 (5 tasks)                        │
+│  • Phase 3: 테스트 & 검증 (3 tasks)                         │
+│  • Phase 4: 마무리 (2 tasks)                                │
+│                                                             │
+│  → Task Plan 기반으로 Phase별 실행을 진행합니다.            │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Task Plan 없을 경우:**
+- 기존 방식대로 PRD 기반 구현 계획 수립
+- 구현 완료 후 Task Plan 생성 제안
 
 ## Usage
 
@@ -324,9 +368,66 @@ output:
 
 사용자 확인 후 실제 코드 작성을 진행합니다.
 
-### Step 1: 코드 작성
+### Step 1: Phase별 실행 (Task Plan 기반)
 
-**구현 순서:**
+**Task Plan이 있는 경우**, Phase 단위로 순차 실행합니다:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  🚀 Phase 1: 환경 설정 시작                                  │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  TodoWrite 업데이트:                                        │
+│  ├── [in_progress] 프로젝트 구조 생성                       │
+│  ├── [pending] 의존성 설치                                  │
+│  └── [pending] 설정 파일 작성                               │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Phase 실행 프로세스:**
+
+```
+For each Phase in Task Plan:
+  1. TodoWrite에 Phase tasks 등록 (status: pending)
+  2. 첫 번째 task를 in_progress로 변경
+  3. Task 실행
+  4. Task 완료 시:
+     - TodoWrite: completed로 변경
+     - PLAN 파일: [ ] → [x] 체크
+  5. 다음 task로 이동
+  6. Phase 완료 시:
+     - PLAN 파일: Phase status 업데이트
+     - Progress 섹션 업데이트
+  7. 다음 Phase로 이동
+```
+
+**PLAN 파일 실시간 업데이트:**
+
+```markdown
+### Phase 1: 환경 설정
+- [x] 프로젝트 구조 생성          ← 완료
+- [x] 의존성 설치                 ← 완료
+- [ ] 설정 파일 작성              ← 진행 중
+
+## Progress
+| Metric | Value |
+|--------|-------|
+| Total Tasks | 3/13 |
+| Current Phase | Phase 1: 환경 설정 |
+| Status | in_progress |
+
+## Execution Log
+| Timestamp | Phase | Task | Status |
+|-----------|-------|------|--------|
+| 2025-01-16 10:30 | Phase 1 | 프로젝트 구조 생성 | ✅ completed |
+| 2025-01-16 10:32 | Phase 1 | 의존성 설치 | ✅ completed |
+| 2025-01-16 10:35 | Phase 1 | 설정 파일 작성 | ⏳ in_progress |
+```
+
+### Step 2: 코드 작성 (Task Plan 없는 경우)
+
+**기존 방식 - 구현 순서:**
 1. **Database/Schema** (필요 시)
    - 스키마 변경/추가
    - 마이그레이션 생성
@@ -345,19 +446,22 @@ output:
    - 유닛 테스트
    - 통합 테스트
 
-### Step 2: 구현 진행 상황 표시
+### Step 3: 구현 진행 상황 표시
 
 ```
-⏳ 구현 진행 중...
+⏳ 구현 진행 중... (Phase 2/4)
 
+[Phase 2: 핵심 기능 구현]
 [1/5] ✅ prisma/schema.prisma - User 모델 추가 완료
 [2/5] ✅ src/api/auth/login.ts - 로그인 API 완료
 [3/5] ⏳ src/api/auth/register.ts - 회원가입 API 작성 중...
 [4/5] ⏸️ src/services/AuthService.ts - 대기 중
 [5/5] ⏸️ src/components/LoginForm.tsx - 대기 중
+
+📊 전체 진행률: 6/13 tasks (46%)
 ```
 
-### Step 3: 검증
+### Step 4: 검증
 
 ```bash
 # TypeScript 타입 체크 (해당 시)
@@ -370,25 +474,23 @@ npm test
 npm run build
 ```
 
-### Step 4: 구현 완료 보고
+### Step 5: 구현 완료 및 자동 커밋 트리거
+
+**모든 Phase 완료 시:**
 
 ```
-✅ 구현이 완료되었습니다!
+✅ 모든 Phase가 완료되었습니다!
 
 ┌─────────────────────────────────────────────────────────────┐
 │  📋 구현 결과                                                │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
-│  생성된 파일:                                                │
-│  ✅ src/api/auth/login.ts                                   │
-│  ✅ src/api/auth/register.ts                                │
-│  ✅ src/services/AuthService.ts                             │
-│  ✅ src/components/LoginForm.tsx                            │
-│  ✅ tests/auth.test.ts                                      │
+│  ✅ Phase 1: 환경 설정 (3/3 tasks)                          │
+│  ✅ Phase 2: 핵심 기능 구현 (5/5 tasks)                     │
+│  ✅ Phase 3: 테스트 & 검증 (3/3 tasks)                      │
+│  ✅ Phase 4: 마무리 (2/2 tasks)                             │
 │                                                             │
-│  수정된 파일:                                                │
-│  ✅ prisma/schema.prisma                                    │
-│  ✅ src/app/layout.tsx                                      │
+│  📊 Total: 13/13 tasks completed                            │
 │                                                             │
 │  검증 결과:                                                  │
 │  ✅ TypeScript 타입 체크 통과                                │
@@ -396,15 +498,42 @@ npm run build
 │  ✅ 빌드 성공                                                │
 │                                                             │
 ├─────────────────────────────────────────────────────────────┤
-│  📋 다음 단계                                                │
+│  ⚡ 1-Click Complete                                         │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
-│  변경사항을 커밋하시겠습니까?                                 │
+│  Task Plan 설정: auto_commit = true                         │
 │                                                             │
-│  → `/auto-commit`으로 품질 검사 후 자동 커밋                 │
-│  → 품질 미달 시 자동 개선 또는 수정 안내                     │
+│  → /auto-commit 자동 실행 중...                             │
+│  → 품질 검사 후 자동 커밋됩니다.                            │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
+```
+
+**auto_commit 트리거 조건:**
+
+| 조건 | 액션 |
+|------|------|
+| `auto_commit: true` + 모든 Phase 완료 | `/auto-commit` 자동 실행 |
+| `auto_commit: false` | 수동 커밋 안내 |
+| `commit_per_phase: true` | Phase 완료 시마다 중간 커밋 |
+
+**PLAN 파일 최종 상태:**
+
+```markdown
+## Progress
+| Metric | Value |
+|--------|-------|
+| Total Tasks | 13/13 |
+| Current Phase | - |
+| Status | ✅ completed |
+
+## Execution Log
+| Timestamp | Phase | Task | Status |
+|-----------|-------|------|--------|
+| ... | ... | ... | ... |
+| 2025-01-16 11:45 | - | /auto-commit | ✅ triggered |
+| 2025-01-16 11:46 | - | Quality Gate | ✅ passed (92/100) |
+| 2025-01-16 11:46 | - | Git Commit | ✅ abc1234 |
 ```
 
 ---

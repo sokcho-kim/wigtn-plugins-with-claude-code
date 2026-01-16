@@ -367,17 +367,84 @@ options:
   - label: "prd/"
     description: "prd 폴더에 저장"
   - label: "docs/prd/"
-    description: "docs/prd 폴더에 저장"
+    description: "docs/prd 폴더에 저장 (권장)"
   - label: "루트"
     description: "[feature-name]-prd.md로 저장"
 ```
 
-### Phase 5: 다음 단계 안내
+### Phase 5: Task Plan Generation
 
-PRD 작성 완료 후 자동으로 다음 단계를 안내합니다:
+PRD 작성 완료 후, 실행 계획(Task Plan)을 자동으로 생성합니다.
+
+**저장 위치**: `docs/todo_plan/PLAN_{feature-name}.md`
+
+**Task Plan 템플릿**:
+
+```markdown
+# Task Plan: {feature-name}
+
+> **Generated from**: docs/prd/PRD_{feature-name}.md
+> **Created**: YYYY-MM-DD
+> **Status**: pending
+
+## Execution Config
+
+| Option | Value | Description |
+|--------|-------|-------------|
+| `auto_commit` | true | 완료 시 자동 커밋 |
+| `commit_per_phase` | false | Phase별 중간 커밋 여부 |
+| `quality_gate` | true | /auto-commit 품질 검사 |
+
+## Phases
+
+### Phase 1: 환경 설정
+- [ ] 프로젝트 구조 생성
+- [ ] 의존성 설치
+- [ ] 설정 파일 작성
+
+### Phase 2: 핵심 기능 구현
+- [ ] 데이터 모델 정의
+- [ ] API 엔드포인트 구현
+- [ ] 비즈니스 로직 작성
+
+### Phase 3: 테스트 & 검증
+- [ ] 단위 테스트 작성
+- [ ] 통합 테스트 실행
+- [ ] 에러 핸들링 검증
+
+### Phase 4: 마무리
+- [ ] 코드 정리 및 리팩토링
+- [ ] 문서 업데이트
+
+## Progress
+
+| Metric | Value |
+|--------|-------|
+| Total Tasks | 0/N |
+| Current Phase | - |
+| Status | pending |
+
+## Execution Log
+
+| Timestamp | Phase | Task | Status |
+|-----------|-------|------|--------|
+| - | - | - | - |
+```
+
+**Task Plan 생성 규칙**:
+
+1. PRD의 `Implementation Phases` 섹션을 기반으로 Phase 생성
+2. 각 Phase의 Task는 PRD의 Functional Requirements와 매핑
+3. 의존성 순서대로 Task 배치
+4. Execution Config는 기본값 사용 (사용자가 나중에 수정 가능)
+
+### Phase 6: 다음 단계 안내
+
+PRD 및 Task Plan 작성 완료 후 자동으로 다음 단계를 안내합니다:
 
 ```
-✅ PRD 문서가 생성되었습니다: docs/prd/user-authentication.md
+✅ PRD 문서가 생성되었습니다: docs/prd/PRD_user-authentication.md
+✅ Task Plan이 생성되었습니다: docs/todo_plan/PLAN_user-authentication.md
 
 ┌─────────────────────────────────────────────────────────────┐
 │  📋 다음 단계                                                │
@@ -390,6 +457,11 @@ PRD 작성 완료 후 자동으로 다음 단계를 안내합니다:
 │                                                             │
 │  바로 구현을 시작하려면:                                      │
 │  → `/implement user-authentication`                         │
+│  → Task Plan을 기반으로 Phase별 자동 실행됩니다.             │
+│                                                             │
+│  ⚡ 1-Click Complete (End-to-End 자동화):                   │
+│  → Task Plan의 auto_commit: true 설정 시                    │
+│  → 모든 Phase 완료 후 자동으로 /auto-commit 실행             │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
