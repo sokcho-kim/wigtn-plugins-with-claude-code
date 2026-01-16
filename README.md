@@ -189,7 +189,51 @@ Complete backend development toolkit with beginner-friendly architecture guides 
 
 ---
 
-### 4. ai-development
+### 4. mobile-development
+
+> **Complete Mobile Development Solution** `v1.0.0`
+
+Build production-ready React Native applications with Expo and React Native CLI support.
+
+#### Highlights
+
+- **React Native CLI & Expo**: Full support for both development approaches
+- **Design Systems**: iOS HIG, Material Design 3, VS-based design discovery
+- **11 Specialized Skills**: Navigation, authentication, native modules, testing, and more
+- **Performance Focused**: FlatList optimization, memory management, startup time
+
+#### Commands
+
+| Command | Description |
+|---------|-------------|
+| `/component-scaffold` | Generate complete RN component with types, tests |
+| `/add-feature` | Add new feature with proper architecture |
+
+#### Tech Stack
+
+| Category | Support |
+|----------|---------|
+| Frameworks | Expo SDK 52+, React Native 0.73+ |
+| Navigation | Expo Router, React Navigation v6 |
+| State | Zustand + MMKV, React Query |
+| Styling | StyleSheet + react-native-size-matters |
+
+<details>
+<summary><strong>View all 11 skills</strong></summary>
+
+| Category | Skills |
+|----------|--------|
+| Design | `mobile-design`, `rn-styling`, `responsive-design` |
+| Navigation | `navigation`, `deep-linking` |
+| Data | `mobile-state-management`, `mobile-authentication` |
+| Native | `native-modules` |
+| Quality | `mobile-testing`, `mobile-performance`, `app-store-optimization` |
+
+</details>
+
+---
+
+### 5. ai-development
 
 > **AI Integration for STT and LLM** `v1.0.0`
 
@@ -230,6 +274,7 @@ Seamlessly integrate Speech-to-Text and Large Language Model capabilities into y
 /plugin install public-commands
 /plugin install frontend-development
 /plugin install backend-development
+/plugin install mobile-development
 /plugin install ai-development
 ```
 
@@ -253,6 +298,7 @@ mkdir -p ~/.claude/plugins
 ln -s ~/.claude-plugins/wigtn/plugins/public-commands ~/.claude/plugins/
 ln -s ~/.claude-plugins/wigtn/plugins/frontend-development ~/.claude/plugins/
 ln -s ~/.claude-plugins/wigtn/plugins/backend-development ~/.claude/plugins/
+ln -s ~/.claude-plugins/wigtn/plugins/mobile-development ~/.claude/plugins/
 ln -s ~/.claude-plugins/wigtn/plugins/ai-development ~/.claude/plugins/
 
 # Update plugins
@@ -332,6 +378,10 @@ wigtn-plugins-with-claude-code/
 │   │   ├── agents/
 │   │   ├── commands/            # 2 commands
 │   │   └── skills/              # 3 skills
+│   ├── mobile-development/
+│   │   ├── agents/              # 2 agents
+│   │   ├── commands/            # 2 commands
+│   │   └── skills/              # 11 skills
 │   └── ai-development/
 │       ├── agents/
 │       └── skills/              # 2 skills

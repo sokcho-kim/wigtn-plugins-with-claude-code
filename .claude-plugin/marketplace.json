@@ -28,6 +28,11 @@
       "name": "backend-development",
       "description": "Backend development plugin with architecture design, NestJS + Prisma + PostgreSQL stack, API/Model/Auth generation, and DevOps (Docker, CI/CD, cloud deployment) guidance.",
       "source": "./plugins/backend-development"
+    },
+    {
+      "name": "mobile-development",
+      "description": "Complete mobile development solution with React Native (Expo & CLI), iOS HIG, Material Design 3, 11 specialized skills for navigation, authentication, native modules, testing, performance optimization, and App Store optimization.",
+      "source": "./plugins/mobile-development"
     }
   ]
 }
