@@ -47,15 +47,39 @@
 /prd → digging → /implement → /auto-commit
   ↓       ↓          ↓            ↓
  PRD    분석      코드구현     품질게이트
+  +                  +            +
+PLAN           Phase별 실행   Safety Guard
+```
+
+#### 1-Click Complete 워크플로우
+
+PRD 생성 → Task Plan 자동 생성 → Phase별 구현 → 품질 검증 후 커밋
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  /prd                                                       │
+│  ├── PRD.md (요구사항 문서)                                  │
+│  └── PLAN_{기능명}.md (Phase별 Task Plan)                    │
+│                     ↓                                       │
+│  /implement                                                 │
+│  ├── PLAN 파일 읽기                                          │
+│  ├── Phase별 순차 실행                                       │
+│  └── PLAN 체크박스 자동 업데이트                              │
+│                     ↓                                       │
+│  /auto-commit                                               │
+│  ├── Quality Gate (80점 이상)                               │
+│  ├── 🛡️ Safety Guard (사용자 최종 확인)                      │
+│  └── Commit + Push                                          │
+└─────────────────────────────────────────────────────────────┘
 ```
 
 #### 명령어
 
 | 명령어 | 설명 |
 |--------|------|
-| `/prd <기능명>` | 모호한 기능 요청을 구조화된 PRD로 변환 |
-| `/implement <기능명>` | PRD 기반으로 기능 즉시 구현 |
-| `/auto-commit` | 품질 검사를 통과한 지능형 자동 커밋 |
+| `/prd <기능명>` | PRD + Task Plan (PLAN_{기능명}.md) 자동 생성 |
+| `/implement <기능명>` | Task Plan 기반 Phase별 구현 |
+| `/auto-commit` | Quality Gate + Safety Guard + 자동 커밋 |
 
 #### 스킬 & 에이전트
 
@@ -247,20 +271,24 @@ git -C ~/.claude-plugins/wigtn pull
 
 ## 빠른 시작
 
-### 완전한 개발 워크플로우
+### 완전한 개발 워크플로우 (1-Click Complete)
 
 ```bash
-# 1. 아이디어에서 PRD 생성
+# 1. 아이디어에서 PRD + Task Plan 생성
 /prd user-authentication
+# 생성: docs/prd/user-authentication.md
+#       docs/todo_plan/PLAN_user-authentication.md
 
 # 2. 계획 분석 및 개선 (선택사항)
 # 'digging' 스킬이 누락점과 리스크를 식별합니다
 
-# 3. 기능 구현
+# 3. Phase별 기능 구현
 /implement user-authentication
+# PLAN 파일 읽기 → Phase별 실행 → 체크박스 자동 업데이트
 
-# 4. 품질 검사와 함께 자동 커밋
+# 4. Safety Guard와 함께 자동 커밋
 /auto-commit
+# Quality Gate → Safety Guard (사용자 확인) → Commit + Push
 ```
 
 ### 프론트엔드 개발

@@ -47,15 +47,39 @@ The essential plugin that powers your entire development lifecycle with intellig
 /prd → digging → /implement → /auto-commit
   ↓       ↓          ↓            ↓
  PRD   Analyze    Code It     Quality Gate
+  +                  +            +
+PLAN            Phase-based   Safety Guard
+```
+
+#### 1-Click Complete Workflow
+
+Generate PRD → Auto-create Task Plan → Phase-based Implementation → Quality-gated Commit
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  /prd                                                       │
+│  ├── PRD.md (Requirements)                                  │
+│  └── PLAN_{feature}.md (Task Plan with Phases)              │
+│                     ↓                                       │
+│  /implement                                                 │
+│  ├── Read PLAN file                                         │
+│  ├── Execute Phase by Phase                                 │
+│  └── Update checkboxes in PLAN                              │
+│                     ↓                                       │
+│  /auto-commit                                               │
+│  ├── Quality Gate (Score 80+)                               │
+│  ├── 🛡️ Safety Guard (User confirmation)                    │
+│  └── Commit + Push                                          │
+└─────────────────────────────────────────────────────────────┘
 ```
 
 #### Commands
 
 | Command | Description |
 |---------|-------------|
-| `/prd <feature>` | Generate structured PRD from vague feature requests |
-| `/implement <feature>` | Implement features based on PRD specifications |
-| `/auto-commit` | Quality-gated auto-commit with intelligent message generation |
+| `/prd <feature>` | Generate PRD + Task Plan (PLAN_{feature}.md) |
+| `/implement <feature>` | Phase-based implementation with Task Plan integration |
+| `/auto-commit` | Quality Gate + Safety Guard + Auto-commit |
 
 #### Skills & Agent
 
@@ -247,20 +271,24 @@ git -C ~/.claude-plugins/wigtn pull
 
 ## Quick Start
 
-### Complete Development Workflow
+### Complete Development Workflow (1-Click Complete)
 
 ```bash
-# 1. Generate PRD from your idea
+# 1. Generate PRD + Task Plan from your idea
 /prd user-authentication
+# Creates: docs/prd/user-authentication.md
+#          docs/todo_plan/PLAN_user-authentication.md
 
 # 2. Analyze and improve the plan (optional)
 # The 'digging' skill will identify gaps and risks
 
-# 3. Implement the feature
+# 3. Implement with Phase-based execution
 /implement user-authentication
+# Reads PLAN file → Execute Phase by Phase → Update checkboxes
 
-# 4. Auto-commit with quality check
+# 4. Auto-commit with Safety Guard
 /auto-commit
+# Quality Gate → Safety Guard (User confirmation) → Commit + Push
 ```
 
 ### Frontend Development
