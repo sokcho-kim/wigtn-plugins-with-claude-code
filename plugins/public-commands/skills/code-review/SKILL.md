@@ -1,9 +1,64 @@
 ---
 name: code-review
-description: Comprehensive code review with quality scoring system. Review files/functions with detailed analysis of readability, maintainability, performance, and best practices. Called by /auto-commit for quality gate. Get actionable feedback with numeric scores.
+description: Multi-level code review system with quality scoring. Supports 4 review levels from quick lint checks to deep architecture analysis. Level 1-2 for standard reviews, Level 3 for senior-level deep analysis, Level 4 for architecture decisions.
 ---
 
 # Code Review
+
+멀티 레벨 코드 리뷰 시스템입니다. 상황에 맞는 깊이의 리뷰를 제공합니다.
+
+## Review Levels
+
+| Level | Name | 용도 | 깊이 | 적용 상황 |
+|-------|------|------|------|----------|
+| **1** | Quick | 린터 수준 체크 | 낮음 | 빠른 PR 승인, 자동 포맷팅 |
+| **2** | Standard | 기본 품질 리뷰 | 중간 | 일반 코드 리뷰, `/auto-commit` |
+| **3** | Deep | 시니어급 심층 분석 | 높음 | 핵심 로직, 보안 민감 코드 |
+| **4** | Architecture | 설계 수준 검토 | 매우 높음 | 새 모듈, 아키텍처 변경 |
+
+```
+Review Depth Pyramid
+
+         ┌─────────────┐
+         │   Level 4   │  Architecture Review
+         │ (설계 수준)  │  - SOLID 원칙
+         ├─────────────┤  - 계층 위반 탐지
+         │   Level 3   │  - 확장성/운영성
+         │ (시니어급)   │
+         │             │  Deep Review
+         ├─────────────┤  - 호출 체인 분석
+         │   Level 2   │  - 동시성/보안 심층
+         │  (Standard) │  - 기술 부채 예측
+         │             │
+         ├─────────────┤  Standard Review ← 기본값
+         │   Level 1   │  - 5 카테고리 점수
+         │   (Quick)   │  - 체크리스트 평가
+         │             │
+         └─────────────┘  Quick Review
+                          - 린트 체크
+                          - 포맷팅 검사
+```
+
+### Level 선택 가이드
+
+| 상황 | 권장 Level |
+|------|-----------|
+| "빠르게 봐줘", "린트만" | Level 1 (Quick) |
+| "코드 리뷰해줘", `/auto-commit` | Level 2 (Standard) |
+| "자세히 봐줘", "시니어 관점으로" | Level 3 (Deep) |
+| "아키텍처 검토", "설계 리뷰" | Level 4 (Architecture) |
+
+### Level 3-4 상세 가이드
+
+- **Level 3 (Deep Review)**: [levels/deep-review.md](levels/deep-review.md)
+  - 호출 체인 분석, 에지 케이스 발굴, 동시성/보안 심층 분석
+
+- **Level 4 (Architecture Review)**: [levels/architecture-review.md](levels/architecture-review.md)
+  - SOLID 원칙, 의존성 분석, 계층 위반 탐지, 확장성/운영성 평가
+
+---
+
+## Level 1-2: Standard Review
 
 파일/함수 단위 코드 리뷰와 품질 점수 시스템을 제공합니다. 가독성, 유지보수성, 성능, 테스트 가능성 등을 분석하여 구체적인 점수와 개선 제안을 제공합니다.
 
