@@ -2,37 +2,42 @@
   "name": "wigtn-crew-plugins",
   "owner": {
     "name": "WIGTN Crew",
-    "email": "rukais2294@gmail.com",
-    "url": "https://github.com/wigtn"
+    "email": "rukais2294@gmail.com"
   },
-
-  "description": "AI-native development — From idea to Deploy, Zero friction.",
-
+  "metadata": {
+    "description": "AI-native development — From idea to Deploy, Zero friction.",
+    "version": "0.1.0"
+  },
   "plugins": [
     {
       "name": "public-commands",
       "description": "Core development workflow plugin: PRD generation, plan analysis (digging), implementation, and quality-gated auto-commit with code-review and code-formatter.",
-      "source": "./plugins/public-commands"
+      "source": "./plugins/public-commands",
+      "version": "1.0.0"
     },
     {
       "name": "ai-development",
       "description": "AI integration plugin for STT (Speech-to-Text) and LLM features.",
-      "source": "./plugins/ai-development"
+      "source": "./plugins/ai-development",
+      "version": "1.0.0"
     },
     {
       "name": "frontend-development",
       "description": "Complete frontend development solution with 12+ design styles (Editorial, Brutalist, Glassmorphism, etc.), Next.js App Router, React state management, authentication, forms, API integration, testing, SEO, and Tailwind CSS.",
-      "source": "./plugins/frontend-development"
+      "source": "./plugins/frontend-development",
+      "version": "1.0.0"
     },
     {
       "name": "backend-development",
       "description": "Backend development plugin with architecture design, NestJS + Prisma + PostgreSQL stack, API/Model/Auth generation, and DevOps (Docker, CI/CD, cloud deployment) guidance.",
-      "source": "./plugins/backend-development"
+      "source": "./plugins/backend-development",
+      "version": "1.0.0"
     },
     {
       "name": "mobile-development",
       "description": "Complete mobile development solution with React Native (Expo & CLI), iOS HIG, Material Design 3, 11 specialized skills for navigation, authentication, native modules, testing, performance optimization, and App Store optimization.",
-      "source": "./plugins/mobile-development"
+      "source": "./plugins/mobile-development",
+      "version": "1.0.0"
     }
   ]
 }
