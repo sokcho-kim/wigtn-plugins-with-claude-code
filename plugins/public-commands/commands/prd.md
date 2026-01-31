@@ -174,9 +174,21 @@ Scenario: [시나리오명]
 
 ### Phase 3: API Specification Detail
 
-PRD 내 API 명세는 다음 형식으로 **상세하게** 작성합니다:
+PRD 내 API 명세는 다음 형식으로 **상세하게** 작성합니다.
 
-#### API 명세 템플릿
+**API 유형 선택:**
+프로젝트 요구사항에 따라 적절한 API 형식을 선택합니다:
+
+| API 유형 | 적합한 경우 | 특징 |
+|----------|-------------|------|
+| **REST** | CRUD 작업, 리소스 기반 API | 범용적, 캐싱 용이 |
+| **GraphQL** | 복잡한 데이터 관계, 프론트엔드 주도 | 유연한 쿼리, 오버페칭 방지 |
+| **gRPC** | 마이크로서비스 간 통신, 고성능 필요 | 바이너리 프로토콜, 타입 안전 |
+| **WebSocket** | 실시간 양방향 통신 | 지속 연결, 푸시 알림 |
+
+---
+
+#### 3.1 REST API 명세 템플릿
 
 ```markdown
 ### API: [Endpoint Name]
@@ -277,6 +289,394 @@ PRD 내 API 명세는 다음 형식으로 **상세하게** 작성합니다:
 - Limit: 100 requests per minute
 - Headers: X-RateLimit-Limit, X-RateLimit-Remaining
 ```
+
+---
+
+#### 3.2 GraphQL Schema 템플릿
+
+```graphql
+# Schema Definition
+type Query {
+  """사용자 정보 조회"""
+  user(id: ID!): User
+
+  """사용자 목록 조회 (페이지네이션)"""
+  users(
+    first: Int = 20
+    after: String
+    filter: UserFilter
+  ): UserConnection!
+}
+
+type Mutation {
+  """회원가입"""
+  signUp(input: SignUpInput!): AuthPayload!
+
+  """로그인"""
+  signIn(input: SignInInput!): AuthPayload!
+
+  """로그아웃"""
+  signOut: Boolean!
+}
+
+type Subscription {
+  """실시간 알림 구독"""
+  onNotification(userId: ID!): Notification!
+}
+
+# Types
+type User {
+  id: ID!
+  email: String!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type AuthPayload {
+  accessToken: String!
+  refreshToken: String!
+  user: User!
+}
+
+# Inputs
+input SignUpInput {
+  email: String!
+  password: String!
+  name: String!
+}
+
+input SignInInput {
+  email: String!
+  password: String!
+  rememberMe: Boolean = false
+}
+
+# Pagination (Relay Cursor Connection)
+type UserConnection {
+  edges: [UserEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type UserEdge {
+  cursor: String!
+  node: User!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+# Error Handling
+type UserError {
+  field: String
+  message: String!
+  code: ErrorCode!
+}
+
+enum ErrorCode {
+  INVALID_INPUT
+  UNAUTHORIZED
+  NOT_FOUND
+  CONFLICT
+  RATE_LIMITED
+}
+```
+
+---
+
+#### 3.3 gRPC Proto 정의 템플릿
+
+```protobuf
+syntax = "proto3";
+
+package auth.v1;
+
+option go_package = "github.com/example/auth/v1;authv1";
+
+// AuthService 정의
+service AuthService {
+  // 회원가입
+  rpc SignUp(SignUpRequest) returns (SignUpResponse);
+
+  // 로그인
+  rpc SignIn(SignInRequest) returns (SignInResponse);
+
+  // 토큰 갱신
+  rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
+
+  // 사용자 정보 스트리밍 (서버 스트리밍)
+  rpc WatchUser(WatchUserRequest) returns (stream UserEvent);
+}
+
+// Request/Response Messages
+message SignUpRequest {
+  string email = 1;
+  string password = 2;
+  string name = 3;
+}
+
+message SignUpResponse {
+  User user = 1;
+  AuthTokens tokens = 2;
+}
+
+message SignInRequest {
+  string email = 1;
+  string password = 2;
+  bool remember_me = 3;
+}
+
+message SignInResponse {
+  User user = 1;
+  AuthTokens tokens = 2;
+}
+
+message RefreshTokenRequest {
+  string refresh_token = 1;
+}
+
+message RefreshTokenResponse {
+  AuthTokens tokens = 1;
+}
+
+message WatchUserRequest {
+  string user_id = 1;
+}
+
+message UserEvent {
+  EventType type = 1;
+  User user = 2;
+  google.protobuf.Timestamp timestamp = 3;
+
+  enum EventType {
+    EVENT_TYPE_UNSPECIFIED = 0;
+    EVENT_TYPE_UPDATED = 1;
+    EVENT_TYPE_DELETED = 2;
+  }
+}
+
+// Common Types
+message User {
+  string id = 1;
+  string email = 2;
+  string name = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+}
+
+message AuthTokens {
+  string access_token = 1;
+  string refresh_token = 2;
+  int64 expires_in = 3;  // seconds
+}
+
+// Error Details (Google API Error Model)
+import "google/rpc/status.proto";
+import "google/rpc/error_details.proto";
+
+// 에러 코드: google.rpc.Code 사용
+// INVALID_ARGUMENT (3), UNAUTHENTICATED (16),
+// NOT_FOUND (5), ALREADY_EXISTS (6),
+// RESOURCE_EXHAUSTED (8) for rate limiting
+```
+
+---
+
+#### 3.4 WebSocket 이벤트 스펙 템플릿
+
+```markdown
+### WebSocket: [Namespace/Feature]
+
+**Endpoint**: `wss://api.example.com/ws/v1/[namespace]`
+
+**Connection Flow**:
+```
+Client                           Server
+  |                                 |
+  |--- WS Upgrade Request --------->|
+  |<-- 101 Switching Protocols -----|
+  |                                 |
+  |--- auth:connect (token) ------->|
+  |<-- auth:connected (session) ----|
+  |                                 |
+  |<-- event:notification ----------|
+  |--- event:ack (eventId) -------->|
+  |                                 |
+  |--- ping ----------------------->|
+  |<-- pong ------------------------|
+```
+
+**Authentication**:
+```json
+// Client → Server
+{
+  "type": "auth:connect",
+  "payload": {
+    "token": "Bearer eyJhbGciOi..."
+  }
+}
+
+// Server → Client (Success)
+{
+  "type": "auth:connected",
+  "payload": {
+    "sessionId": "sess_abc123",
+    "userId": "usr_123",
+    "expiresAt": "2024-01-15T10:30:00Z"
+  }
+}
+
+// Server → Client (Error)
+{
+  "type": "auth:error",
+  "payload": {
+    "code": "UNAUTHORIZED",
+    "message": "Invalid or expired token"
+  }
+}
+```
+
+**Event Types**:
+| Event | Direction | Description |
+|-------|-----------|-------------|
+| `auth:connect` | C → S | 연결 인증 요청 |
+| `auth:connected` | S → C | 인증 성공 |
+| `auth:error` | S → C | 인증 실패 |
+| `subscribe` | C → S | 채널 구독 |
+| `unsubscribe` | C → S | 구독 해제 |
+| `notification` | S → C | 알림 푸시 |
+| `presence:update` | S → C | 사용자 상태 변경 |
+| `ping` | C → S | 연결 유지 |
+| `pong` | S → C | 핑 응답 |
+
+**Message Format**:
+```typescript
+interface WebSocketMessage {
+  type: string;           // 이벤트 타입
+  payload: object;        // 데이터
+  id?: string;            // 메시지 ID (ACK용)
+  timestamp?: string;     // ISO 8601
+}
+```
+
+**Subscription Example**:
+```json
+// Subscribe to channel
+{
+  "type": "subscribe",
+  "payload": {
+    "channel": "notifications",
+    "filters": {
+      "priority": ["high", "medium"]
+    }
+  }
+}
+
+// Notification received
+{
+  "type": "notification",
+  "id": "evt_123",
+  "payload": {
+    "title": "새 메시지",
+    "body": "홍길동님이 메시지를 보냈습니다",
+    "data": {
+      "type": "message",
+      "messageId": "msg_456"
+    }
+  },
+  "timestamp": "2024-01-15T09:30:00Z"
+}
+
+// Acknowledge receipt
+{
+  "type": "ack",
+  "payload": {
+    "eventId": "evt_123"
+  }
+}
+```
+
+**Error Handling**:
+```json
+{
+  "type": "error",
+  "payload": {
+    "code": "RATE_LIMITED",
+    "message": "Too many messages",
+    "retryAfter": 5000
+  }
+}
+```
+
+**Reconnection Policy**:
+- 연결 끊김 시 지수 백오프로 재연결 (1s, 2s, 4s, 8s, max 30s)
+- 재연결 시 마지막 수신 이벤트 ID로 누락 이벤트 요청
+- 최대 재시도: 10회 후 사용자에게 알림
+```
+
+---
+
+#### 3.5 OpenAPI (Swagger) 자동 생성
+
+PRD에서 정의한 REST API는 OpenAPI 3.1 스펙으로 자동 변환될 수 있습니다:
+
+```yaml
+# 생성된 OpenAPI 예시
+openapi: 3.1.0
+info:
+  title: User Authentication API
+  version: 1.0.0
+
+paths:
+  /api/v1/auth/login:
+    post:
+      operationId: login
+      tags: [Auth]
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: 로그인 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+components:
+  schemas:
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 8
+        rememberMe:
+          type: boolean
+          default: false
+```
+
+**API 문서 생성 도구**:
+- Swagger UI: 대화형 API 문서
+- Redoc: 깔끔한 문서 UI
+- Postman Collection: 테스트 자동화
+
+---
 
 #### API 명세 예시 (로그인)
 
@@ -438,30 +838,98 @@ PRD 작성 완료 후, 실행 계획(Task Plan)을 자동으로 생성합니다.
 3. 의존성 순서대로 Task 배치
 4. Execution Config는 기본값 사용 (사용자가 나중에 수정 가능)
 
-### Phase 6: 다음 단계 안내
+### Phase 6: PRD 자동 검증 (Quality Gate)
 
-PRD 및 Task Plan 작성 완료 후 자동으로 다음 단계를 안내합니다:
+PRD 작성 완료 후 **자동으로 digging 스킬을 실행**하여 품질을 검증합니다.
+
+**자동 검증 프로세스:**
+```
+┌─────────────────────────────────────────────────────────────┐
+│  🔍 PRD 자동 검증 중...                                       │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [1/4] 요구사항 완전성 검사 ✅                                │
+│  [2/4] 기술적 실현 가능성 검사 ✅                             │
+│  [3/4] 보안 취약점 검사 ⚠️ 2건 발견                          │
+│  [4/4] 일관성 검증 ✅                                        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+
+📊 PRD 품질 검증 결과
+
+| 카테고리 | Critical | Major | Minor |
+|----------|----------|-------|-------|
+| 완전성   | 0        | 1     | 2     |
+| 실현가능성 | 0      | 0     | 1     |
+| 보안     | 1        | 1     | 0     |
+| 일관성   | 0        | 0     | 1     |
+| 총계     | 1        | 2     | 4     |
+```
+
+**검증 결과에 따른 분기:**
+
+| Critical 이슈 | 상태 | 다음 액션 |
+|--------------|------|----------|
+| **0개** | ✅ PASS | `/implement` 진행 가능 |
+| **1개 이상** | ❌ BLOCKED | 수정 필요, 가이드 제공 |
+
+**Critical 이슈가 있는 경우:**
+```
+❌ PRD 품질 검증 실패: Critical 이슈 1건
+
+🔴 Critical 이슈:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+C-1. Rate Limiting 미정의
+- 위치: Section 5.1 - API Endpoints
+- 문제: 로그인 API에 rate limiting 없음
+- 영향: Brute force 공격에 취약
+- 개선안: IP당 분당 10회 제한, 5회 실패 시 15분 잠금
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️ /implement 진행 전 Critical 이슈를 해결해야 합니다.
+
+💡 해결 방법:
+  1. PRD 파일을 수정하여 Rate Limiting 정책 추가
+  2. "PRD 수정 완료" 또는 다시 /prd 실행
+```
+
+**Critical 이슈가 없는 경우:**
+```
+✅ PRD 품질 검증 통과!
+
+📊 검증 결과:
+- Critical: 0건
+- Major: 2건 (구현 중 해결 가능)
+- Minor: 4건 (선택적 개선)
+
+→ `/implement` 명령으로 구현을 시작할 수 있습니다.
+→ Major 이슈는 상세 리포트에서 확인하세요.
+```
+
+### Phase 7: 다음 단계 안내
+
+PRD 및 Task Plan 작성 완료 후 검증 결과에 따라 안내합니다:
 
 ```
 ✅ PRD 문서가 생성되었습니다: docs/prd/PRD_user-authentication.md
 ✅ Task Plan이 생성되었습니다: docs/todo_plan/PLAN_user-authentication.md
+✅ PRD 품질 검증 완료: PASS (Critical 0건)
 
 ┌─────────────────────────────────────────────────────────────┐
 │  📋 다음 단계                                                │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
-│  구현 전에 PRD를 검토하시겠습니까?                            │
+│  PRD 검증을 통과했습니다. 구현을 시작할 수 있습니다.          │
 │                                                             │
-│  → `digging` 스킬로 PRD의 취약점과 누락점을 분석합니다.       │
-│  → "PRD 검토해줘" 또는 "digging"이라고 말씀해주세요.          │
-│                                                             │
-│  바로 구현을 시작하려면:                                      │
 │  → `/implement user-authentication`                         │
 │  → Task Plan을 기반으로 Phase별 자동 실행됩니다.             │
 │                                                             │
 │  ⚡ 1-Click Complete (End-to-End 자동화):                   │
 │  → Task Plan의 auto_commit: true 설정 시                    │
 │  → 모든 Phase 완료 후 자동으로 /auto-commit 실행             │
+│                                                             │
+│  📝 Major/Minor 이슈 확인:                                   │
+│  → "상세 검토 결과 보여줘" 또는 "digging 리포트"             │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
