@@ -1,6 +1,7 @@
 ---
 name: design-implementation
 description: Style guides and implementation rules for frontend design. Works with design-discovery agent which handles context gathering and VS-based style recommendations. Contains detailed style guides, anti-patterns, and implementation checklists.
+allowed-tools: Read, Write, Edit, Glob
 ---
 
 # Design Implementation Guide
@@ -41,7 +42,10 @@ Based on user responses, select the appropriate style and read the corresponding
 
 **⚠️ IMPORTANT: You MUST read both the style guide AND relevant common modules before implementing.**
 
-### Style Guides
+### Available Style Guides
+
+!`ls styles/`
+
 Use the `Read` tool to read the corresponding style file:
 - Editorial → `styles/editorial.md`
 - Brutalist → `styles/brutalist.md`
@@ -51,6 +55,10 @@ Use the `Read` tool to read the corresponding style file:
 - Bento Grid → `styles/bento-grid.md`
 - Dark Mode First → `styles/dark-mode-first.md`
 - Minimal Corporate → `styles/minimal-corporate.md`
+- Retro Pixel → `styles/retro-pixel.md`
+- Organic Shapes → `styles/organic-shapes.md`
+- Maximalist → `styles/maximalist.md`
+- 3D Immersive → `styles/3d-immersive.md`
 
 ### Common Modules (Always Read Based on User Choices)
 - Colors → `common/colors.md` (color systems, palettes, dark mode)
@@ -106,6 +114,10 @@ Do NOT proceed to implementation without reading:
 | **Bento Grid** | Modular cards, varied sizes, Apple-like | SF Pro, Geist | Neutral + vibrant accents |
 | **Dark Mode First** | Dark backgrounds, neon accents, glow | JetBrains Mono, Fira Code | Dark + neon |
 | **Minimal Corporate** | Clean, trustworthy, professional | DM Sans, Satoshi | Blue/gray, conservative |
+| **Retro Pixel** | CRT effects, terminal aesthetics, pixelated | Press Start 2P, VT323 | Green/amber on black |
+| **Organic Shapes** | Blobs, curves, natural flow | Fraunces, Nunito | Earth tones, warm naturals |
+| **Maximalist** | Bold type, intense colors, layered | Clash Display, Syne | Saturated, multi-color |
+| **3D Immersive** | CSS 3D transforms, parallax, depth | Space Grotesk, Geist | Dark + gradient depth |
 
 ---
 

@@ -1,6 +1,7 @@
 ---
 name: native-modules
 description: Master native device features in React Native - camera, notifications, location, file system, biometrics, and more. Covers both Expo SDK modules and custom native integrations.
+disable-model-invocation: true
 ---
 
 # Native Modules & Device Features

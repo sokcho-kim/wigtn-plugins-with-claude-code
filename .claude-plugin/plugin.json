@@ -1,7 +1,7 @@
 {
   "name": "wigtn-plugins-with-claude-code",
-  "version": "0.2.0",
-  "description": "AI-native development — from idea to deploy, zero friction.",
+  "version": "0.3.0",
+  "description": "AI-native development — from idea to deploy, zero friction. Skills frontmatter, Hooks system, context fork, Agent Teams native integration.",
   "author": {
     "name": "WIGTN Crew",
     "url": "https://github.com/wigtn"

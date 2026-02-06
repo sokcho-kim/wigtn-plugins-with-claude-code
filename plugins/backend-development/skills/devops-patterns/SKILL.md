@@ -1,6 +1,7 @@
 ---
 name: devops-patterns
 description: DevOps configuration patterns and references. Use when setting up Docker, CI/CD, Kubernetes, or deployment infrastructure. Provides templates and best practices for production deployment.
+allowed-tools: Read, Write, Edit, Bash
 ---
 
 # DevOps Patterns
@@ -15,6 +16,10 @@ description: DevOps configuration patterns and references. Use when setting up D
 - **클라우드 배포** - AWS, GCP, Vercel 가이드
 
 ## Reference Documents
+
+Available references:
+
+!`ls references/`
 
 | 문서 | 용도 |
 |------|------|

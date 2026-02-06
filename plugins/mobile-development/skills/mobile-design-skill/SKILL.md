@@ -1,6 +1,7 @@
 ---
 name: mobile-design-implementation
 description: Mobile design patterns and implementation rules for React Native apps. Works with mobile-design-discovery agent for context gathering. Contains iOS HIG, Material Design 3, and cross-platform patterns with anti-patterns to avoid.
+allowed-tools: Read, Write, Edit, Glob
 ---
 
 # Mobile Design Implementation Guide

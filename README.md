@@ -27,6 +27,8 @@
 
 - **End-to-End Workflow**: From PRD generation to implementation and auto-commit
 - **Agent Teams Parallel Execution** `v0.2.0`: 3-5x speedup across the entire pipeline
+- **Advanced Skills System** `v0.3.0`: Frontmatter controls, context fork, dynamic context injection
+- **Hooks & Safety** `v0.3.0`: Dangerous command blocking, formatting reminders, pattern compliance
 - **Design-First Approach**: 12+ professional design styles for unique UI/UX
 - **Backend & DevOps**: Complete backend architecture with CI/CD pipelines
 - **AI Integration**: STT and LLM capabilities for intelligent applications
@@ -38,7 +40,7 @@
 
 ### 1. public-commands
 
-> **Core Development Workflow Plugin** `v1.1.0`
+> **Core Development Workflow Plugin** `v1.2.0`
 
 The essential plugin that powers your entire development lifecycle with intelligent automation and **Agent Teams parallel execution**.
 
@@ -121,13 +123,22 @@ Generate PRD -> Auto-create Task Plan -> Phase-based Implementation -> Quality-g
 
 > See [Agent Teams Parallel Execution Guide](docs/agent-teams-parallel-execution.md) for detailed documentation.
 
+#### v0.3.0 Enhancements
+
+| Feature | Description |
+|---------|-------------|
+| Skills Frontmatter | `disable-model-invocation`, `context: fork`, `allowed-tools` |
+| Hooks System | Dangerous command blocking, pipeline completion checks |
+| Agent Teams Native | Shared task list + real parallel execution when available |
+| CLAUDE.md | Project context auto-loaded every session |
+
 ---
 
 ### 2. frontend-development
 
 > **Professional Frontend Development Solution** `v1.1.0`
 
-Complete frontend development toolkit with 12+ design styles to create unique, non-generic AI designs.
+Complete frontend development toolkit with 12+ design styles to create unique, non-generic AI designs. Now with hooks-enabled formatting reminders and dynamic style discovery.
 
 #### Highlights
 
@@ -154,6 +165,10 @@ Complete frontend development toolkit with 12+ design styles to create unique, n
 | Bento Grid | Modern grid-based card layouts |
 | Dark Mode First | Optimized for dark interfaces |
 | Minimal Corporate | Clean professional business look |
+| Retro Pixel | CRT effects, monospace, terminal aesthetics |
+| Organic Shapes | Blob shapes, natural curves, earth tones |
+| Maximalist | Bold typography, intense colors, layered |
+| 3D Immersive | CSS 3D transforms, parallax, depth effects |
 
 <details>
 <summary><strong>View all 13 skills</strong></summary>
@@ -390,22 +405,26 @@ git -C ~/.claude-plugins/wigtn pull
 ```
 wigtn-plugins-with-claude-code/
 ├── .claude-plugin/
-│   ├── plugin.json              # Marketplace metadata (v0.2.0)
+│   ├── plugin.json              # Marketplace metadata (v0.3.0)
 │   └── marketplace.json         # Marketplace registry
+├── CLAUDE.md                    # Project context (auto-loaded)
 ├── docs/
 │   └── agent-teams-parallel-execution.md  # Parallel execution guide
 ├── plugins/
 │   ├── public-commands/
-│   │   ├── agents/              # 5 agents (3 new parallel coordinators)
+│   │   ├── agents/              # 5 agents (3 parallel coordinators)
 │   │   ├── commands/            # 3 commands
-│   │   └── skills/              # 2 skills
+│   │   ├── hooks/               # hooks.json (dangerous cmd blocking)
+│   │   └── skills/              # 2 skills (context: fork)
 │   ├── frontend-development/
 │   │   ├── agents/
 │   │   ├── commands/
-│   │   └── skills/              # 13 skills
+│   │   ├── hooks/               # hooks.json (formatting reminder)
+│   │   └── skills/              # 13 skills, 12+ design styles
 │   ├── backend-development/
 │   │   ├── agents/
 │   │   ├── commands/            # 2 commands
+│   │   ├── hooks/               # hooks.json (pattern compliance)
 │   │   └── skills/              # 3 skills
 │   ├── mobile-development/
 │   │   ├── agents/              # 2 agents

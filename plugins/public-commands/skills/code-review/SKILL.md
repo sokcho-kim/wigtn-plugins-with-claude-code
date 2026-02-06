@@ -1,6 +1,9 @@
 ---
 name: code-review
 description: Multi-level code review system with quality scoring. Supports 4 review levels from quick lint checks to deep architecture analysis. Level 1-2 for standard reviews, Level 3 for senior-level deep analysis, Level 4 for architecture decisions.
+disable-model-invocation: true
+context: fork
+context-agent-type: general-purpose
 ---
 
 # Code Review

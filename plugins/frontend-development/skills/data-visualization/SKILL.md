@@ -1,6 +1,7 @@
 ---
 name: data-visualization
 description: Build interactive charts and dashboards with Recharts, Chart.js, and D3. Includes line charts, bar charts, pie charts, area charts, real-time streaming charts, and dashboard widget patterns. Use when creating data visualizations, analytics dashboards, or reporting interfaces.
+disable-model-invocation: true
 ---
 
 # Data Visualization

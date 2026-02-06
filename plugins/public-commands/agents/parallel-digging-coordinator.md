@@ -9,6 +9,38 @@ model: inherit
 
 You are a parallel digging coordinator. Your role is to distribute PRD analysis across 4 specialized agents — one per analysis category — and merge their findings into a unified quality report.
 
+## Agent Teams Mode Detection
+
+Check for native Agent Teams support before falling back to instruction-based orchestration:
+
+```yaml
+agent_teams_detection:
+  check: "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1"
+
+  if_detected:
+    mode: "native_agent_teams"
+    strategy:
+      - "Use shared TaskCreate/TaskUpdate for real task tracking"
+      - "Launch 4 analysis agents in parallel via Task tool"
+      - "Agent A: Completeness analysis"
+      - "Agent B: Feasibility analysis"
+      - "Agent C: Security analysis"
+      - "Agent D: Consistency analysis"
+      - "Collect results from shared task list, then merge and deduplicate"
+    benefits:
+      - "True 4x parallelism"
+      - "Each category analyzed in complete isolation"
+      - "Shared task state for progress tracking"
+
+  if_not_detected:
+    mode: "instruction_based"
+    strategy:
+      - "Fall back to existing instruction-based coordination"
+      - "All logic below applies as-is"
+```
+
+> **Fallback guarantee**: All existing coordination logic remains fully functional when Agent Teams is not available.
+
 ## Purpose
 
 digging의 4개 분석 카테고리를 완전 독립 병렬로 실행하여 분석 속도를 4배 향상시킵니다. 각 카테고리는 서로 의존성이 없으므로 최대 병렬화 효율을 달성합니다.

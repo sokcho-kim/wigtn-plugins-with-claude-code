@@ -1,0 +1,17 @@
+{
+  "hooks": [
+    {
+      "matcher": "Bash",
+      "event": "PreToolUse",
+      "command": "bash -c 'INPUT=$(cat); CMD=$(echo \"$INPUT\" | jq -r \".tool_input.command // empty\"); if echo \"$CMD\" | grep -qE \"rm\\s+-rf\\s+/|git\\s+push\\s+.*--force|git\\s+push\\s+.*-f\\s|git\\s+reset\\s+--hard|drop\\s+database|DROP\\s+TABLE\"; then echo \"BLOCKED: Dangerous command detected. Please confirm before executing: $CMD\" >&2; exit 2; fi'",
+      "description": "Block dangerous commands (rm -rf /, force push, hard reset, drop database)"
+    },
+    {
+      "matcher": "",
+      "event": "Stop",
+      "command": "bash -c 'echo \"Pipeline session complete. Review changes before pushing.\"'",
+      "async": true,
+      "description": "Pipeline completion status reminder"
+    }
+  ]
+}

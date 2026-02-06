@@ -1,6 +1,9 @@
 ---
 name: digging
 description: Analyze PRD documents to find weaknesses, gaps, and risks. Improve project plans before implementation. Use AFTER /prd command and BEFORE /implement command. Trigger on "PRD 검토", "계획 분석", "취약점 찾기", "digging", or when PRD document needs review.
+disable-model-invocation: true
+context: fork
+context-agent-type: Plan
 ---
 
 # Digging

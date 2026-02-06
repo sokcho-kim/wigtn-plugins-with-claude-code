@@ -1,6 +1,7 @@
 ---
 name: backend-patterns
 description: Backend architecture patterns and stack references. Use when implementing backend features or making technical decisions. Provides stack selection guides, architecture patterns, and integration references.
+allowed-tools: Read, Write, Edit, Glob, Bash
 ---
 
 # Backend Patterns
@@ -14,6 +15,10 @@ description: Backend architecture patterns and stack references. Use when implem
 - **통합 패턴** - 프론트엔드 연동, AI 서비스, 공통 기능
 
 ## Reference Documents
+
+Available references:
+
+!`ls references/`
 
 | 문서 | 용도 |
 |------|------|

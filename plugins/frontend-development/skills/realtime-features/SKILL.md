@@ -1,6 +1,7 @@
 ---
 name: realtime-features
 description: Build real-time applications with WebSocket, Server-Sent Events (SSE), and polling. Includes chat, notifications, live updates, collaborative editing, presence indicators, and optimistic UI patterns. Use when implementing live data, real-time collaboration, or instant notifications.
+disable-model-invocation: true
 ---
 
 # Real-Time Features

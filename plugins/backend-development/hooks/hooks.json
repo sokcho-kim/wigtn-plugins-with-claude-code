@@ -1,0 +1,11 @@
+{
+  "hooks": [
+    {
+      "matcher": "Write|Edit",
+      "event": "PostToolUse",
+      "command": "bash -c 'INPUT=$(cat); FILE=$(echo \"$INPUT\" | jq -r \".tool_input.file_path // .tool_input.filePath // empty\"); if echo \"$FILE\" | grep -qE \"\\.(ts|js|py|go|java)$\"; then echo \"Reminder: Verify backend pattern compliance (error handling, input validation, logging) for $FILE.\"; fi'",
+      "async": true,
+      "description": "Backend pattern compliance reminder after writing backend code files"
+    }
+  ]
+}
