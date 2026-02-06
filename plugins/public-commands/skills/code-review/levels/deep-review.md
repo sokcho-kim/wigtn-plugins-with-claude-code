@@ -11,7 +11,62 @@
 - 보안에 민감한 코드
 - PR 리뷰어가 "자세히 봐달라"고 요청 시
 
-## Deep Review Protocol
+## Parallel Deep Review Protocol
+
+> **Agent Teams 병렬 실행**: Phase 2, 3, 5를 3개 에이전트로 동시 실행하여 **2x 속도 향상**을 달성합니다.
+
+### 병렬 실행 순서
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Deep Review Parallel Execution                              │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  Step 1: Phase 1 (Call Chain Analysis) — BLOCKING           │
+│  ├── 호출 그래프를 먼저 구축해야 나머지 분석 가능           │
+│  └── 완료 대기 필수                                         │
+│                                                             │
+│  Step 2: Phase 2, 3, 5 — PARALLEL (3개 에이전트 동시)      │
+│  ├── Agent A: Edge Case Discovery (Phase 2)                │
+│  │   └── null/empty/boundary/type coercion/overflow        │
+│  ├── Agent B: Concurrency Analysis (Phase 3)               │
+│  │   └── shared state/atomic ops/deadlock/race condition   │
+│  └── Agent C: Security Deep Dive (Phase 5)                 │
+│      └── OWASP Top 10 / injection / access control         │
+│                                                             │
+│  Step 3: Phase 4 (Tech Debt Prediction) — BLOCKING         │
+│  ├── Phase 2 + Phase 3 결과가 필요                          │
+│  └── 확장성/결합도/테스트 커버리지 예측                     │
+│                                                             │
+│  예상 속도 향상: 2x (Phase 2,3,5가 가장 시간 소모적)       │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### 병렬 실행 결과 병합
+
+```yaml
+merge_protocol:
+  step_2_results:
+    - "Agent A → Edge Cases Found (테이블)"
+    - "Agent B → Concurrency Issues (시나리오)"
+    - "Agent C → Security Vulnerabilities (OWASP)"
+  merge_rules:
+    - "severity별 통합 정렬"
+    - "같은 코드 라인의 이슈 → 병합"
+    - "Risk Matrix 통합 생성"
+  pass_to_step_3:
+    - "Edge Case 발견 수 → Tech Debt 예측 입력"
+    - "Concurrency 이슈 → 확장성 평가 입력"
+```
+
+### 순차 폴백
+
+병렬 실행 실패 시 아래 순차 프로토콜을 그대로 사용합니다.
+
+---
+
+## Deep Review Protocol (Sequential)
 
 ### Phase 1: Call Chain Analysis (호출 체인 분석)
 

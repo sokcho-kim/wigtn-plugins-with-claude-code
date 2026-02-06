@@ -27,6 +27,7 @@ description: Analyze changes, run quality gate, and auto-commit with intelligent
 /auto-commit --no-push            # 커밋만, 푸시 안함
 /auto-commit --no-review          # 품질 검사 스킵 (권장하지 않음)
 /auto-commit --message "메시지"   # 수동 메시지 지정
+/auto-commit --no-parallel-review # 순차 리뷰 강제 (병렬 비활성화)
 ```
 
 ## Parameters
@@ -34,6 +35,7 @@ description: Analyze changes, run quality gate, and auto-commit with intelligent
 - `--no-push`: 커밋만 하고 푸시하지 않음
 - `--no-review`: 품질 검사 스킵 (긴급 핫픽스용)
 - `--message`: 커밋 메시지 직접 지정
+- `--no-parallel-review`: 병렬 리뷰 비활성화, 순차 리뷰 강제
 
 ## Protocol
 
@@ -63,8 +65,55 @@ git remote -v
 ### Step 2: 품질 검사 (Quality Gate)
 
 > **연동**: `code-review` 스킬을 사용하여 변경된 코드를 평가합니다.
+> **병렬 모드**: 변경 파일 3개 이상일 때 자동으로 `parallel-review-coordinator`를 호출합니다.
 
-**품질 기준:**
+#### Parallel Quality Gate (변경 파일 3개+)
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Parallel Quality Gate                                       │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  변경 파일: 5개 (병렬 리뷰 자동 활성화)                     │
+│                                                             │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐                  │
+│  │ Agent A  │  │ Agent B  │  │ Agent C  │                  │
+│  │Read+Main │  │Perf+Test │  │BP+Securi │                  │
+│  │  /40     │  │  /40     │  │ty /20+🔒 │                  │
+│  └────┬─────┘  └────┬─────┘  └────┬─────┘                  │
+│       │              │              │                       │
+│       └──────────────┼──────────────┘                       │
+│                      ▼                                      │
+│              ┌──────────────┐                               │
+│              │ Score Merge  │                               │
+│              │ + Security   │                               │
+│              │   Override   │                               │
+│              └──────────────┘                               │
+│                                                             │
+│  → `--no-parallel-review`로 순차 강제 가능                  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**병렬 리뷰 결과 테이블:**
+
+```markdown
+## Parallel Review Result
+
+| Agent | Category | Score | Duration |
+|-------|----------|-------|----------|
+| A | Readability | 18/20 | 4.2s |
+| A | Maintainability | 16/20 | - |
+| B | Performance | 15/20 | 5.1s |
+| B | Testability | 17/20 | - |
+| C | Best Practices | 17/20 | 3.8s |
+| C | Security | OK | - |
+| **Total** | **All** | **83/100** | **5.1s** |
+
+Sequential Estimate: 15.3s | Speedup: 3.0x
+```
+
+#### 품질 기준 (병렬/순차 공통)
 
 | 점수 | 등급 | 액션 |
 |------|------|------|
@@ -72,10 +121,13 @@ git remote -v
 | **60-79점** | C | ⚠️ Step 3으로 진행 (자동 개선 시도) |
 | **60점 미만** | D/F | ❌ 커밋 중단, 수동 수정 안내 |
 
+**Security Zero-Tolerance:** Security Critical 이슈 발견 시 점수 무관 59점 이하 강제 → 커밋 차단
+
 **평가 항목:**
 - Readability (가독성)
 - Maintainability (유지보수성)
 - Performance (성능)
+- Testability (테스트 가능성)
 - Best Practices (모범 사례)
 
 ```markdown
@@ -86,8 +138,9 @@ git remote -v
 | Readability | 18/20 | ✅ |
 | Maintainability | 16/20 | ✅ |
 | Performance | 15/20 | ⚠️ |
+| Testability | 17/20 | ✅ |
 | Best Practices | 17/20 | ✅ |
-| **Total** | **82/100** | **✅ PASS** |
+| **Total** | **83/100** | **✅ PASS** |
 
 → 품질 기준 충족, 커밋을 진행합니다.
 ```
@@ -374,6 +427,7 @@ git push origin && git push backup
 | 구성요소 | 역할 | 호출 조건 |
 |----------|------|----------|
 | `code-review` 스킬 | 품질 점수 평가 | 항상 (--no-review 제외) |
+| `parallel-review-coordinator` | 병렬 리뷰 조율 | 변경 파일 3개+ (--no-parallel-review 제외) |
 | `code-formatter` 에이전트 | 자동 코드 개선 | 점수 60-79점일 때 |
 
 ### 이전 단계에서 받는 입력

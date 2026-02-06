@@ -1,8 +1,8 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "wigtn-crew-plugins",
-  "version": "0.1.0",
-  "description": "AI-native development — From idea to Deploy, Zero friction.",
+  "version": "0.2.0",
+  "description": "AI-native development — From idea to Deploy, Zero friction. Agent Teams parallel execution for 3-5x speedup.",
   "owner": {
     "name": "WIGTN Crew",
     "email": "rukais2294@gmail.com"
@@ -13,9 +13,9 @@
   "plugins": [
     {
       "name": "public-commands",
-      "description": "Core development workflow plugin: PRD generation, plan analysis (digging), implementation, and quality-gated auto-commit with code-review and code-formatter.",
+      "description": "Core development workflow plugin: PRD generation, plan analysis (digging), implementation, and quality-gated auto-commit with code-review and code-formatter. Agent Teams parallel execution support.",
       "source": "./plugins/public-commands",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "WIGTN Crew",
         "email": "rukais2294@gmail.com"

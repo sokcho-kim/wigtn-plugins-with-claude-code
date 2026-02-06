@@ -26,6 +26,7 @@
 ### 주요 특징
 
 - **End-to-End 워크플로우**: PRD 생성부터 구현, 자동 커밋까지 전체 흐름 지원
+- **Agent Teams 병렬 실행** `v0.2.0`: 전체 파이프라인 3~5배 속도 향상
 - **디자인 우선 접근**: 12개 이상의 전문 디자인 스타일로 독창적인 UI/UX 구현
 - **백엔드 & DevOps**: CI/CD 파이프라인을 포함한 완전한 백엔드 아키텍처
 - **AI 통합**: 지능형 애플리케이션을 위한 STT 및 LLM 기능
@@ -37,23 +38,23 @@
 
 ### 1. public-commands
 
-> **핵심 개발 워크플로우 플러그인**
+> **핵심 개발 워크플로우 플러그인** `v1.1.0`
 
-지능형 자동화로 전체 개발 라이프사이클을 지원하는 필수 플러그인입니다.
+지능형 자동화와 **Agent Teams 병렬 실행**으로 전체 개발 라이프사이클을 지원하는 필수 플러그인입니다.
 
 #### 워크플로우 파이프라인
 
 ```
-/prd → digging → /implement → /auto-commit
-  ↓       ↓          ↓            ↓
- PRD    분석      코드구현     품질게이트
-  +                  +            +
-PLAN           Phase별 실행   Safety Guard
+순차 (기존):
+  /prd → digging → /implement → /auto-commit
+
+병렬 (v0.2.0):
+  /prd → digging(4x) → /implement(3x설계 + 2-3x빌드) → /auto-commit(3x)
 ```
 
 #### 1-Click Complete 워크플로우
 
-PRD 생성 → Task Plan 자동 생성 → Phase별 구현 → 품질 검증 후 커밋
+PRD 생성 -> Task Plan 자동 생성 -> 병렬 구현 -> 병렬 품질 검증 후 커밋
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -61,14 +62,18 @@ PRD 생성 → Task Plan 자동 생성 → Phase별 구현 → 품질 검증 후
 │  ├── PRD.md (요구사항 문서)                                  │
 │  └── PLAN_{기능명}.md (Phase별 Task Plan)                    │
 │                     ↓                                       │
-│  /implement                                                 │
-│  ├── PLAN 파일 읽기                                          │
-│  ├── Phase별 순차 실행                                       │
-│  └── PLAN 체크박스 자동 업데이트                              │
+│  digging (4개 에이전트 병렬: 4x 속도 향상)                   │
+│  └── Completeness + Feasibility + Security + Consistency    │
+│                     ↓                                       │
+│  /implement --parallel                                      │
+│  ├── DESIGN (3개 에이전트 병렬: 3x 속도 향상)               │
+│  ├── BUILD (Level별 병렬 빌드: 2-3x 속도 향상)             │
+│  └── --full-stack: Cross-Plugin 병렬 (Backend+Frontend)     │
 │                     ↓                                       │
 │  /auto-commit                                               │
+│  ├── 병렬 리뷰 (3개 에이전트: 3x 속도 향상)                │
 │  ├── Quality Gate (80점 이상)                               │
-│  ├── 🛡️ Safety Guard (사용자 최종 확인)                      │
+│  ├── Security Zero-Tolerance (보안 Critical → 즉시 차단)    │
 │  └── Commit + Push                                          │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -78,25 +83,43 @@ PRD 생성 → Task Plan 자동 생성 → Phase별 구현 → 품질 검증 후
 | 명령어 | 설명 |
 |--------|------|
 | `/prd <기능명>` | PRD + Task Plan (PLAN_{기능명}.md) 자동 생성 |
-| `/implement <기능명>` | Task Plan 기반 Phase별 구현 |
-| `/auto-commit` | Quality Gate + Safety Guard + 자동 커밋 |
+| `/implement <기능명>` | 병렬 지원 Phase별 구현 |
+| `/implement --parallel` | 병렬 모드 강제 (기본: 자동 감지) |
+| `/implement --full-stack` | Cross-Plugin 병렬 (Backend + Frontend + Mobile) |
+| `/auto-commit` | 병렬 Quality Gate + Safety Guard + 자동 커밋 |
 
 #### 스킬 & 에이전트
 
 | 타입 | 이름 | 설명 |
 |------|------|------|
-| Skill | `code-review` | 코드 품질 점수(0-100) 및 상세 피드백 제공 |
-| Skill | `digging` | PRD 취약점 분석 및 리스크 식별 |
-| Agent | `architecture-decision` | PRD 분석 기반 MSA vs 모놀리식 아키텍처 결정 |
+| Skill | `code-review` | 코드 품질 점수(0-100), 병렬 리뷰 모드 지원 |
+| Skill | `digging` | PRD 취약점 분석, 4개 에이전트 병렬 분석 |
+| Agent | `architecture-decision` | PRD 분석 기반 아키텍처 결정 |
 | Agent | `code-formatter` | 다중 언어 포맷팅 및 린팅 자동화 |
+| Agent | `parallel-build-coordinator` | BUILD Phase 의존성 그래프 + Level별 병렬 빌드 |
+| Agent | `parallel-review-coordinator` | 3개 에이전트 병렬 코드 리뷰 + 점수 병합 |
+| Agent | `parallel-digging-coordinator` | 4개 에이전트 병렬 PRD 분석 + 결과 통합 |
 
 #### 품질 게이트 시스템
 
 | 점수 | 등급 | 액션 |
 |------|------|------|
-| 80+ | A/B | ✅ 자동 커밋 |
-| 60-79 | C/D | ⚠️ 자동 수정 후 재시도 |
-| < 60 | F | ❌ 커밋 차단 |
+| 80+ | A/B | 자동 커밋 |
+| 60-79 | C/D | 자동 수정 후 재시도 |
+| < 60 | F | 커밋 차단 |
+| Security Critical | - | 강제 FAIL (59점 이하 강제) |
+
+#### 병렬 속도 향상 요약
+
+| 컴포넌트 | 순차 | 병렬 | 속도 향상 |
+|----------|------|------|----------|
+| digging | 4카테고리 순차 | 4개 에이전트 병렬 | **4x** |
+| /implement DESIGN | 4단계 순차 | 3개 에이전트 병렬 | **3x** |
+| /implement BUILD | Task 순차 | Level별 병렬 | **2-3x** |
+| /auto-commit 리뷰 | 단일 리뷰어 | 3개 에이전트 병렬 | **3x** |
+| **전체 파이프라인** | **15-20분** | **5-7분** | **~3x** |
+
+> 상세 문서: [Agent Teams 병렬 실행 가이드](docs/agent-teams-parallel-execution.md)
 
 ---
 
@@ -325,16 +348,19 @@ git -C ~/.claude-plugins/wigtn pull
 # 생성: docs/prd/user-authentication.md
 #       docs/todo_plan/PLAN_user-authentication.md
 
-# 2. 계획 분석 및 개선 (선택사항)
-# 'digging' 스킬이 누락점과 리스크를 식별합니다
+# 2. 계획 분석 및 개선 (자동 병렬: 4x 속도 향상)
+# 'digging' 스킬이 4개 에이전트를 병렬로 실행합니다
 
-# 3. Phase별 기능 구현
+# 3. 병렬 모드로 기능 구현 (자동 감지)
 /implement user-authentication
-# PLAN 파일 읽기 → Phase별 실행 → 체크박스 자동 업데이트
+# DESIGN (3개 에이전트 병렬) → BUILD (Level별 병렬)
 
-# 4. Safety Guard와 함께 자동 커밋
+# 3-alt. Full-stack 병렬 (Backend + Frontend 동시 개발)
+/implement --full-stack user-authentication
+
+# 4. 병렬 리뷰와 함께 자동 커밋 (3x 속도 향상)
 /auto-commit
-# Quality Gate → Safety Guard (사용자 확인) → Commit + Push
+# 병렬 리뷰 → Quality Gate → Safety Guard → Commit + Push
 ```
 
 ### 프론트엔드 개발
@@ -364,10 +390,13 @@ git -C ~/.claude-plugins/wigtn pull
 ```
 wigtn-plugins-with-claude-code/
 ├── .claude-plugin/
-│   └── plugin.json              # 마켓플레이스 메타데이터
+│   ├── plugin.json              # 마켓플레이스 메타데이터 (v0.2.0)
+│   └── marketplace.json         # 마켓플레이스 레지스트리
+├── docs/
+│   └── agent-teams-parallel-execution.md  # 병렬 실행 상세 가이드
 ├── plugins/
 │   ├── public-commands/
-│   │   ├── agents/
+│   │   ├── agents/              # 5개 에이전트 (병렬 코디네이터 3개 신규)
 │   │   ├── commands/            # 3개 명령어
 │   │   └── skills/              # 2개 스킬
 │   ├── frontend-development/

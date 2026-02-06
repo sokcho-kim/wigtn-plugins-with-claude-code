@@ -58,6 +58,73 @@ Review Depth Pyramid
 
 ---
 
+## Parallel Review Mode
+
+> **Agent Teams 병렬 리뷰**: 3개 카테고리 전문 에이전트가 동시에 리뷰하여 **3x 속도 향상**을 달성합니다.
+
+### 병렬 모드 활성화 조건
+
+| 조건 | 모드 | 이유 |
+|------|------|------|
+| 변경 파일 3개 이상 | **병렬** (자동) | 충분한 리뷰 대상 |
+| 변경 파일 2개 이하 | 순차 | 병렬화 오버헤드 > 이득 |
+| `--no-parallel-review` 플래그 | 순차 | 사용자 명시 |
+
+### 에이전트별 담당 카테고리
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Parallel Review Agents                                      │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  Agent A: Readability(20) + Maintainability(20)             │
+│  ├── 명명 규칙, 주석, 코드 구조                             │
+│  └── 모듈성, 결합도, 확장성                                 │
+│                                                             │
+│  Agent B: Performance(20) + Testability(20)                 │
+│  ├── 알고리즘 효율성, 리소스 사용                           │
+│  └── 순수 함수, 의존성 주입, 테스트 용이성                  │
+│                                                             │
+│  Agent C: Best Practices(20) + Security Flag                │
+│  ├── 언어 관례, 디자인 패턴, 에러 처리                      │
+│  └── OWASP Top 10 검사 (Critical → 강제 FAIL)              │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Score Merge Contract
+
+**`parallel-review-coordinator`가 병합 시 사용하는 YAML 출력 형식:**
+
+```yaml
+# 각 에이전트 출력 형식
+agent_result:
+  agent_id: "A" | "B" | "C"
+  categories:
+    - name: string          # 카테고리명
+      score: number         # /20
+      issues:
+        - severity: "critical" | "major" | "minor" | "info"
+          file: string
+          line: number
+          message: string
+          suggestion: string
+  security_flag: boolean    # Agent C만 사용
+  duration: string
+```
+
+### 병합 규칙
+
+| 규칙 | 설명 |
+|------|------|
+| 점수 합산 | Agent A(40) + Agent B(40) + Agent C(20) = 100 |
+| Security Override | `security_flag: true` → 총점 59점 이하 강제 |
+| Issues 통합 | 3개 에이전트 이슈 합산, 중복 제거, severity 정렬 |
+| 타임아웃 대체 | 60초 초과 시 보수적 기본값(15/20) 적용 |
+| 결과 일관성 | 병렬/순차 모드 동일 기준 (점수 +-5점 이내) |
+
+---
+
 ## Level 1-2: Standard Review
 
 파일/함수 단위 코드 리뷰와 품질 점수 시스템을 제공합니다. 가독성, 유지보수성, 성능, 테스트 가능성 등을 분석하여 구체적인 점수와 개선 제안을 제공합니다.

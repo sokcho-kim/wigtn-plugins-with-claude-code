@@ -11,7 +11,84 @@
 - 성능/확장성 병목 해결 시
 - 분기별 아키텍처 건강도 점검 시
 
-## Architecture Review Protocol
+## Parallel Architecture Review Protocol
+
+> **Agent Teams 병렬 실행**: Phase 2, 3, 5를 3개 에이전트로 동시 실행하여 **2x 속도 향상**을 달성합니다.
+
+### 병렬 실행 순서
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Architecture Review Parallel Execution                      │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  Step 1: Phase 1 (Dependency Analysis) — BLOCKING           │
+│  ├── 의존성 그래프를 먼저 구축해야 나머지 분석 가능         │
+│  └── 완료 대기 필수                                         │
+│                                                             │
+│  Step 2: Phase 2, 3, 5 — PARALLEL (3개 에이전트 동시)      │
+│  ├── Agent A: SOLID Principles Analysis (Phase 2)          │
+│  │   ├── S: Single Responsibility                          │
+│  │   ├── O: Open/Closed                                    │
+│  │   ├── L: Liskov Substitution                            │
+│  │   ├── I: Interface Segregation                          │
+│  │   └── D: Dependency Inversion                           │
+│  │   (선택: 5개 원칙을 하위 에이전트로 추가 병렬화 가능)   │
+│  ├── Agent B: Layer Violation Detection (Phase 3)          │
+│  │   └── 계층 규칙 위반, 역방향 의존, 직접 참조 탐지      │
+│  └── Agent C: Pattern Compliance Check (Phase 5)           │
+│      └── Repository/Service/Event/CQRS 패턴 준수 검증     │
+│                                                             │
+│  Step 3: Phase 4 (Scalability Assessment) — BLOCKING        │
+│  ├── 의존성 그래프 + SOLID 결과 + Layer 위반이 필요        │
+│  └── 확장성/운영성 종합 평가                                │
+│                                                             │
+│  예상 속도 향상: 2x (Phase 2,3,5가 가장 시간 소모적)       │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### SOLID 원칙 내부 병렬화 (선택적)
+
+Agent A는 SOLID 5개 원칙을 추가로 병렬화할 수 있습니다:
+
+```yaml
+solid_sub_parallelization:
+  enabled: false          # 기본값: 비활성 (Agent A 단독 처리)
+  activation: "클래스 수 > 20개일 때 자동 활성화"
+  agents:
+    - "sub-agent-S: Single Responsibility"
+    - "sub-agent-O: Open/Closed"
+    - "sub-agent-L: Liskov Substitution"
+    - "sub-agent-I: Interface Segregation"
+    - "sub-agent-D: Dependency Inversion"
+  merge: "5개 원칙 점수 합산 → SOLID Compliance Score"
+```
+
+### 병렬 실행 결과 병합
+
+```yaml
+merge_protocol:
+  step_2_results:
+    - "Agent A → SOLID Compliance Score (원칙별 점수)"
+    - "Agent B → Layer Violations (위반 목록)"
+    - "Agent C → Pattern Compliance (패턴별 준수율)"
+  merge_rules:
+    - "Architecture Health Score 통합 계산"
+    - "severity별 통합 정렬"
+    - "ADR 권고 사항 통합"
+  pass_to_step_3:
+    - "SOLID 위반 → 확장성 위험 입력"
+    - "Layer 위반 → 운영성 평가 입력"
+```
+
+### 순차 폴백
+
+병렬 실행 실패 시 아래 순차 프로토콜을 그대로 사용합니다.
+
+---
+
+## Architecture Review Protocol (Sequential)
 
 ### Phase 1: Dependency Analysis (의존성 분석)
 

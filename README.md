@@ -26,6 +26,7 @@
 ### Key Features
 
 - **End-to-End Workflow**: From PRD generation to implementation and auto-commit
+- **Agent Teams Parallel Execution** `v0.2.0`: 3-5x speedup across the entire pipeline
 - **Design-First Approach**: 12+ professional design styles for unique UI/UX
 - **Backend & DevOps**: Complete backend architecture with CI/CD pipelines
 - **AI Integration**: STT and LLM capabilities for intelligent applications
@@ -37,23 +38,23 @@
 
 ### 1. public-commands
 
-> **Core Development Workflow Plugin**
+> **Core Development Workflow Plugin** `v1.1.0`
 
-The essential plugin that powers your entire development lifecycle with intelligent automation.
+The essential plugin that powers your entire development lifecycle with intelligent automation and **Agent Teams parallel execution**.
 
 #### Workflow Pipeline
 
 ```
-/prd → digging → /implement → /auto-commit
-  ↓       ↓          ↓            ↓
- PRD   Analyze    Code It     Quality Gate
-  +                  +            +
-PLAN            Phase-based   Safety Guard
+Sequential:
+  /prd → digging → /implement → /auto-commit
+
+Parallel (v0.2.0):
+  /prd → digging(4x) → /implement(3x DESIGN + 2-3x BUILD) → /auto-commit(3x)
 ```
 
 #### 1-Click Complete Workflow
 
-Generate PRD → Auto-create Task Plan → Phase-based Implementation → Quality-gated Commit
+Generate PRD -> Auto-create Task Plan -> Phase-based Implementation -> Quality-gated Commit
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -61,14 +62,18 @@ Generate PRD → Auto-create Task Plan → Phase-based Implementation → Qualit
 │  ├── PRD.md (Requirements)                                  │
 │  └── PLAN_{feature}.md (Task Plan with Phases)              │
 │                     ↓                                       │
-│  /implement                                                 │
-│  ├── Read PLAN file                                         │
-│  ├── Execute Phase by Phase                                 │
-│  └── Update checkboxes in PLAN                              │
+│  digging (4 agents parallel: 4x speedup)                    │
+│  └── Completeness + Feasibility + Security + Consistency    │
+│                     ↓                                       │
+│  /implement --parallel                                      │
+│  ├── DESIGN (3 agents parallel: 3x speedup)                 │
+│  ├── BUILD (level-based parallel: 2-3x speedup)             │
+│  └── --full-stack: Cross-Plugin parallel (Backend+Frontend) │
 │                     ↓                                       │
 │  /auto-commit                                               │
+│  ├── Parallel Review (3 agents: 3x speedup)                 │
 │  ├── Quality Gate (Score 80+)                               │
-│  ├── 🛡️ Safety Guard (User confirmation)                    │
+│  ├── Security Zero-Tolerance                                │
 │  └── Commit + Push                                          │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -78,25 +83,43 @@ Generate PRD → Auto-create Task Plan → Phase-based Implementation → Qualit
 | Command | Description |
 |---------|-------------|
 | `/prd <feature>` | Generate PRD + Task Plan (PLAN_{feature}.md) |
-| `/implement <feature>` | Phase-based implementation with Task Plan integration |
-| `/auto-commit` | Quality Gate + Safety Guard + Auto-commit |
+| `/implement <feature>` | Phase-based implementation with parallel support |
+| `/implement --parallel` | Force parallel mode (auto-detected by default) |
+| `/implement --full-stack` | Cross-Plugin parallel (Backend + Frontend + Mobile) |
+| `/auto-commit` | Parallel Quality Gate + Safety Guard + Auto-commit |
 
-#### Skills & Agent
+#### Skills & Agents
 
 | Type | Name | Description |
 |------|------|-------------|
-| Skill | `code-review` | Code quality scoring (0-100) with detailed feedback |
-| Skill | `digging` | PRD vulnerability analysis and risk identification |
-| Agent | `architecture-decision` | MSA vs Monolithic architecture decision based on PRD analysis |
+| Skill | `code-review` | Code quality scoring (0-100) with parallel review mode |
+| Skill | `digging` | PRD vulnerability analysis with 4-agent parallel analysis |
+| Agent | `architecture-decision` | MSA vs Monolithic architecture decision |
 | Agent | `code-formatter` | Multi-language formatting and linting automation |
+| Agent | `parallel-build-coordinator` | BUILD Phase dependency graph + level-based parallel |
+| Agent | `parallel-review-coordinator` | 3-agent parallel code review + score merge |
+| Agent | `parallel-digging-coordinator` | 4-agent parallel PRD analysis + result merge |
 
 #### Quality Gate System
 
 | Score | Grade | Action |
 |-------|-------|--------|
-| 80+ | A/B | ✅ Auto-commit |
-| 60-79 | C/D | ⚠️ Auto-fix then retry |
-| < 60 | F | ❌ Block commit |
+| 80+ | A/B | Auto-commit |
+| 60-79 | C/D | Auto-fix then retry |
+| < 60 | F | Block commit |
+| Security Critical | - | Force FAIL (score capped at 59) |
+
+#### Parallel Speedup Summary
+
+| Component | Sequential | Parallel | Speedup |
+|-----------|-----------|----------|---------|
+| digging | 4 categories serial | 4 agents parallel | **4x** |
+| /implement DESIGN | 4 steps serial | 3 agents parallel | **3x** |
+| /implement BUILD | Tasks serial | Level-based parallel | **2-3x** |
+| /auto-commit review | Single reviewer | 3 agents parallel | **3x** |
+| **Full Pipeline** | **15-20 min** | **5-7 min** | **~3x** |
+
+> See [Agent Teams Parallel Execution Guide](docs/agent-teams-parallel-execution.md) for detailed documentation.
 
 ---
 
@@ -325,16 +348,19 @@ git -C ~/.claude-plugins/wigtn pull
 # Creates: docs/prd/user-authentication.md
 #          docs/todo_plan/PLAN_user-authentication.md
 
-# 2. Analyze and improve the plan (optional)
-# The 'digging' skill will identify gaps and risks
+# 2. Analyze and improve the plan (auto-parallel: 4x speedup)
+# The 'digging' skill runs 4 agents in parallel
 
-# 3. Implement with Phase-based execution
+# 3. Implement with parallel execution (auto-detected)
 /implement user-authentication
-# Reads PLAN file → Execute Phase by Phase → Update checkboxes
+# DESIGN (3 agents parallel) → BUILD (level-based parallel)
 
-# 4. Auto-commit with Safety Guard
+# 3-alt. Full-stack parallel (Backend + Frontend simultaneously)
+/implement --full-stack user-authentication
+
+# 4. Auto-commit with parallel review (3x speedup)
 /auto-commit
-# Quality Gate → Safety Guard (User confirmation) → Commit + Push
+# Parallel Review → Quality Gate → Safety Guard → Commit + Push
 ```
 
 ### Frontend Development
@@ -364,10 +390,13 @@ git -C ~/.claude-plugins/wigtn pull
 ```
 wigtn-plugins-with-claude-code/
 ├── .claude-plugin/
-│   └── plugin.json              # Marketplace metadata
+│   ├── plugin.json              # Marketplace metadata (v0.2.0)
+│   └── marketplace.json         # Marketplace registry
+├── docs/
+│   └── agent-teams-parallel-execution.md  # Parallel execution guide
 ├── plugins/
 │   ├── public-commands/
-│   │   ├── agents/
+│   │   ├── agents/              # 5 agents (3 new parallel coordinators)
 │   │   ├── commands/            # 3 commands
 │   │   └── skills/              # 2 skills
 │   ├── frontend-development/

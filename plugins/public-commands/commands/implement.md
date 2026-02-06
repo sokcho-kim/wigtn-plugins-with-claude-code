@@ -60,6 +60,50 @@ PRD에 정의된 기능을 구현합니다.
 └─────────────────────────────────────────────────────────────┘
 ```
 
+## Parallel Mode Detection
+
+> **Agent Teams 병렬 실행**: 복잡도에 따라 자동으로 병렬 모드를 활성화하여 **3~5x 속도 향상**을 달성합니다.
+
+### 모드 결정
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Parallel Mode Detection                                     │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  기본값: sequential (안전)                                   │
+│                                                             │
+│  자동 활성화 조건 (하나라도 충족 시):                        │
+│  ├── 생성/수정 파일 3개 이상                                │
+│  ├── BUILD Phase 2개 이상                                   │
+│  └── Cross-Plugin 협업 필요 (--full-stack)                  │
+│                                                             │
+│  수동 제어:                                                 │
+│  ├── --parallel    → 병렬 강제                              │
+│  └── --sequential  → 순차 강제                              │
+│                                                             │
+│  모드 표시 UI:                                              │
+│  ┌────────────────────────────────────────────┐             │
+│  │ Mode: PARALLEL | Agents: 3 active          │             │
+│  │ Switch: --sequential to disable            │             │
+│  └────────────────────────────────────────────┘             │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### 병렬 모드 활성화 표시
+
+```
+┌────────────────────────────────────────────┐
+│  ⚡ Parallel Mode: ACTIVE                  │
+│  Active Agents: 3                          │
+│  Strategy: DESIGN parallel + BUILD level   │
+│  Disable: /implement --sequential          │
+└────────────────────────────────────────────┘
+```
+
+---
+
 ## Task Plan Integration
 
 ### Task Plan 파일 검색
@@ -105,16 +149,74 @@ docs/todo_plan/PLAN_*.md
 ```bash
 /implement 사용자 인증
 /implement 플러그인 등록
-/implement FR-006          # PRD 기능 ID로 직접 지정
+/implement FR-006              # PRD 기능 ID로 직접 지정
+/implement --parallel 사용자 인증   # 병렬 모드 강제 활성화
+/implement --sequential 사용자 인증 # 순차 모드 강제
+/implement --full-stack 사용자 인증 # Cross-Plugin 병렬 실행
 ```
 
 ## Parameters
 
 - `feature-name or FR-ID`: 기능명 또는 기능 ID (required)
+- `--parallel`: 병렬 모드 강제 활성화
+- `--sequential`: 순차 모드 강제 (기존 방식)
+- `--full-stack`: Cross-Plugin 병렬 실행 (Frontend + Backend + Mobile)
 
 ---
 
 ## DESIGN Phase (설계 단계)
+
+### Parallel DESIGN (병렬 모드 시)
+
+> 병렬 모드에서는 Steps 1-4를 3개 에이전트로 동시 실행합니다.
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Parallel DESIGN Phase (3x speedup)                          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌──────────┐  ┌──────────────┐  ┌───────────────┐         │
+│  │ Agent A  │  │   Agent B    │  │   Agent C     │         │
+│  │ PRD 검색 │  │ Architecture │  │ 프로젝트 상태 │         │
+│  │ + QG확인 │  │  Decision    │  │ + Gap Analysis│         │
+│  │(Step 0+1)│  │  (Step 2)    │  │  (Step 3+4)   │         │
+│  └────┬─────┘  └──────┬───────┘  └──────┬────────┘         │
+│       │                │                 │                  │
+│       └────────────────┼─────────────────┘                  │
+│                        ▼                                    │
+│              ┌───────────────────┐                          │
+│              │  Result Merge     │                          │
+│              │  → Step 5: 구현   │                          │
+│              │    계획 수립      │                          │
+│              └───────────────────┘                          │
+│                                                             │
+│  Quality Gate BLOCKED 시 → 즉시 중단 (다른 에이전트 취소)  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**에이전트별 역할:**
+
+| Agent | 담당 Steps | 역할 |
+|-------|-----------|------|
+| A | Step 0 + 1 | PRD 검색, 품질 게이트 확인 |
+| B | Step 2 | 아키텍처 결정 (architecture-decision 위임) |
+| C | Step 3 + 4 | 프로젝트 상태 분석, Gap Analysis |
+
+**결과 병합 → Step 5:**
+- Agent A: PRD 내용 + QG 상태
+- Agent B: 아키텍처 결정 + 폴더 구조
+- Agent C: 기존 코드 상태 + Gap 목록
+- → 통합하여 구현 계획 수립
+
+**Quality Gate BLOCKED 처리:**
+- Agent A가 BLOCKED 판정 시 즉시 Agent B, C 중단
+- 사용자에게 Critical 이슈 목록 표시
+- 수정 후 재시도 안내
+
+순차 모드에서는 아래 Step 0~6을 순서대로 실행합니다.
+
+---
 
 ### Step 0: PRD 품질 검증 (Quality Gate)
 
@@ -430,6 +532,121 @@ output:
 
 사용자 확인 후 실제 코드 작성을 진행합니다.
 
+### Parallel BUILD (병렬 모드 시)
+
+> 병렬 모드에서는 `parallel-build-coordinator`를 호출하여 Level별 병렬 빌드를 수행합니다.
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Parallel BUILD Phase (2-3x speedup)                         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  parallel-build-coordinator 호출                            │
+│       │                                                     │
+│       ▼                                                     │
+│  의존성 그래프 구축                                         │
+│       │                                                     │
+│       ▼                                                     │
+│  Level 1 (병렬): Schema + Config                            │
+│  ├── Agent A: prisma/schema.prisma                          │
+│  └── Agent B: .env.example, config.ts                       │
+│       │                                                     │
+│       ▼ (Level 1 완료 대기)                                 │
+│  Level 2 (병렬): Backend + Frontend                         │
+│  ├── Agent A: src/api/auth.ts                               │
+│  ├── Agent B: src/services/auth.ts                          │
+│  └── Agent C: src/components/LoginForm.tsx (API 모킹)      │
+│       │                                                     │
+│       ▼ (Level 2 완료 대기)                                 │
+│  Level 3 (병렬): Tests                                      │
+│  └── Agent A: tests/auth.test.ts                            │
+│                                                             │
+│  진행 표시:                                                 │
+│  ┌────────────────────────────────────────────┐             │
+│  │ Level 2/3 | 3 agents active | 4/6 tasks   │             │
+│  │ ██████████████████░░░░░░░░░░ 67%           │             │
+│  └────────────────────────────────────────────┘             │
+│                                                             │
+│  오류 처리: 실패 Task만 순차 전환, 독립 Task는 계속        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**병렬 빌드 진행 상황 표시:**
+
+```
+⚡ Parallel BUILD 진행 중... (Level 2/3)
+
+[Level 1] ✅ 완료 (2/2 tasks, 2.1s)
+  ├── [schema-001] ✅ prisma/schema.prisma (1.8s)
+  └── [config-001] ✅ .env.example (0.9s)
+
+[Level 2] ⏳ 진행 중 (1/3 tasks)
+  ├── Agent A: [backend-001] ✅ src/api/auth.ts (3.2s)
+  ├── Agent B: [backend-002] ⏳ src/services/auth.ts...
+  └── Agent C: [frontend-001] ⏳ src/components/LoginForm.tsx...
+
+[Level 3] ⏸️ 대기 중 (0/1 tasks)
+  └── [test-001] ⏸️ tests/auth.test.ts
+
+📊 전체: 3/6 tasks (50%) | Active Agents: 2
+```
+
+### Cross-Plugin 병렬 실행 (`--full-stack`)
+
+> Full-stack 기능 구현 시 플러그인 간 병렬 실행으로 **2x 추가 속도 향상**을 달성합니다.
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Cross-Plugin Parallel Execution                             │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  architecture-decision이 공유 API Contract 생성             │
+│       │                                                     │
+│       ▼                                                     │
+│  ┌───────────────┐  ┌───────────────┐  ┌───────────────┐   │
+│  │  Track 1      │  │  Track 2      │  │  Track 3      │   │
+│  │  backend-     │  │  frontend-    │  │  mobile-      │   │
+│  │  architect    │  │  developer    │  │  developer    │   │
+│  │               │  │               │  │  (선택적)     │   │
+│  │  Backend      │  │  Frontend     │  │  Mobile       │   │
+│  │  코드 생성    │  │  코드 생성    │  │  코드 생성    │   │
+│  └───────┬───────┘  └───────┬───────┘  └───────┬───────┘   │
+│          │                  │                  │            │
+│          └──────────────────┼──────────────────┘            │
+│                             ▼                               │
+│                    ┌──────────────┐                         │
+│                    │ 통합 검증    │                         │
+│                    │ API Contract │                         │
+│                    │ 일관성 확인  │                         │
+│                    └──────────────┘                         │
+│                                                             │
+│  활성화: --full-stack 플래그                                │
+│  조율: 공유 API Contract (타입 정의 + API 스펙)            │
+│  일관성: 각 트랙이 동일 타입/스펙 참조                     │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Cross-Plugin 활성화 조건:**
+
+| 조건 | 활성화 | 이유 |
+|------|--------|------|
+| `--full-stack` 플래그 | 수동 활성화 | 사용자 명시 |
+| PRD에 Frontend + Backend 요구사항 | 자동 제안 | 양쪽 모두 필요 |
+| 단일 레이어만 필요 | 비활성 | 병렬화 불필요 |
+
+**공유 API Contract 기반 조율:**
+1. `architecture-decision`이 API Contract 생성 (타입 정의, 엔드포인트 스펙)
+2. Backend Track: API Contract 구현 (실제 엔드포인트)
+3. Frontend Track: API Contract 기반 모킹 → 컴포넌트 개발
+4. Mobile Track (선택): 동일 API Contract 기반 모바일 화면 개발
+5. 통합 검증: API 일관성 확인
+
+순차 모드에서는 아래 Step 1~5를 순서대로 실행합니다.
+
+---
+
 ### Step 1: Phase별 실행 (Task Plan 기반)
 
 **Task Plan이 있는 경우**, Phase 단위로 순차 실행합니다:
@@ -643,6 +860,17 @@ Glob: "**/entities/*.ts"
 
 ## Integration Points
 
+### 호출하는 에이전트
+
+| 에이전트 | 역할 | 호출 조건 |
+|----------|------|----------|
+| `architecture-decision` | 아키텍처 결정 | DESIGN Phase (항상) |
+| `parallel-build-coordinator` | 병렬 빌드 조율 | BUILD Phase (병렬 모드) |
+| `parallel-digging-coordinator` | 병렬 digging (상세 검토 시) | DESIGN 상세 검토 선택 시 |
+| `backend-architect` | Backend 코드 생성 | `--full-stack` Cross-Plugin |
+| `frontend-developer` | Frontend 코드 생성 | `--full-stack` Cross-Plugin |
+| `mobile-developer` | Mobile 코드 생성 | `--full-stack` Cross-Plugin (선택) |
+
 ### 이전 단계에서 받는 입력
 
 ```
@@ -662,6 +890,7 @@ Glob: "**/entities/*.ts"
 - 수정된 파일 목록
 - 구현된 기능 목록
 - 검증 결과 (타입체크, 테스트, 빌드)
+- 실행 모드 (parallel/sequential) 및 소요 시간
 ```
 
 ---
