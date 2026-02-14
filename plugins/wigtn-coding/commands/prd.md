@@ -88,6 +88,11 @@ description: |
    - 프론트엔드 구조 (`src/app/`, `src/components/`)
    - 데이터베이스 스키마 (`prisma/schema.prisma`, `models/`)
 
+3. **프로젝트 규모 파악**
+   - AskUserQuestion으로 Scale Grade 질문 (Section 4.0 참고)
+   - 선택된 등급에 따라 NFR 기본값 자동 설정
+   - 구체적 DAU/동시접속 수치 추가 질문 (선택)
+
 ### Phase 2: PRD Generation
 
 다음 템플릿을 사용하여 PRD를 작성합니다:
@@ -136,11 +141,92 @@ Scenario: [시나리오명]
 
 ## 4. Non-Functional Requirements
 
-### 4.1 Performance
-- Response time: < 200ms (p95)
-- Concurrent users: 1000+
+### 4.0 Scale Grade (규모 등급)
 
-### 4.2 Security
+프로젝트 규모를 파악하여 적정 기술 수준을 설정합니다.
+AskUserQuestion으로 사용자에게 질문합니다. 기본값: **Hobby**.
+
+```yaml
+question: "이 프로젝트의 예상 규모는 어느 정도인가요?"
+options:
+  - label: "Hobby (사이드 프로젝트)"
+    description: |
+      혼자 또는 2명이 만드는 프로젝트. 포트폴리오, 학습용, 해커톤,
+      사내 도구 등. 사용자 수백 명 이하.
+      예: 개인 블로그, 사내 출석 체크 앱, 친구들끼리 쓰는 앱
+      → 서버 1대면 충분, 무료 호스팅 활용 가능
+  - label: "Startup (소규모 서비스)"
+    description: |
+      2-5명이 만드는 초기 서비스. 실제 사용자를 받기 시작한 단계.
+      일일 사용자 수천 명. 매출이 발생하기 시작.
+      예: 초기 SaaS, 소규모 커뮤니티, 동네 배달 앱, 스타트업 MVP
+      → 안정적인 DB + 기본 모니터링 필요
+  - label: "Growth (성장기 서비스)"
+    description: |
+      5-15명이 운영하는 성장 중인 서비스. 사용자가 빠르게 늘고 있음.
+      일일 사용자 수만 명. 트래픽 급증 대비 필요.
+      예: 중견 SaaS, 커머스 플랫폼, 실시간 서비스, 시리즈 A-B 스타트업
+      → 오토스케일링, 캐싱, 메시지 큐 필요
+  - label: "Enterprise (대규모 서비스)"
+    description: |
+      15명 이상이 운영하는 대규모 서비스. 24/7 무중단 운영 필수.
+      일일 사용자 10만 명 이상. 글로벌 서비스 또는 금융/의료급 안정성.
+      예: 대형 커머스, 핀테크, 글로벌 SaaS, 공공 서비스
+      → 멀티 리전, 분산 시스템, 전문 DevOps 필요
+```
+
+**Scale Grade 요약 테이블:**
+
+| 등급 | 일일 사용자(DAU) | 동시접속 | 데이터량 | 추천 인프라 비용 |
+|------|-----------------|---------|---------|----------------|
+| **Hobby** | < 1,000 | < 100 | < 1GB | 무료~$20/월 |
+| **Startup** | 1,000 ≤ DAU < 10,000 | 100 ≤ CC < 1,000 | 1-10GB | $20-100/월 |
+| **Growth** | 10,000 ≤ DAU < 100,000 | 1,000 ≤ CC < 10,000 | 10-100GB | $100-1,000/월 |
+| **Enterprise** | ≥ 100,000 | ≥ 10,000 | ≥ 100GB | $1,000+/월 |
+
+> **경계값 원칙**: DAU 정확히 1,000명이면 Startup, 10,000명이면 Growth, 100,000명이면 Enterprise.
+
+**추가 질문** (Scale Grade 선택 후, 선택 사항):
+- "예상 일일 활성 사용자(DAU) 수를 알고 계신가요?" (구체적 숫자 입력 유도)
+- "피크 시간대에 몇 명이 동시에 접속할 것 같나요?"
+- "서비스가 1시간 멈추면 어떤 영향이 있나요?" (Availability 감 잡기용)
+
+### 4.1 Performance SLA
+
+| 지표 | 목표값 |
+|------|--------|
+| Response Time (p95) | [예: < 200ms] |
+| Throughput (RPS) | [예: 100 RPS] |
+
+> Hobby/Startup 가이드: p95 < 500ms, RPS < 100이면 충분
+
+### 4.2 Availability SLA
+
+| 등급 | 추천 Uptime | 허용 다운타임(월) |
+|------|------------|-----------------|
+| Hobby | 95% | 36시간 |
+| Startup | 99% | 7.3시간 |
+| Growth | 99.9% | 43.8분 |
+| Enterprise | 99.99% | 4.3분 |
+
+### 4.3 Data Requirements
+
+| 항목 | 값 |
+|------|-----|
+| 현재 데이터량 | [예: 100MB] |
+| 월간 증가율 | [예: 10%] |
+| 데이터 보존 기간 | [예: 1년] |
+
+> Scale Grade별 참고: Hobby < 1GB, Startup 1-10GB, Growth 10-100GB, Enterprise 100GB+
+
+### 4.4 Recovery (해당 시)
+
+| 항목 | 설명 | 기본값 (Hobby/Startup) |
+|------|------|----------------------|
+| RTO (복구 시간) | 장애 발생 후 서비스 복구까지 허용 시간 | 미지정 시 24시간 |
+| RPO (복구 시점) | 허용 가능한 데이터 손실 시간 범위 | 미지정 시 24시간 |
+
+### 4.5 Security
 - Authentication: Required/Optional
 - Data encryption: At rest / In transit
 
@@ -959,6 +1045,8 @@ PRD 및 Task Plan 작성 완료 후 검증 결과에 따라 안내합니다:
 PRD 작성 후 확인:
 - [ ] 목적이 명확하게 정의되었는가?
 - [ ] 모든 사용자 스토리에 수용 기준이 있는가?
+- [ ] Scale Grade(규모 등급)가 설정되었는가?
+- [ ] SLA/SLO 기준(Performance, Availability)이 Scale Grade에 맞게 정의되었는가?
 - [ ] 비기능 요구사항이 측정 가능한가?
 - [ ] API 명세가 Request/Response/Error 모두 포함하는가?
 - [ ] 우선순위가 명확한가?
@@ -971,6 +1059,7 @@ PRD 작성 후 확인:
 ```
 digging 스킬에 전달:
 - PRD 마크다운 파일 경로
+- Scale Grade (규모 등급) 및 SLA/SLO 기준
 - 기능 요구사항 목록 (FR-XXX)
 - 비기능 요구사항 목록 (NFR-XXX)
 - API 명세 (상세)

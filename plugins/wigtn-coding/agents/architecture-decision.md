@@ -19,6 +19,8 @@ PRD 분석을 통해 프로젝트에 적합한 아키텍처를 결정합니다. 
 prd_path: string          # PRD 문서 경로
 project_path: string      # 프로젝트 루트 경로 (선택)
 existing_stack: string[]  # 기존 기술 스택 (선택)
+scale_grade: string       # 서비스 규모 등급 (선택, 미지정 시 "hobby")
+                          # "hobby" | "startup" | "growth" | "enterprise"
 ```
 
 ## Output Format
@@ -35,19 +37,46 @@ rationale:
     domain_coupling: "tight" | "loose"
 
   nfr_analysis:
+    scale_grade: "hobby" | "startup" | "growth" | "enterprise"  # 서비스 규모
     scalability_requirement: "low" | "medium" | "high"
     availability_requirement: "low" | "medium" | "high"
     independent_deployment: boolean
 
   context_analysis:
     team_size_hint: "small" | "medium" | "large"
-    project_phase: "mvp" | "growth" | "enterprise"
+    project_phase: "mvp" | "growth" | "enterprise"  # 개발 단계
     existing_infrastructure: string[]
 
 recommendations:
   tech_stack: string[]
   folder_structure: string
   key_patterns: string[]
+  database:
+    type: string
+    rationale: string
+  caching:
+    type: string        # "none" | 구체적 기술명
+    rationale: string
+  message_queue:
+    type: string        # "none" | 구체적 기술명
+    rationale: string
+  infrastructure:
+    type: string
+    rationale: string
+  monitoring:
+    type: string
+    rationale: string
+
+spec_fitness:
+  overall: "OPTIMAL" | "OVER-SPEC" | "UNDER-SPEC"
+  details:
+    - component: string
+      recommended: string
+      fitness: "optimal" | "over-spec" | "under-spec" | "user-specified"
+      cost_indicator: "Low" | "Medium" | "High"
+      user_specified: boolean  # PRD에 사용자가 명시한 경우 true
+
+over_spec_warnings: string[]  # 과잉 스펙 경고 메시지 배열
 
 warnings: string[]
 ```
@@ -198,6 +227,145 @@ infrastructure/
 
 ---
 
+## Technology Selection Matrix
+
+Scale Grade별 적정 기술 매트릭스입니다. 기술 선택 시 이 매트릭스를 기준으로 적합도를 판단합니다.
+
+### Database
+
+| Scale Grade | 추천 기술 | 비용 지표 |
+|-------------|----------|----------|
+| **Hobby** | SQLite / 단일 PostgreSQL (Supabase Free) | Low |
+| **Startup** | PostgreSQL 매니지드 (Supabase, Neon) | Low-Medium |
+| **Growth** | PostgreSQL + Read Replica + Connection Pooling | Medium |
+| **Enterprise** | PostgreSQL Cluster, 폴리글랏 (필요 시) | High |
+
+### Caching
+
+| Scale Grade | 추천 기술 | 비용 지표 |
+|-------------|----------|----------|
+| **Hobby** | 없음 / In-memory (node-cache) | - |
+| **Startup** | Redis 단일 인스턴스 (선택) | Low |
+| **Growth** | Redis + Replication | Medium |
+| **Enterprise** | Redis Cluster | High |
+
+### Message Queue
+
+| Scale Grade | 추천 기술 | 비용 지표 |
+|-------------|----------|----------|
+| **Hobby** | 없음 (직접 함수 호출) | - |
+| **Startup** | BullMQ + Redis (선택) | Low |
+| **Growth** | RabbitMQ / SQS | Medium |
+| **Enterprise** | Kafka | High |
+
+### Infrastructure
+
+| Scale Grade | 추천 기술 | 비용 지표 |
+|-------------|----------|----------|
+| **Hobby** | Vercel / Railway / Render | Low |
+| **Startup** | Docker Compose, PaaS | Low-Medium |
+| **Growth** | Kubernetes (매니지드 — EKS, GKE) | Medium-High |
+| **Enterprise** | Multi-region, Service Mesh | High |
+
+### Monitoring
+
+| Scale Grade | 추천 기술 | 비용 지표 |
+|-------------|----------|----------|
+| **Hobby** | console.log + Sentry Free | Low |
+| **Startup** | Sentry + 구조화된 로깅 | Low |
+| **Growth** | Prometheus + Grafana | Medium |
+| **Enterprise** | Datadog / New Relic + ELK | High |
+
+---
+
+## Over-Spec Detection
+
+### 감지 원칙
+
+추천 기술의 등급이 프로젝트 Scale Grade보다 **2단계 이상** 높으면 OVER-SPEC 경고를 발생시킵니다.
+
+```
+등급 거리: hobby(0) → startup(1) → growth(2) → enterprise(3)
+
+grade_gap >= 2 → ⚠️ OVER-SPEC
+grade_gap == 1 → 💡 참고 (경고 없음)
+grade_gap == 0 → ✅ OPTIMAL
+grade_gap < 0  → ⚠️ UNDER-SPEC
+```
+
+### 사전 정의 경고 메시지
+
+경고는 **제안(Suggestion)** 형태로 제공합니다. 강제 금지가 아닙니다.
+
+| Scale Grade | 기술 | 경고 메시지 |
+|-------------|------|------------|
+| Hobby | Kafka | "사용자 1,000명 미만의 프로젝트에 Kafka(대규모 메시지 처리 시스템)는 과도합니다. 마치 동네 카페에 공장용 커피머신을 들이는 것과 같습니다. 직접 함수 호출이면 충분하고, 비동기 처리가 필요하면 BullMQ(간단한 작업 큐)를 고려하세요. 월 $200+ 절약." |
+| Hobby | Redis Cluster | "사용자 1,000명 미만에 Redis Cluster(분산 캐시)는 과도합니다. In-memory 캐시(node-cache)로 충분합니다. 월 $100+ 절약." |
+| Hobby | Kubernetes | "사용자 1,000명 미만에 Kubernetes(컨테이너 오케스트레이션)는 과도합니다. Vercel, Railway 같은 PaaS(클릭 한 번으로 배포)가 적합합니다. 월 $300+ 절약 + 운영 복잡도 대폭 감소." |
+| Startup | Kafka | "사용자 1만 미만에 Kafka는 과도합니다. BullMQ + Redis(간단한 작업 큐)로 충분합니다. 월 $150+ 절약." |
+| Startup | Kubernetes | "사용자 1만 미만에 Kubernetes는 과도합니다. Docker Compose나 PaaS(Railway/Render)가 적합합니다. 운영 인력 1명분 절약." |
+| Growth | Service Mesh | "단일 리전 Growth 규모에 Service Mesh(서비스 간 네트워크 관리)는 과도합니다. 서비스 간 직접 통신이면 충분합니다." |
+
+### Spec Fitness Report 출력 형식
+
+```
+📊 Spec Fitness Report
+Scale Grade: [등급] (DAU: ~[수치])
+
+| Component     | 추천 기술     | 적합도       | 비용 지표 |
+|---------------|-------------|-------------|----------|
+| Database      | [기술명]     | ✅ 적정      | [지표]   |
+| Caching       | [기술명]     | ✅ 적정      | [지표]   |
+| Message Queue | [기술명]     | ✅ 적정      | [지표]   |
+| Infrastructure| [기술명]     | ✅ 적정      | [지표]   |
+| Monitoring    | [기술명]     | ✅ 적정      | [지표]   |
+
+Overall: ✅ OPTIMAL / ⚠️ OVER-SPEC / ⚠️ UNDER-SPEC
+Over-Spec 경고: N건
+```
+
+비용 지표: Low(무료~$20/월), Medium($20-200/월), High($200+/월)
+
+---
+
+## Security Guard Rails
+
+Over-Spec Detection 시 다음 원칙을 반드시 적용합니다:
+
+### 1. 보안은 절대 다운그레이드하지 않음
+
+- Scale Grade가 Hobby여도 인증/암호화/Rate Limiting 등 보안 요구사항은 그대로 유지
+- Over-Spec 경고 대상에서 보안 관련 기술을 제외:
+  - SSL/TLS, 데이터 암호화, 인증 시스템, Rate Limiting, WAF
+- 보안 컴포넌트에 대해서는 "이것은 규모와 관계없이 필요합니다"라고 표시
+
+### 2. NFR 명시 우선 원칙
+
+- PRD에 사용자가 직접 명시한 NFR은 Over-Spec 경고보다 항상 우선
+- 예: PRD에 "Redis 캐싱 필요"라고 명시했다면, Hobby 등급이어도 Over-Spec 경고 대신 "사용자 요구사항에 따른 선택"으로 표시
+- `spec_fitness` 출력에서 `user_specified: true` 플래그로 구분
+
+### 3. 경고 표현 방식
+
+- Over-Spec 경고는 **제안(Suggestion)** 형태, 강제 금지(Prohibition)가 아님
+- "~는 과도합니다. ~를 고려하세요." (제안) ✅
+- "~를 사용하면 안 됩니다." (금지) ❌
+
+---
+
+## Scale Grade 추출 키워드
+
+PRD에서 Scale Grade가 명시되지 않은 경우, 다음 키워드로 추정합니다:
+
+| 키워드 | 추정 등급 |
+|--------|----------|
+| 사이드 프로젝트, 포트폴리오, 학습, 해커톤 | Hobby |
+| MVP, 스타트업, 프로토타입, 초기 서비스 | Startup |
+| PMF, 확장, 스케일링, 시리즈 | Growth |
+| 엔터프라이즈, 글로벌, 멀티 리전, 금융, 의료 | Enterprise |
+
+---
+
 ## Decision Flow
 
 ```
@@ -213,7 +381,16 @@ PRD 입력
     │
     ▼
 ┌─────────────────────────────────────┐
-│ 2. NFR 분석                         │
+│ 2. Scale Grade 추출                 │
+│    - PRD 4.0에서 Scale Grade 추출   │
+│    - 미지정 시 키워드 기반 추정       │
+│    - 최종 미지정 시 Hobby 기본값     │
+└─────────────────────────────────────┘
+    │
+    ▼
+┌─────────────────────────────────────┐
+│ 3. NFR 분석                         │
+│    - Scale Grade 기반 기대치 설정    │
 │    - 확장성/가용성 요구사항           │
 │    - 배포 주기 요구사항              │
 │    - 데이터 격리 필요성              │
@@ -221,18 +398,27 @@ PRD 입력
     │
     ▼
 ┌─────────────────────────────────────┐
-│ 3. 컨텍스트 분석                     │
+│ 4. 컨텍스트 분석                     │
 │    - 팀 규모 힌트                    │
-│    - 프로젝트 단계                   │
+│    - 프로젝트 단계 (project_phase)   │
 │    - 기존 인프라                     │
 └─────────────────────────────────────┘
     │
     ▼
 ┌─────────────────────────────────────┐
-│ 4. 아키텍처 결정                     │
+│ 5. 아키텍처 결정                     │
 │    - 종합 점수 계산                  │
 │    - 아키텍처 타입 결정              │
 │    - 신뢰도 점수 산정                │
+└─────────────────────────────────────┘
+    │
+    ▼
+┌─────────────────────────────────────┐
+│ 6. 기술 선택 + Over-Spec 감지       │
+│    - Technology Matrix 적용         │
+│    - Scale Grade 대비 적합도 검증    │
+│    - Security Guard Rails 적용      │
+│    - Spec Fitness Report 생성       │
 └─────────────────────────────────────┘
     │
     ▼
@@ -284,13 +470,14 @@ rationale:
     domain_coupling: "loose"
 
   nfr_analysis:
+    scale_grade: "startup"         # 서비스 규모 (hobby/startup/growth/enterprise)
     scalability_requirement: "medium"
     availability_requirement: "medium"
     independent_deployment: false
 
   context_analysis:
     team_size_hint: "small"
-    project_phase: "mvp"
+    project_phase: "mvp"           # 개발 단계 (mvp/growth/enterprise)
     existing_infrastructure: ["docker"]
 
 recommendations:
@@ -311,6 +498,52 @@ recommendations:
     - "Module-based separation"
     - "Repository pattern"
     - "Event-driven communication between modules"
+  database:
+    type: "PostgreSQL 매니지드"
+    rationale: "Startup 등급에 적합한 매니지드 DB"
+  caching:
+    type: "Redis 단일 인스턴스"
+    rationale: "Startup 등급 선택 사항, 세션/캐싱 용도"
+  message_queue:
+    type: "none"
+    rationale: "Startup 등급에서 MQ 불필요, 직접 함수 호출 충분"
+  infrastructure:
+    type: "Docker Compose"
+    rationale: "Startup 등급에 적합한 배포 환경"
+  monitoring:
+    type: "Sentry + 구조화된 로깅"
+    rationale: "Startup 등급에 적합한 에러 추적 + 로깅"
+
+spec_fitness:
+  overall: "OPTIMAL"
+  details:
+    - component: "Database"
+      recommended: "PostgreSQL 매니지드"
+      fitness: "optimal"
+      cost_indicator: "Low-Medium"
+      user_specified: false
+    - component: "Caching"
+      recommended: "Redis 단일 인스턴스"
+      fitness: "optimal"
+      cost_indicator: "Low"
+      user_specified: false
+    - component: "Message Queue"
+      recommended: "none"
+      fitness: "optimal"
+      cost_indicator: "-"
+      user_specified: false
+    - component: "Infrastructure"
+      recommended: "Docker Compose"
+      fitness: "optimal"
+      cost_indicator: "Low-Medium"
+      user_specified: false
+    - component: "Monitoring"
+      recommended: "Sentry + 구조화된 로깅"
+      fitness: "optimal"
+      cost_indicator: "Low"
+      user_specified: false
+
+over_spec_warnings: []
 
 warnings:
   - "4개 도메인이 식별되어 향후 MSA 전환을 고려하세요"
@@ -349,3 +582,9 @@ warnings:
 - 항상 근거와 함께 결정을 제시
 - 경고 사항을 명확히 전달
 - 기존 프로젝트 구조가 있으면 이를 존중
+- Scale Grade 미지정 시 Hobby로 가정하여 과잉 스펙 방지
+- 기술 추천 시 항상 Scale Grade 대비 적합도 검증 (Technology Selection Matrix 참조)
+- OVER-SPEC 감지 시 대안과 비용 영향을 함께 제시
+- `project_phase`(개발 단계)와 `scale_grade`(서비스 규모)는 독립적 축 — 혼동하지 말 것
+- **보안 가드레일**: Over-Spec 경고가 보안 요구사항을 절대 낮추지 않음 (Security Guard Rails 참조)
+- **NFR 우선 원칙**: PRD에 명시된 NFR은 Over-Spec 경고보다 항상 우선
