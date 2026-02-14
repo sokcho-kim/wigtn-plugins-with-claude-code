@@ -198,7 +198,10 @@ options:
 | Response Time (p95) | [예: < 200ms] |
 | Throughput (RPS) | [예: 100 RPS] |
 
-> Hobby/Startup 가이드: p95 < 500ms, RPS < 100이면 충분
+> **Scale Grade별 가이드:**
+> - Hobby/Startup: p95 < 500ms, RPS < 100이면 충분
+> - Growth: p95 < 200ms, RPS 100-1,000 권장
+> - Enterprise: p95 < 100ms, RPS 1,000+ 및 부하 테스트 필수
 
 ### 4.2 Availability SLA
 

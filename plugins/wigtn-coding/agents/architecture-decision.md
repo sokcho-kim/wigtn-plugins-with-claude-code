@@ -306,6 +306,16 @@ grade_gap < 0  → ⚠️ UNDER-SPEC
 | Startup | Kubernetes | "사용자 1만 미만에 Kubernetes는 과도합니다. Docker Compose나 PaaS(Railway/Render)가 적합합니다. 운영 인력 1명분 절약." |
 | Growth | Service Mesh | "단일 리전 Growth 규모에 Service Mesh(서비스 간 네트워크 관리)는 과도합니다. 서비스 간 직접 통신이면 충분합니다." |
 
+### UNDER-SPEC 사전 정의 경고 메시지
+
+| Scale Grade | 기술 | 경고 메시지 |
+|-------------|------|------------|
+| Enterprise | SQLite | "일일 사용자 10만 명 이상의 서비스에 SQLite(단일 파일 DB)는 부족합니다. 동시 쓰기 성능과 장애 복구에 한계가 있습니다. PostgreSQL Cluster를 권장합니다." |
+| Enterprise | none (캐싱 없음) | "일일 사용자 10만 명 이상에서 캐싱 없이 운영하면 DB 부하가 심각해집니다. Redis Cluster를 권장합니다." |
+| Enterprise | Vercel/Railway | "일일 사용자 10만 명 이상의 서비스를 PaaS 단독으로 운영하기 어렵습니다. 매니지드 Kubernetes(EKS, GKE)를 권장합니다." |
+| Growth | SQLite | "일일 사용자 1만 명 이상에서 SQLite는 동시 쓰기 병목이 발생합니다. PostgreSQL 매니지드 + Connection Pooling을 권장합니다." |
+| Growth | none (MQ 없음) | "일일 사용자 1만 명 이상에서 비동기 처리 없이 운영하면 피크 시 장애 위험이 있습니다. RabbitMQ 또는 SQS를 권장합니다." |
+
 ### Spec Fitness Report 출력 형식
 
 ```
