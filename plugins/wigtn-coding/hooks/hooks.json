@@ -1,0 +1,31 @@
+{
+  "hooks": [
+    {
+      "matcher": "Bash",
+      "event": "PreToolUse",
+      "command": "bash -c 'INPUT=$(cat); CMD=$(echo \"$INPUT\" | jq -r \".tool_input.command // empty\"); if echo \"$CMD\" | grep -qE \"rm\\s+-rf\\s+/|git\\s+push\\s+.*--force|git\\s+push\\s+.*-f\\s|git\\s+reset\\s+--hard|drop\\s+database|DROP\\s+TABLE\"; then echo \"BLOCKED: Dangerous command detected. Please confirm before executing: $CMD\" >&2; exit 2; fi'",
+      "description": "Block dangerous commands (rm -rf /, force push, hard reset, drop database)"
+    },
+    {
+      "matcher": "",
+      "event": "Stop",
+      "command": "bash -c 'echo \"Pipeline session complete. Review changes before pushing.\"'",
+      "async": true,
+      "description": "Pipeline completion status reminder"
+    },
+    {
+      "matcher": "Write|Edit",
+      "event": "PostToolUse",
+      "command": "bash -c 'INPUT=$(cat); FILE=$(echo \"$INPUT\" | jq -r \".tool_input.file_path // .tool_input.filePath // empty\"); if echo \"$FILE\" | grep -qE \"\\.(tsx?|jsx?|css|scss)$\"; then echo \"Reminder: Run formatter (prettier/eslint) on $FILE before committing.\"; fi'",
+      "async": true,
+      "description": "Formatting reminder after writing frontend code files"
+    },
+    {
+      "matcher": "Write|Edit",
+      "event": "PostToolUse",
+      "command": "bash -c 'INPUT=$(cat); FILE=$(echo \"$INPUT\" | jq -r \".tool_input.file_path // .tool_input.filePath // empty\"); if echo \"$FILE\" | grep -qE \"\\.(ts|js|py|go|java)$\"; then echo \"Reminder: Verify backend pattern compliance (error handling, input validation, logging) for $FILE.\"; fi'",
+      "async": true,
+      "description": "Backend pattern compliance reminder after writing backend code files"
+    }
+  ]
+}

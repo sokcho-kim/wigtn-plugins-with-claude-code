@@ -2,9 +2,9 @@
 
 ## Project Overview
 
-A collection of Claude Code plugins enabling AI-powered Vibe Coding: idea to production with minimal friction.
+A unified Claude Code plugin enabling AI-powered Vibe Coding: idea to production with minimal friction.
 
-**Version**: 0.3.0
+**Version**: 2.0.0
 **License**: MIT
 **Repository**: https://github.com/wigtn/wigtn-plugins-with-claude-code
 
@@ -14,27 +14,26 @@ A collection of Claude Code plugins enabling AI-powered Vibe Coding: idea to pro
 wigtn-plugins-with-claude-code/
 ├── .claude-plugin/           # Marketplace metadata
 ├── plugins/
-│   ├── public-commands/      # Core workflow: /prd → digging → /implement → /auto-commit
-│   ├── frontend-development/ # 13 skills, 12+ design styles, React/Next.js
-│   ├── backend-development/  # Backend patterns, DevOps, CI/CD
-│   ├── mobile-development/   # React Native, Expo, 11 skills
-│   └── ai-development/       # STT (WhisperX), LLM integration
+│   └── wigtn-coding/         # Unified plugin: 12 agents, 9 commands, 29 skills
+│       ├── .claude-plugin/   # Plugin metadata
+│       ├── agents/           # 12 agent definitions
+│       ├── commands/         # 9 commands (/prd, /implement, /auto-commit, etc.)
+│       ├── skills/           # 29 skills (design, backend, mobile, AI, etc.)
+│       └── hooks/            # Hooks configuration
 ├── CLAUDE.md                 # This file
 ├── README.md                 # English docs
 └── README.ko.md              # Korean docs
 ```
 
-### Plugin Structure Convention
-
-Each plugin follows this structure:
+### Plugin Structure
 
 ```
-plugins/{plugin-name}/
-├── plugin.json               # Plugin metadata (if exists)
-├── agents/                   # Agent definitions (.md)
-├── commands/                 # User-invocable commands (.md)
-├── skills/                   # Skills with SKILL.md + reference files
-└── hooks/                    # Hooks configuration (hooks.json)
+plugins/wigtn-coding/
+├── .claude-plugin/plugin.json  # Plugin metadata
+├── agents/                     # Agent definitions (.md)
+├── commands/                   # User-invocable commands (.md)
+├── skills/                     # Skills with SKILL.md + reference files
+└── hooks/hooks.json            # Hooks configuration
 ```
 
 ## Pipeline Flow
@@ -79,7 +78,7 @@ argument-hint: "<feature name>"   # Optional: autocomplete hint for $ARGUMENTS
 
 ### Hooks
 
-Hooks are defined in `plugins/{plugin}/hooks/hooks.json` and follow the Claude Code hooks schema.
+Hooks are defined in `plugins/wigtn-coding/hooks/hooks.json` and follow the Claude Code hooks schema.
 
 ### Agent Teams
 
@@ -89,12 +88,14 @@ Coordinators support both instruction-based orchestration (default) and native A
 
 | Path | Purpose |
 |------|---------|
-| `plugins/public-commands/skills/code-review/` | Multi-level code review |
-| `plugins/public-commands/skills/digging/` | PRD analysis |
-| `plugins/frontend-development/skills/design-skill/styles/` | 12 design style guides |
-| `plugins/backend-development/skills/backend-patterns/references/` | Backend reference docs |
-| `plugins/backend-development/skills/devops-patterns/references/` | DevOps reference docs |
-| `plugins/public-commands/agents/parallel-*` | Parallel coordinators |
+| `plugins/wigtn-coding/skills/code-review/` | Multi-level code review |
+| `plugins/wigtn-coding/skills/digging/` | PRD analysis |
+| `plugins/wigtn-coding/skills/design-skill/styles/` | 12 design style guides |
+| `plugins/wigtn-coding/skills/backend-patterns/references/` | Backend reference docs |
+| `plugins/wigtn-coding/skills/devops-patterns/references/` | DevOps reference docs |
+| `plugins/wigtn-coding/skills/state-management/patterns/` | State management (Web + Mobile) |
+| `plugins/wigtn-coding/skills/testing/` | Testing (Web + Mobile) |
+| `plugins/wigtn-coding/agents/parallel-*` | Parallel coordinators |
 
 ## Important Notes
 
@@ -102,3 +103,4 @@ Coordinators support both instruction-based orchestration (default) and native A
 - Design style files follow a consistent pattern: philosophy, typography, layout, color, components, anti-patterns
 - Parallel coordinators include sequential fallback for graceful degradation
 - Hooks run asynchronously to avoid blocking the main workflow
+- Commands can be used without plugin prefix (e.g., `/prd` instead of `wigtn-coding:prd`)

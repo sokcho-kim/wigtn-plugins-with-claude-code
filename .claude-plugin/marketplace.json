@@ -1,65 +1,21 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "wigtn-crew-plugins",
-  "version": "0.3.0",
-  "description": "AI-native development — From idea to Deploy, Zero friction. Agent Teams parallel execution, Skills frontmatter, Hooks system, context fork, 12+ design styles.",
+  "name": "wigtn-coding",
+  "version": "2.0.0",
+  "description": "AI-native Vibe Coding — From idea to Deploy, Zero friction. Unified plugin with 12 agents, 9 commands, 29 skills, team-based parallel build, 12+ design styles.",
   "owner": {
     "name": "WIGTN Crew",
     "email": "rukais2294@gmail.com"
   },
   "metadata": {
-    "description": "AI-native development — From idea to Deploy, Zero friction."
+    "description": "AI-native Vibe Coding — From idea to Deploy, Zero friction."
   },
   "plugins": [
     {
-      "name": "public-commands",
-      "description": "Core development workflow plugin: PRD generation, plan analysis (digging), implementation, and quality-gated auto-commit with code-review and code-formatter. Agent Teams parallel execution support.",
-      "source": "./plugins/public-commands",
-      "version": "1.2.0",
-      "author": {
-        "name": "WIGTN Crew",
-        "email": "rukais2294@gmail.com"
-      },
-      "category": "productivity"
-    },
-    {
-      "name": "ai-development",
-      "description": "AI integration plugin for STT (Speech-to-Text) and LLM features.",
-      "source": "./plugins/ai-development",
-      "version": "1.0.0",
-      "author": {
-        "name": "WIGTN Crew",
-        "email": "rukais2294@gmail.com"
-      },
-      "category": "development"
-    },
-    {
-      "name": "frontend-development",
-      "description": "Complete frontend development solution with 12+ design styles (Editorial, Brutalist, Glassmorphism, Retro Pixel, Organic Shapes, Maximalist, 3D Immersive, etc.), Next.js App Router, React state management, authentication, forms, API integration, testing, SEO, and Tailwind CSS. Hooks-enabled formatting reminders.",
-      "source": "./plugins/frontend-development",
-      "version": "1.1.0",
-      "author": {
-        "name": "WIGTN Crew",
-        "email": "rukais2294@gmail.com"
-      },
-      "category": "development"
-    },
-    {
-      "name": "backend-development",
-      "description": "Backend development plugin with architecture design, NestJS + Prisma + PostgreSQL stack, API/Model/Auth generation, DevOps (Docker, CI/CD, cloud deployment) guidance, and hooks-enabled pattern compliance checks.",
-      "source": "./plugins/backend-development",
-      "version": "1.1.0",
-      "author": {
-        "name": "WIGTN Crew",
-        "email": "rukais2294@gmail.com"
-      },
-      "category": "development"
-    },
-    {
-      "name": "mobile-development",
-      "description": "Complete mobile development solution with React Native (Expo & CLI), iOS HIG, Material Design 3, 11 specialized skills for navigation, authentication, native modules, testing, performance optimization, and App Store optimization.",
-      "source": "./plugins/mobile-development",
-      "version": "1.0.0",
+      "name": "wigtn-coding",
+      "description": "Unified AI-native Vibe Coding plugin: PRD generation, digging analysis, team-based parallel implementation, quality-gated auto-commit, 12+ design styles, frontend (React/Next.js), backend (NestJS/Prisma), mobile (React Native/Expo), AI integration (STT/LLM), DevOps (Docker/CI-CD). 12 agents, 9 commands, 29 skills.",
+      "source": "./plugins/wigtn-coding",
+      "version": "2.0.0",
       "author": {
         "name": "WIGTN Crew",
         "email": "rukais2294@gmail.com"

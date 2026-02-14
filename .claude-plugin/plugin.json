@@ -1,7 +1,7 @@
 {
-  "name": "wigtn-plugins-with-claude-code",
-  "version": "0.3.0",
-  "description": "AI-native development — from idea to deploy, zero friction. Skills frontmatter, Hooks system, context fork, Agent Teams native integration.",
+  "name": "wigtn-coding",
+  "version": "2.0.0",
+  "description": "AI-native Vibe Coding — From idea to Deploy, Zero friction. Unified plugin with 12 agents, 9 commands, 29 skills, team-based parallel build, 12+ design styles.",
   "author": {
     "name": "WIGTN Crew",
     "url": "https://github.com/wigtn"
