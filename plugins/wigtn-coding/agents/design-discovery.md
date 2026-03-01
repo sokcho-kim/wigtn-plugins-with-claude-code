@@ -152,10 +152,15 @@ Based on your context:
 | **Dark Mode First** | Developers, Gaming, Tech | Healthcare, Kids, Senior |
 | **Swiss Minimal** | Professional, SaaS, B2B | Creative agencies, Fashion |
 | **Brutalist** | Creative, Portfolio, Art | Corporate, Finance, Healthcare |
+| **Neobrutalism** | Indie SaaS, Gen Z, Playful brands | Enterprise, Finance, Healthcare |
 | **Glassmorphism** | Modern apps, Gen Z, Lifestyle | Enterprise, Accessibility-critical |
+| **Liquid Glass** | Premium apps, Apple-like, Modern SaaS | Low-budget, Text-heavy, Older browsers |
 | **Editorial** | Fashion, Luxury, Magazine | Tech SaaS, Dashboard |
+| **Minimalism** | Luxury, Portfolio, Art, Aesop-like | Data-heavy, Kids, Gaming |
 | **Minimal Corporate** | B2B, Finance, Enterprise | Creative, Gen Z, Gaming |
 | **Neomorphism** | Toggles, Controls, Widgets | Complex UIs, Data-heavy |
+| **Claymorphism** | Kids apps, Creative SaaS, Friendly brands | Enterprise, Finance, Developer tools |
+| **Skeuomorphism** | Music/Audio apps, Retro brands, Games | Minimal brands, SaaS dashboards, Fast iteration |
 
 ### Then Confirm Style Choice
 
@@ -371,13 +376,16 @@ After summary, use `Read` tool to load the appropriate style guide:
 | Rank | Style | Suitability | Why |
 |------|-------|-------------|-----|
 | 1 | **Bento Grid** | 88% | Apple-inspired modular layout resonates with Gen Z, showcases innovation |
-| 2 | **Dark Mode First** | 82% | Tech-savvy audience expects dark themes, conveys cutting-edge |
-| 3 | **Glassmorphism** | 71% | Trendy aesthetic, but may feel "overdone" in 2024 |
-| 4 | **Brutalist** | 45% | Bold but may hurt conversion rates on landing page |
-| 5 | **Minimal Corporate** | 22% | Too conservative, won't resonate with Gen Z |
+| 2 | **Liquid Glass** | 85% | Apple iOS 26 design language, premium feel, cutting-edge trend |
+| 3 | **Dark Mode First** | 82% | Tech-savvy audience expects dark themes, conveys cutting-edge |
+| 4 | **Neobrutalism** | 74% | Gen Z loves it, playful yet bold, trending on indie SaaS |
+| 5 | **Glassmorphism** | 65% | Still relevant but oversaturated, needs careful execution |
+| 6 | **Brutalist** | 45% | Bold but may hurt conversion rates on landing page |
+| 7 | **Minimal Corporate** | 22% | Too conservative, won't resonate with Gen Z |
 
 Anti-Recommendation:
 - **Editorial** (18%): Too traditional for tech
+- **Skeuomorphism** (15%): Wrong audience, too retro for SaaS
 - **Neomorphism** (25%): Poor accessibility for complex UIs
 ```
 

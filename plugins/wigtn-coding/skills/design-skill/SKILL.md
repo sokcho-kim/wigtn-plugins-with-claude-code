@@ -49,9 +49,14 @@ Based on user responses, select the appropriate style and read the corresponding
 Use the `Read` tool to read the corresponding style file:
 - Editorial → `styles/editorial.md`
 - Brutalist → `styles/brutalist.md`
+- Neobrutalism → `styles/neobrutalism.md`
 - Glassmorphism → `styles/glassmorphism.md`
+- Liquid Glass → `styles/liquid-glass.md`
 - Swiss Minimal → `styles/swiss-minimal.md`
+- Minimalism → `styles/minimalism.md`
 - Neomorphism → `styles/neomorphism.md`
+- Claymorphism → `styles/claymorphism.md`
+- Skeuomorphism → `styles/skeuomorphism.md`
 - Bento Grid → `styles/bento-grid.md`
 - Dark Mode First → `styles/dark-mode-first.md`
 - Minimal Corporate → `styles/minimal-corporate.md`
@@ -104,13 +109,15 @@ Do NOT proceed to implementation without reading:
 |-------|-------------------|---------------|--------------|
 | Editorial | Large type, intentional whitespace, asymmetry | Playfair Display, Cormorant | Monotone, single accent |
 | Brutalist | Raw, thick borders, rule-breaking | Monument Extended, Archivo Black | High contrast, primary colors |
+| **Neobrutalism** | Thick borders, hard shadows, playful colors | Space Grotesk, Clash Display | Vivid pastels, cheerful |
 | Glassmorphism | Blur, transparency, soft light | SF Pro, Plus Jakarta Sans | Pastel + white |
+| **Liquid Glass** | Dynamic refraction, specular highlights, alive | SF Pro, Geist, Inter | Environment-adaptive tints |
 | Swiss Minimal | Grid, typography-focused, refined | Helvetica Neue, Suisse Int'l | B&W + single accent |
+| **Minimalism** | Extreme whitespace, near-monochrome, zen | Inter, Instrument Sans | Near-absence of color |
 | Organic | Curves, blobs, natural flow | Fraunces, DM Serif | Earth tones, warm neutrals |
-| Luxury | Serif, wide tracking, sophisticated | Didot, Cormorant Garamond | Black, gold, cream |
-| Retro Futurism | Neon, geometric, 80s vibe | Space Grotesk, Orbitron | Neon pink/cyan/purple |
-| Playful | Rounded corners, animations, bright | Quicksand, Nunito | Bright pastels, pop colors |
 | **Neomorphism** | Soft 3D, inset shadows, tactile | Inter, Outfit | Muted, low contrast |
+| **Claymorphism** | Puffy clay surfaces, inner highlights, pastel | Nunito, Quicksand, Fredoka | Warm pastels, candy tones |
+| **Skeuomorphism** | Real-world textures, realistic depth, physical | Playfair Display, Lora | Leather/wood/metal warm tones |
 | **Bento Grid** | Modular cards, varied sizes, Apple-like | SF Pro, Geist | Neutral + vibrant accents |
 | **Dark Mode First** | Dark backgrounds, neon accents, glow | JetBrains Mono, Fira Code | Dark + neon |
 | **Minimal Corporate** | Clean, trustworthy, professional | DM Sans, Satoshi | Blue/gray, conservative |
