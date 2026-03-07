@@ -12,7 +12,7 @@ description: |
     - "바로 만들어줘", "빨리 만들어줘"
     - "작업해줘", "개발 진행해줘"
 
-  Best used AFTER /prd and digging.
+  Best used AFTER /prd and prd-reviewer.
 ---
 
 # Implement
@@ -25,7 +25,7 @@ PRD에 정의된 기능을 구현합니다.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  [/prd] → [digging] → [/implement] → [/auto-commit]        │
+│  [/prd] → [prd-reviewer] → [/implement] → [/auto-commit]        │
 │                        ^^^^^^^^^^^                          │
 │                        현재 단계                             │
 └─────────────────────────────────────────────────────────────┘
@@ -33,7 +33,7 @@ PRD에 정의된 기능을 구현합니다.
 
 | 이전 단계 | 현재 | 다음 단계 |
 |----------|------|----------|
-| `digging` - PRD 분석 완료 | `/implement` - 구현 | `/auto-commit` - 품질 검사 & 커밋 |
+| `prd-reviewer` - PRD 분석 완료 | `/implement` - 구현 | `/auto-commit` - 품질 검사 & 커밋 |
 
 ## Two-Phase Approach
 
@@ -276,9 +276,9 @@ docs/todo_plan/PLAN_*.md
 ```
 
 **검증 데이터 소스:**
-- `/prd` 실행 시 자동 저장된 digging 분석 결과
+- `/prd` 실행 시 자동 저장된 prd-reviewer 분석 결과
 - PRD 파일의 메타데이터 (검증 상태, 검증일)
-- 수동 digging 실행 결과
+- 수동 prd-reviewer 실행 결과
 
 ### Step 1: PRD 검색
 
@@ -485,7 +485,7 @@ PRD와 프로젝트 분석을 바탕으로 구현 계획을 수립합니다:
 │  이 계획대로 구현을 진행할까요?                              │
 │                                                             │
 │  → "진행" : 바로 구현 시작                                  │
-│  → "상세 검토" : digging으로 파일별 분석 후 진행            │
+│  → "상세 검토" : prd-reviewer로 파일별 분석 후 진행            │
 │  → "수정 필요" : 계획 수정                                  │
 │  → "취소" : 구현 취소                                       │
 │                                                             │
@@ -499,7 +499,7 @@ options:
   - label: "진행 (Recommended)"
     description: "바로 구현 시작"
   - label: "상세 검토"
-    description: "digging 스킬로 파일별 상세 분석 후 진행"
+    description: "prd-reviewer 에이전트로 파일별 상세 분석 후 진행"
   - label: "수정 필요"
     description: "계획 수정 후 재확인"
   - label: "취소"
@@ -508,7 +508,7 @@ options:
 
 ### "상세 검토" 선택 시 (Optional Deep Dive)
 
-사용자가 "상세 검토"를 선택하면 `digging` 스킬을 호출하여 파일별 상세 분석을 진행합니다:
+사용자가 "상세 검토"를 선택하면 `prd-reviewer` 에이전트을 호출하여 파일별 상세 분석을 진행합니다:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -533,7 +533,7 @@ options:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**digging 스킬 호출:**
+**prd-reviewer 에이전트 호출:**
 ```yaml
 input:
   context: "implementation_review"
@@ -872,7 +872,7 @@ Glob: "**/entities/*.ts"
 |----------|------|----------|
 | `architecture-decision` | 아키텍처 결정 | DESIGN Phase (항상) |
 | `team-build-coordinator` | 팀 기반 병렬 빌드 조율 | BUILD Phase (병렬 모드) |
-| `parallel-digging-coordinator` | 병렬 digging (상세 검토 시) | DESIGN 상세 검토 선택 시 |
+| `parallel-digging-coordinator` | 병렬 prd-reviewer (상세 검토 시) | DESIGN 상세 검토 선택 시 |
 | `backend-architect` | Backend 코드 생성 | Team BUILD (Backend 팀) |
 | `frontend-developer` | Frontend 코드 생성 | Team BUILD (Frontend 팀) |
 | `ai-agent` | AI/ML 코드 생성 | Team BUILD (AI Server 팀) |
@@ -880,7 +880,7 @@ Glob: "**/entities/*.ts"
 ### 이전 단계에서 받는 입력
 
 ```
-/prd + digging 결과물:
+/prd + prd-reviewer 결과물:
 - 검증된 PRD 문서
 - 기능 요구사항 (FR-XXX)
 - 비기능 요구사항 (NFR-XXX)
@@ -1228,7 +1228,7 @@ git stash
 
 PRD 확인:
 - docs/prd/user-authentication.md 발견
-- digging 분석 완료 확인 ✅
+- prd-reviewer 분석 완료 확인 ✅
 - Critical 이슈 없음 ✅
 
 구현 계획 수립:

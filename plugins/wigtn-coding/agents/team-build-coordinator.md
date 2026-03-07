@@ -152,10 +152,7 @@ teams:
   FRONTEND:
     subagent_type: "wigtn-coding:frontend-developer"
     skills:
-      - "design-skill"
-      - "nextjs-app-router-patterns"
-      - "tailwind-design-system"
-      - "component-library"
+      - "design-system-reference"
     responsibilities:
       - "페이지/컴포넌트 구현"
       - "상태 관리"
@@ -172,7 +169,7 @@ teams:
     subagent_type: "wigtn-coding:ai-agent"
     skills:
       - "stt"
-      - "llm"
+      - "backend-patterns"
     responsibilities:
       - "AI/ML API 엔드포인트"
       - "STT/LLM 통합"

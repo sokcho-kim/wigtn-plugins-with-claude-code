@@ -1,5 +1,5 @@
 ---
-name: design-implementation
+name: design-system-reference
 description: Style guides and implementation rules for frontend design. Works with design-discovery agent which handles context gathering and VS-based style recommendations. Contains detailed style guides, anti-patterns, and implementation checklists.
 allowed-tools: Read, Write, Edit, Glob
 ---

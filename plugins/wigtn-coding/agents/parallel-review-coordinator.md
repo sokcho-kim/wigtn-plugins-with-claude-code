@@ -50,7 +50,7 @@ agent_teams_detection:
 
 ## Purpose
 
-code-review를 4단계 파이프라인으로 실행합니다:
+code-reviewer의 리뷰를 4단계 파이프라인으로 실행합니다:
 1. **Context Harvest** — 프로젝트 자동 파악
 2. **Blast Radius** — 변경 영향 범위 산정
 3. **Parallel Review** — 카테고리별 3개 에이전트 분산 (풍부한 컨텍스트 포함)

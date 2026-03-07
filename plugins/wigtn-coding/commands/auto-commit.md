@@ -10,7 +10,7 @@ description: Analyze changes, run quality gate, and auto-commit with intelligent
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  [/prd] → [digging] → [/implement] → [/auto-commit]        │
+│  [/prd] → [prd-reviewer] → [/implement] → [/auto-commit]        │
 │                                        ^^^^^^^^^^^^         │
 │                                        현재 단계            │
 └─────────────────────────────────────────────────────────────┘
@@ -64,7 +64,7 @@ git remote -v
 
 ### Step 2: 품질 검사 (Quality Gate)
 
-> **연동**: `code-review` 스킬을 사용하여 변경된 코드를 평가합니다.
+> **연동**: `code-reviewer` 에이전트를 사용하여 변경된 코드를 평가합니다.
 > **병렬 모드**: 변경 파일 3개 이상일 때 자동으로 `parallel-review-coordinator`를 호출합니다.
 
 #### Parallel Quality Gate (변경 파일 3개+)
@@ -368,7 +368,7 @@ git push origin && git push backup
                              │
                              ▼
                     ┌─────────────────┐
-                    │  code-review    │
+                    │  code-reviewer  │
                     │  품질 점수 평가  │
                     └────────┬────────┘
                              │
@@ -426,7 +426,7 @@ git push origin && git push backup
 
 | 구성요소 | 역할 | 호출 조건 |
 |----------|------|----------|
-| `code-review` 스킬 | 품질 점수 평가 | 항상 (--no-review 제외) |
+| `code-reviewer` 에이전트 | 품질 점수 평가 | 항상 (--no-review 제외) |
 | `parallel-review-coordinator` | 병렬 리뷰 조율 | 변경 파일 3개+ (--no-parallel-review 제외) |
 | `code-formatter` 에이전트 | 자동 코드 개선 | 점수 60-79점일 때 |
 
@@ -451,7 +451,7 @@ git push origin && git push backup
 - tests/Button.test.tsx 추가
 
 품질 검사:
-- code-review 실행 → 85/100 ✅
+- code-reviewer 실행 → 85/100 ✅
 
 결과:
 ✅ Quality Gate: PASSED
@@ -469,7 +469,7 @@ git push origin && git push backup
 - src/utils/helper.ts 변경
 
 품질 검사:
-- code-review 실행 → 72/100 ⚠️
+- code-reviewer 실행 → 72/100 ⚠️
 
 자동 개선:
 - code-formatter 실행
@@ -477,7 +477,7 @@ git push origin && git push backup
 - import 정리
 
 재평가:
-- code-review 재실행 → 84/100 ✅
+- code-reviewer 재실행 → 84/100 ✅
 
 결과:
 ✅ Quality Gate: PASSED (after auto-fix)
@@ -494,7 +494,7 @@ git push origin && git push backup
 - src/api/complex.ts 변경
 
 품질 검사:
-- code-review 실행 → 55/100 ❌
+- code-reviewer 실행 → 55/100 ❌
 
 결과:
 ❌ Quality Gate: FAILED

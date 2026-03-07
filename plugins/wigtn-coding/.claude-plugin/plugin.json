@@ -1,6 +1,6 @@
 {
   "name": "wigtn-coding",
-  "description": "AI-native Vibe Coding — From idea to Deploy, Zero friction. 12 agents, 9 commands, 29 skills, team-based parallel build, 12+ design styles.",
+  "description": "AI-native Vibe Coding — From idea to Deploy, Zero friction. 14 agents, 7 commands, 7 skills, team-based parallel build, 12+ design styles.",
   "agents": [
     "./agents/architecture-decision.md",
     "./agents/code-formatter.md",
@@ -13,7 +13,9 @@
     "./agents/backend-architect.md",
     "./agents/mobile-developer.md",
     "./agents/mobile-design-discovery.md",
-    "./agents/ai-agent.md"
+    "./agents/ai-agent.md",
+    "./agents/code-reviewer.md",
+    "./agents/prd-reviewer.md"
   ],
   "commands": [
     "./commands/prd.md",
@@ -21,40 +23,16 @@
     "./commands/auto-commit.md",
     "./commands/backend.md",
     "./commands/devops.md",
-    "./commands/stt.md",
-    "./commands/llm.md",
     "./commands/add-feature.md",
     "./commands/component-scaffold.md"
   ],
   "skills": [
-    "./skills/code-review",
-    "./skills/digging",
-    "./skills/shared-memory",
-    "./skills/design-skill",
-    "./skills/nextjs-app-router-patterns",
-    "./skills/tailwind-design-system",
-    "./skills/component-library",
-    "./skills/react-hooks",
-    "./skills/forms-validation",
-    "./skills/api-integration",
-    "./skills/frontend-authentication",
-    "./skills/seo",
-    "./skills/data-visualization",
-    "./skills/realtime-features",
+    "./skills/team-memory-protocol",
+    "./skills/design-system-reference",
     "./skills/backend-patterns",
     "./skills/devops-patterns",
-    "./skills/mobile-design-skill",
-    "./skills/navigation",
-    "./skills/native-modules",
-    "./skills/rn-styling",
-    "./skills/mobile-authentication",
-    "./skills/performance-optimization",
-    "./skills/responsive-design",
-    "./skills/deep-linking",
     "./skills/app-store-optimization",
-    "./skills/state-management",
-    "./skills/testing",
     "./skills/stt",
-    "./skills/llm"
+    "./skills/code-review-levels"
   ]
 }

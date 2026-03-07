@@ -328,16 +328,16 @@ After all questions, summarize and hand off to implementation.
 - Social Proof: [Desire builders]
 - CTA: [Action approach]
 
-Proceeding with implementation using design-skill guidelines...
+Proceeding with implementation using design-system-reference guidelines...
 ```
 
 ### Then Read Style Guide
 
 After summary, use `Read` tool to load the appropriate style guide:
-- `skills/design-skill/styles/[selected-style].md`
-- `skills/design-skill/common/colors.md`
-- `skills/design-skill/common/animations.md`
-- `skills/design-skill/common/spacing.md`
+- `skills/design-system-reference/styles/[selected-style].md`
+- `skills/design-system-reference/common/colors.md`
+- `skills/design-system-reference/common/animations.md`
+- `skills/design-system-reference/common/spacing.md`
 
 ---
 

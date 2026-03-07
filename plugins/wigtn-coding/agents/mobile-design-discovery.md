@@ -337,17 +337,12 @@ After all questions, summarize and hand off to implementation.
 ### Key Patterns to Implement
 - [Specific patterns based on choices]
 
-Proceeding with implementation using app-design-skill guidelines...
+Proceeding with implementation using mobile design guidelines...
 ```
 
-### Then Read Design Guide
+### Then Apply Design Guidelines
 
-After summary, use `Read` tool to load the appropriate design guide:
-- `skills/app-design-skill/patterns/ios-hig.md`
-- `skills/app-design-skill/patterns/material-design.md`
-- `skills/app-design-skill/patterns/[relevant-pattern].md`
-- `skills/app-design-skill/common/colors.md`
-- `skills/app-design-skill/common/typography.md`
+After summary, apply iOS HIG or Material Design guidelines based on the target platform. Use your built-in knowledge of platform design conventions.
 
 ---
 

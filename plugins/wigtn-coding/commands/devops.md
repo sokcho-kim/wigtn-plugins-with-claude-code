@@ -170,7 +170,7 @@ GitHub Actions CI/CD 파이프라인을 설정하겠습니다.
 
 ```
 개발 사이클:
-/prd → digging → /implement → /auto-commit
+/prd → prd-reviewer → /implement → /auto-commit
                               ^^^^^^^^^^^^
                               개발 사이클 완료
 
