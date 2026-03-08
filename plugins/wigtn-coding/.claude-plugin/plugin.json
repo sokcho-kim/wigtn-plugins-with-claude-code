@@ -1,10 +1,9 @@
 {
   "name": "wigtn-coding",
-  "description": "AI-native Vibe Coding — From idea to Deploy, Zero friction. 14 agents, 7 commands, 7 skills, team-based parallel build, 12+ design styles.",
+  "description": "AI-native Vibe Coding — From idea to Deploy, Zero friction. 12 agents, 3 commands, 3 skills, team-based parallel build, 12+ design styles.",
   "agents": [
     "./agents/architecture-decision.md",
     "./agents/code-formatter.md",
-    "./agents/parallel-build-coordinator.md",
     "./agents/team-build-coordinator.md",
     "./agents/parallel-review-coordinator.md",
     "./agents/parallel-digging-coordinator.md",
@@ -12,7 +11,6 @@
     "./agents/design-discovery.md",
     "./agents/backend-architect.md",
     "./agents/mobile-developer.md",
-    "./agents/mobile-design-discovery.md",
     "./agents/ai-agent.md",
     "./agents/code-reviewer.md",
     "./agents/prd-reviewer.md"
@@ -20,19 +18,11 @@
   "commands": [
     "./commands/prd.md",
     "./commands/implement.md",
-    "./commands/auto-commit.md",
-    "./commands/backend.md",
-    "./commands/devops.md",
-    "./commands/add-feature.md",
-    "./commands/component-scaffold.md"
+    "./commands/auto-commit.md"
   ],
   "skills": [
     "./skills/team-memory-protocol",
     "./skills/design-system-reference",
-    "./skills/backend-patterns",
-    "./skills/devops-patterns",
-    "./skills/app-store-optimization",
-    "./skills/stt",
     "./skills/code-review-levels"
   ]
 }
