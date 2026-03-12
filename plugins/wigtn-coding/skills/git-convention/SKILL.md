@@ -121,4 +121,4 @@ git checkout -b feature/login-api
 
 전체 규칙(GitOps, 보호 브랜치, 태깅, 운영 체크리스트 등):
 
-- [전체 Git Convention 문서](references/full-convention.md)
+- [전체 Git Convention 문서](../../../docs/skills/git_convention.md)
